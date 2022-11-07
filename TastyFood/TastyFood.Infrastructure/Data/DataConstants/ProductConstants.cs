@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TastyFood.Infrastructure.Data.DataConstants
+﻿namespace TastyFood.Infrastructure.Data.DataConstants
 {
-    public class ProductConstants
+    public static class ProductConstants
     {
+        public const int QuantityMaxLength = 4;
+        public const int QuantityMinLength = 1;
     }
 }

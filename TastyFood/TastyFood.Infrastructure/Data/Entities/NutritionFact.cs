@@ -13,7 +13,6 @@
         public string Name { get; set; } = null!;
 
         [Required]
-        [Range(1, 1000)]
         public int Value { get; set; }
     }
 }
