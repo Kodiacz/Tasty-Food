@@ -36,6 +36,10 @@
 
         [ForeignKey(nameof(Details))]
         public int DetailsId { get; set; }
-        public Detail? Details { get; set; } 
+        public Detail? Details { get; set; }
+
+        [ForeignKey(nameof(User))]
+        public string UserId { get; set; }
+        public User? User { get; set; }
     }
 }

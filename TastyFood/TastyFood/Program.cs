@@ -10,7 +10,10 @@ builder.Services.AddDbContext<TastyFoodDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+{
+    options.SignIn.RequireConfirmedAccount = false;
+})
     .AddEntityFrameworkStores<TastyFoodDbContext>();
 builder.Services.AddControllersWithViews();
 

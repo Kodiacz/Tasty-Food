@@ -1,4 +1,7 @@
-﻿namespace TastyFood.Infrastructure.Data.Entities
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace TastyFood.Infrastructure.Data.Entities
 {
     public class ShoppingList
     {
@@ -10,5 +13,10 @@
         public int Id { get; set; }
 
         public IEnumerable<Product> Products { get; set; }
+
+        [Required]
+        [ForeignKey(nameof(User))]
+        public string UserId { get; set; }
+        public User User { get; set; } = null!;
     }
 }

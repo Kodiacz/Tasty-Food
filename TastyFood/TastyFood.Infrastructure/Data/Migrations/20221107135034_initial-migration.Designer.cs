@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TastyFood.Infrastructure.Data;
 
@@ -11,9 +12,10 @@ using TastyFood.Infrastructure.Data;
 namespace TastyFood.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(TastyFoodDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221107135034_initial-migration")]
+    partial class initialmigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -86,10 +88,6 @@ namespace TastyFood.Infrastructure.Data.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -141,8 +139,6 @@ namespace TastyFood.Infrastructure.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -398,15 +394,9 @@ namespace TastyFood.Infrastructure.Data.Migrations
                         .HasMaxLength(60)
                         .HasColumnType("nvarchar(60)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("DetailsId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Recipes");
                 });
@@ -419,13 +409,7 @@ namespace TastyFood.Infrastructure.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("ShoppingLists");
                 });
@@ -450,31 +434,6 @@ namespace TastyFood.Infrastructure.Data.Migrations
                     b.HasIndex("DirectionId");
 
                     b.ToTable("Steps");
-                });
-
-            modelBuilder.Entity("TastyFood.Infrastructure.Data.Entities.User", b =>
-                {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("RecipeId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ShoppingListId")
-                        .HasColumnType("int");
-
-                    b.HasIndex("RecipeId");
-
-                    b.HasIndex("ShoppingListId");
-
-                    b.HasDiscriminator().HasValue("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -580,26 +539,7 @@ namespace TastyFood.Infrastructure.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TastyFood.Infrastructure.Data.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Details");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("TastyFood.Infrastructure.Data.Entities.ShoppingList", b =>
-                {
-                    b.HasOne("TastyFood.Infrastructure.Data.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("TastyFood.Infrastructure.Data.Entities.Step", b =>
@@ -607,25 +547,6 @@ namespace TastyFood.Infrastructure.Data.Migrations
                     b.HasOne("TastyFood.Infrastructure.Data.Entities.Direction", null)
                         .WithMany("Steps")
                         .HasForeignKey("DirectionId");
-                });
-
-            modelBuilder.Entity("TastyFood.Infrastructure.Data.Entities.User", b =>
-                {
-                    b.HasOne("TastyFood.Infrastructure.Data.Entities.Recipe", "Recipe")
-                        .WithMany()
-                        .HasForeignKey("RecipeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TastyFood.Infrastructure.Data.Entities.ShoppingList", "ShoppingList")
-                        .WithMany()
-                        .HasForeignKey("ShoppingListId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Recipe");
-
-                    b.Navigation("ShoppingList");
                 });
 
             modelBuilder.Entity("TastyFood.Infrastructure.Data.Entities.Direction", b =>
