@@ -11,6 +11,7 @@
             this.Ingredients = new List<Ingredient>();
             this.Directions = new List<Direction>();
             this.NutritionFacts = new List<NutritionFact>();
+            this.UsersFavoriteRecipes = new List<ApplicationUser>();
         }
 
         [Key]
@@ -38,8 +39,10 @@
         public int DetailsId { get; set; }
         public Detail? Details { get; set; }
 
-        [ForeignKey(nameof(User))]
-        public string UserId { get; set; }
-        public User? User { get; set; }
+        [ForeignKey(nameof(UserOwner))]
+        public string UserOwnerId { get; set; }
+        public ApplicationUser UserOwner { get; set; }
+
+        public IEnumerable<ApplicationUser> UsersFavoriteRecipes { get; set; }
     }
 }

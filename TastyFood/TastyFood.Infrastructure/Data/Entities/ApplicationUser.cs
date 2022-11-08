@@ -4,20 +4,25 @@
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    public class User : IdentityUser
+    public class ApplicationUser : IdentityUser
     {
+        public ApplicationUser()
+        {
+            this.ShoppingLists = new List<ShoppingList>();
+            this.OwnRecipes = new List<Recipe>();
+            this.FavoriteRecipes = new List<Recipe>();
+        }
+
         [Required]
         public string FirstName { get; set; } = null!;
 
         [Required]
         public string LastName { get; set; } = null!;
 
-        [ForeignKey(nameof(ShoppingList))]
-        public int ShoppingListId { get; set; }
-        public ShoppingList? ShoppingList { get; set; }
+        public IEnumerable<ShoppingList> ShoppingLists { get; set; }
 
-        [ForeignKey(nameof(Recipe))]
-        public int RecipeId { get; set; }
-        public Recipe? Recipe { get; set; }
+        public IEnumerable<Recipe> OwnRecipes { get; set; }
+
+        public IEnumerable<Recipe> FavoriteRecipes { get; set; }
     }
 }

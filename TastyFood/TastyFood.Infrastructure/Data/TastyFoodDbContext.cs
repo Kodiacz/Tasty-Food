@@ -4,7 +4,7 @@
     using Microsoft.EntityFrameworkCore;
     using TastyFood.Infrastructure.Data.Entities;
 
-    public class TastyFoodDbContext : IdentityDbContext
+    public class TastyFoodDbContext : IdentityDbContext<ApplicationUser>
     {
         public TastyFoodDbContext(DbContextOptions<TastyFoodDbContext> options)
             : base(options)
@@ -13,25 +13,40 @@
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<ApplicationUser>()
+                .HasMany(au => au.OwnRecipes)
+                .WithOne(or => or.UserOwner)
+                .HasForeignKey(or => or.UserOwnerId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+
+            builder.Entity<ApplicationUser>()
+                .HasMany(au => au.FavoriteRecipes)
+                .WithMany(fr => fr.UsersFavoriteRecipes);
+
+            builder.Entity<UserRecipe>()
+                .HasKey(ur => new { ur.UserId, ur.RecipeId });
+
+
+
             base.OnModelCreating(builder);
         }
 
-        public DbSet<Category> Categories { get; set; }
+        public DbSet<Category> Categories { get; set; } = null!;
 
-        public DbSet<Detail> Details { get; set; }
+        public DbSet<Detail> Details { get; set; } = null!;
 
-        public DbSet<Direction> Directions { get; set; }
+        public DbSet<Direction> Directions { get; set; } = null!;
 
-        public DbSet<Ingredient> Ingredients { get; set; }
+        public DbSet<Ingredient> Ingredients { get; set; } = null!;
 
-        public DbSet<NutritionFact> NutritionFacts { get; set; }
+        public DbSet<NutritionFact> NutritionFacts { get; set; } = null!;
 
-        public DbSet<Product> Products { get; set; }
+        public DbSet<Product> Products { get; set; } = null!;
 
-        public DbSet<Recipe> Recipes { get; set; }
+        public DbSet<Recipe> Recipes { get; set; } = null!;
 
-        public DbSet<ShoppingList> ShoppingLists { get; set; }
+        public DbSet<ShoppingList> ShoppingLists { get; set; } = null!;
 
-        public DbSet<Step> Steps { get; set; }
+        public DbSet<Step> Steps { get; set; } = null!;
     }
 }

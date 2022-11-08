@@ -17,6 +17,6 @@ namespace TastyFood.Infrastructure.Data.Entities
         [Required]
         [ForeignKey(nameof(User))]
         public string UserId { get; set; }
-        public User User { get; set; } = null!;
+        public ApplicationUser User { get; set; } = null!;
     }
 }

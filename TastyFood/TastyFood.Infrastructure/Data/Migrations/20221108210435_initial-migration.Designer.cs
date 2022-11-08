@@ -3,17 +3,19 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TastyFood.Infrastructure.Data;
 
 #nullable disable
 
-namespace TastyFood.Infrastructure.Data.Migrations
+namespace TastyFood.Infrastructure.Migrations
 {
     [DbContext(typeof(TastyFoodDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221108210435_initial-migration")]
+    partial class initialmigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,6 +23,21 @@ namespace TastyFood.Infrastructure.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("ApplicationUserRecipe", b =>
+                {
+                    b.Property<int>("FavoriteRecipesId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UsersFavoriteRecipesId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("FavoriteRecipesId", "UsersFavoriteRecipesId");
+
+                    b.HasIndex("UsersFavoriteRecipesId");
+
+                    b.ToTable("ApplicationUserRecipe");
+                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -72,77 +89,6 @@ namespace TastyFood.Infrastructure.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetRoleClaims", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -228,6 +174,79 @@ namespace TastyFood.Infrastructure.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("TastyFood.Infrastructure.Data.Entities.ApplicationUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers", (string)null);
                 });
 
             modelBuilder.Entity("TastyFood.Infrastructure.Data.Entities.Category", b =>
@@ -398,7 +417,7 @@ namespace TastyFood.Infrastructure.Data.Migrations
                         .HasMaxLength(60)
                         .HasColumnType("nvarchar(60)");
 
-                    b.Property<string>("UserId")
+                    b.Property<string>("UserOwnerId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
@@ -406,7 +425,7 @@ namespace TastyFood.Infrastructure.Data.Migrations
 
                     b.HasIndex("DetailsId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserOwnerId");
 
                     b.ToTable("Recipes");
                 });
@@ -452,29 +471,34 @@ namespace TastyFood.Infrastructure.Data.Migrations
                     b.ToTable("Steps");
                 });
 
-            modelBuilder.Entity("TastyFood.Infrastructure.Data.Entities.User", b =>
+            modelBuilder.Entity("TastyFood.Infrastructure.Data.Entities.UserRecipe", b =>
                 {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("RecipeId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ShoppingListId")
-                        .HasColumnType("int");
+                    b.HasKey("UserId", "RecipeId");
 
                     b.HasIndex("RecipeId");
 
-                    b.HasIndex("ShoppingListId");
+                    b.ToTable("UserRecipe");
+                });
 
-                    b.HasDiscriminator().HasValue("User");
+            modelBuilder.Entity("ApplicationUserRecipe", b =>
+                {
+                    b.HasOne("TastyFood.Infrastructure.Data.Entities.Recipe", null)
+                        .WithMany()
+                        .HasForeignKey("FavoriteRecipesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TastyFood.Infrastructure.Data.Entities.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UsersFavoriteRecipesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -488,7 +512,7 @@ namespace TastyFood.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("TastyFood.Infrastructure.Data.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -497,7 +521,7 @@ namespace TastyFood.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("TastyFood.Infrastructure.Data.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -512,7 +536,7 @@ namespace TastyFood.Infrastructure.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("TastyFood.Infrastructure.Data.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -521,7 +545,7 @@ namespace TastyFood.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("TastyFood.Infrastructure.Data.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -580,21 +604,20 @@ namespace TastyFood.Infrastructure.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TastyFood.Infrastructure.Data.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                    b.HasOne("TastyFood.Infrastructure.Data.Entities.ApplicationUser", "UserOwner")
+                        .WithMany("OwnRecipes")
+                        .HasForeignKey("UserOwnerId")
                         .IsRequired();
 
                     b.Navigation("Details");
 
-                    b.Navigation("User");
+                    b.Navigation("UserOwner");
                 });
 
             modelBuilder.Entity("TastyFood.Infrastructure.Data.Entities.ShoppingList", b =>
                 {
-                    b.HasOne("TastyFood.Infrastructure.Data.Entities.User", "User")
-                        .WithMany()
+                    b.HasOne("TastyFood.Infrastructure.Data.Entities.ApplicationUser", "User")
+                        .WithMany("ShoppingLists")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -609,7 +632,7 @@ namespace TastyFood.Infrastructure.Data.Migrations
                         .HasForeignKey("DirectionId");
                 });
 
-            modelBuilder.Entity("TastyFood.Infrastructure.Data.Entities.User", b =>
+            modelBuilder.Entity("TastyFood.Infrastructure.Data.Entities.UserRecipe", b =>
                 {
                     b.HasOne("TastyFood.Infrastructure.Data.Entities.Recipe", "Recipe")
                         .WithMany()
@@ -617,15 +640,22 @@ namespace TastyFood.Infrastructure.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TastyFood.Infrastructure.Data.Entities.ShoppingList", "ShoppingList")
+                    b.HasOne("TastyFood.Infrastructure.Data.Entities.ApplicationUser", "User")
                         .WithMany()
-                        .HasForeignKey("ShoppingListId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Recipe");
 
-                    b.Navigation("ShoppingList");
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("TastyFood.Infrastructure.Data.Entities.ApplicationUser", b =>
+                {
+                    b.Navigation("OwnRecipes");
+
+                    b.Navigation("ShoppingLists");
                 });
 
             modelBuilder.Entity("TastyFood.Infrastructure.Data.Entities.Direction", b =>
