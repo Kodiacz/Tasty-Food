@@ -34,7 +34,7 @@ namespace TastyFood.Infrastructure.Migrations
 
                     b.HasIndex("UsersFavoriteRecipesId");
 
-                    b.ToTable("ApplicationUserRecipe");
+                    b.ToTable("ApplicationUserRecipe", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -262,7 +262,7 @@ namespace TastyFood.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("TastyFood.Infrastructure.Data.Entities.Detail", b =>
@@ -287,7 +287,7 @@ namespace TastyFood.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Details");
+                    b.ToTable("Details", (string)null);
                 });
 
             modelBuilder.Entity("TastyFood.Infrastructure.Data.Entities.Direction", b =>
@@ -305,7 +305,7 @@ namespace TastyFood.Infrastructure.Migrations
 
                     b.HasIndex("RecipeId");
 
-                    b.ToTable("Directions");
+                    b.ToTable("Directions", (string)null);
                 });
 
             modelBuilder.Entity("TastyFood.Infrastructure.Data.Entities.Ingredient", b =>
@@ -323,7 +323,7 @@ namespace TastyFood.Infrastructure.Migrations
 
                     b.HasIndex("RecipeId");
 
-                    b.ToTable("Ingredients");
+                    b.ToTable("Ingredients", (string)null);
                 });
 
             modelBuilder.Entity("TastyFood.Infrastructure.Data.Entities.NutritionFact", b =>
@@ -354,7 +354,7 @@ namespace TastyFood.Infrastructure.Migrations
 
                     b.HasIndex("RecipeId");
 
-                    b.ToTable("NutritionFacts");
+                    b.ToTable("NutritionFacts", (string)null);
                 });
 
             modelBuilder.Entity("TastyFood.Infrastructure.Data.Entities.Product", b =>
@@ -387,7 +387,7 @@ namespace TastyFood.Infrastructure.Migrations
 
                     b.HasIndex("ShoppingListId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("TastyFood.Infrastructure.Data.Entities.Recipe", b =>
@@ -425,7 +425,7 @@ namespace TastyFood.Infrastructure.Migrations
 
                     b.HasIndex("UserOwnerId");
 
-                    b.ToTable("Recipes");
+                    b.ToTable("Recipes", (string)null);
                 });
 
             modelBuilder.Entity("TastyFood.Infrastructure.Data.Entities.ShoppingList", b =>
@@ -444,7 +444,7 @@ namespace TastyFood.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("ShoppingLists");
+                    b.ToTable("ShoppingLists", (string)null);
                 });
 
             modelBuilder.Entity("TastyFood.Infrastructure.Data.Entities.Step", b =>
@@ -466,7 +466,7 @@ namespace TastyFood.Infrastructure.Migrations
 
                     b.HasIndex("DirectionId");
 
-                    b.ToTable("Steps");
+                    b.ToTable("Steps", (string)null);
                 });
 
             modelBuilder.Entity("TastyFood.Infrastructure.Data.Entities.UserRecipe", b =>
@@ -481,7 +481,7 @@ namespace TastyFood.Infrastructure.Migrations
 
                     b.HasIndex("RecipeId");
 
-                    b.ToTable("UserRecipe");
+                    b.ToTable("UserRecipe", (string)null);
                 });
 
             modelBuilder.Entity("ApplicationUserRecipe", b =>

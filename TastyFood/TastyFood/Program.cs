@@ -14,6 +14,10 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 {
     options.SignIn.RequireConfirmedAccount = false;
+    options.Password.RequireDigit = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireUppercase = false;
 })
     .AddEntityFrameworkStores<TastyFoodDbContext>();
 builder.Services.AddControllersWithViews();
@@ -39,6 +43,8 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+
 
 app.MapControllerRoute(
     name: "default",
