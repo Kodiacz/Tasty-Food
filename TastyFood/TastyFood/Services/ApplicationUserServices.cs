@@ -68,7 +68,7 @@
         /// <param name="loginViewModel"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public async Task<bool> SignUserInAsync(LoginViewModel loginViewModel)
+        public async Task<bool> SignApplicationUserInAsync(LoginViewModel loginViewModel)
         {
             var user = await userManager.FindByNameAsync(loginViewModel.Username);
 
@@ -83,6 +83,15 @@
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Signing out the ApplicationUser
+        /// </summary>
+        /// <returns></returns>
+        public async Task SignOutApplicationUserAsync()
+        {
+            await this.signInManager.SignOutAsync();
         }
     }
 }

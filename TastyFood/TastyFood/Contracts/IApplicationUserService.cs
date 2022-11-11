@@ -9,8 +9,11 @@
         public RegisterViewModel CreateRegisterViewModel();
         public Task<bool> CreateApplicationUserAsync(RegisterViewModel registerViewModel);
 
-        // Loging action methods
+        // Login action methods
         public LoginViewModel CreateLoginViewModel();
-        public Task<bool> SignUserInAsync(LoginViewModel loginViewModel);
+        public Task<bool> SignApplicationUserInAsync(LoginViewModel loginViewModel);
+
+        // Logout action methods
+        public Task SignOutApplicationUserAsync();
     }
 }

@@ -45,6 +45,8 @@
             return View(registerViewModel);
         }
 
+        [HttpGet]
+        [AllowAnonymous]
         public IActionResult Login()
         {
             var loginViewModel = this.userService.CreateLoginViewModel();
@@ -53,6 +55,7 @@
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Login(LoginViewModel loginViewModel)
         {
             if (!ModelState.IsValid)
@@ -60,7 +63,7 @@
                 return View(loginViewModel);
             }
 
-            var isSignedIn = await this.userService.SignUserInAsync(loginViewModel);
+            var isSignedIn = await this.userService.SignApplicationUserInAsync(loginViewModel);
 
             if (isSignedIn)
             {
@@ -69,6 +72,13 @@
             }
 
             return View(loginViewModel);
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            await this.userService.SignOutApplicationUserAsync();
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }

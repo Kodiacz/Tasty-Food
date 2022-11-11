@@ -19,12 +19,17 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
     options.Password.RequireUppercase = false;
 })
     .AddEntityFrameworkStores<TastyFoodDbContext>();
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/ApplicationUser/Login";
+});
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddApplicationServices();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
@@ -37,8 +42,6 @@ else
     app.UseHsts();
 }
 
-
-
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
@@ -50,6 +53,6 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-app.MapRazorPages();
+//app.MapRazorPages();
 
 app.Run();
