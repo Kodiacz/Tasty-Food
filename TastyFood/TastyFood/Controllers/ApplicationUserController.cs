@@ -19,7 +19,7 @@
         [HttpGet]
         public IActionResult Register()
         {
-            var model = new RegisterViewModel();
+            var model = userService.CreateRegisterViewModel();
 
             return View(model);
         }
@@ -42,6 +42,11 @@
             }
 
             return View(registerViewModel);
+        }
+
+        public IActionResult Login()
+        {
+
         }
     }
 }
