@@ -8,5 +8,10 @@
         {
             return View();
         }
+
+        public IActionResult About()
+        {
+            return View();
+        }
     }
 }
