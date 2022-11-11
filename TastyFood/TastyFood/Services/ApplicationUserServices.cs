@@ -2,6 +2,7 @@
 {
     using Microsoft.AspNetCore.Identity;
     using TastyFood.Contracts;
+    using TastyFood.Core.Models.ApplicationUserModels.LoginModels;
     using TastyFood.Core.Models.ApplicationUserModels.RegisterModels;
     using TastyFood.Infrastructure.Data.Entities;
 
@@ -45,5 +46,20 @@
             return false;
         }
 
+        /// <summary>
+        /// creating a LoginVideModel and returns it
+        /// </summary>
+        /// <returns>
+        /// LoginViewModel
+        /// </returns>
+        public LoginViewModel CreateLoginViewModel() => new LoginViewModel();
+        
+        /// <summary>
+        /// created a RegisterViewModel and returns it
+        /// </summary>
+        /// <returns>
+        /// RegisterViewModel
+        /// </returns>
+        public RegisterViewModel CreateRegisterViewModel() => new RegisterViewModel();
     }
 }
