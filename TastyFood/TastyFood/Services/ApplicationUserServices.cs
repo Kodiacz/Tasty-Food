@@ -61,5 +61,28 @@
         /// RegisterViewModel
         /// </returns>
         public RegisterViewModel CreateRegisterViewModel() => new RegisterViewModel();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="loginViewModel"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public async Task<bool> SignUserInAsync(LoginViewModel loginViewModel)
+        {
+            var user = await userManager.FindByNameAsync(loginViewModel.Username);
+
+            if (user != null)
+            {
+                var result = await signInManager.PasswordSignInAsync(user, loginViewModel.Password, false, false);
+
+                if (result.Succeeded)
+                {
+                    return true;
+                }   
+            }
+
+            return false;
+        }
     }
 }

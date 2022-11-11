@@ -11,5 +11,6 @@
 
         // Loging action methods
         public LoginViewModel CreateLoginViewModel();
+        public Task<bool> SignUserInAsync(LoginViewModel loginViewModel);
     }
 }
