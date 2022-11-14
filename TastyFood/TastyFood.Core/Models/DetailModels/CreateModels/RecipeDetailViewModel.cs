@@ -1,19 +1,23 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace TastyFood.Core.Models.RecipeModels.CreateModels
+﻿namespace TastyFood.Core.Models.DetailModels.CreateModels
 {
+    using System.ComponentModel.DataAnnotations;
+
     public class RecipeDetailViewModel
     {
         [Required]
+        [Range(1, 300)]
         public int PreparationTime { get; set; }
 
         [Required]
+        [Range(1, 300)]
         public int CookTime { get; set; }
 
         [Required]
+        [Range(1, 300)]
         public int AdditionalTime { get; set; }
 
         [Required]
+        [Range(1, 300)]
         public int ServingsQuantity { get; set; }
     }
 }

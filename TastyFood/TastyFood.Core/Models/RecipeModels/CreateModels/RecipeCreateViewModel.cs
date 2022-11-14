@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using TastyFood.Core.Models.DetailModels.CreateModels;
 
 namespace TastyFood.Core.Models.RecipeModels.CreateModels
 {
