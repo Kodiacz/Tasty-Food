@@ -4,9 +4,9 @@ namespace TastyFood.Controllers
 {
     public class RecipeController : Controller
     {
-        public IActionResult Index()
+        public Task<IActionResult> Create()
         {
-            return View();
+
         }
     }
 }
