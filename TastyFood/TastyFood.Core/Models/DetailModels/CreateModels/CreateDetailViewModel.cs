@@ -2,7 +2,7 @@
 {
     using System.ComponentModel.DataAnnotations;
 
-    public class RecipeDetailViewModel
+    public class CreateDetailViewModel
     {
         [Required]
         [Range(1, 300)]

@@ -2,7 +2,7 @@
 {
     using System.ComponentModel.DataAnnotations;
 
-    public class RecipeDirectionStepViewModel
+    public class CreateStepViewModel
     {
         [Required]
         public string Information { get; set; } = null!;
