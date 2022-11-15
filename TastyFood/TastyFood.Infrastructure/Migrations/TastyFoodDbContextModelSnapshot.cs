@@ -34,7 +34,7 @@ namespace TastyFood.Infrastructure.Migrations
 
                     b.HasIndex("UsersFavoriteRecipesId");
 
-                    b.ToTable("ApplicationUserRecipe", (string)null);
+                    b.ToTable("ApplicationUserRecipe");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -195,11 +195,13 @@ namespace TastyFood.Infrastructure.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(55)
+                        .HasColumnType("nvarchar(55)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(55)
+                        .HasColumnType("nvarchar(55)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -262,7 +264,7 @@ namespace TastyFood.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("TastyFood.Infrastructure.Data.Entities.Detail", b =>
@@ -287,7 +289,7 @@ namespace TastyFood.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Details", (string)null);
+                    b.ToTable("Details");
                 });
 
             modelBuilder.Entity("TastyFood.Infrastructure.Data.Entities.Direction", b =>
@@ -301,11 +303,16 @@ namespace TastyFood.Infrastructure.Migrations
                     b.Property<int?>("RecipeId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Step")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("RecipeId");
 
-                    b.ToTable("Directions", (string)null);
+                    b.ToTable("Directions");
                 });
 
             modelBuilder.Entity("TastyFood.Infrastructure.Data.Entities.Ingredient", b =>
@@ -323,7 +330,7 @@ namespace TastyFood.Infrastructure.Migrations
 
                     b.HasIndex("RecipeId");
 
-                    b.ToTable("Ingredients", (string)null);
+                    b.ToTable("Ingredients");
                 });
 
             modelBuilder.Entity("TastyFood.Infrastructure.Data.Entities.NutritionFact", b =>
@@ -354,7 +361,7 @@ namespace TastyFood.Infrastructure.Migrations
 
                     b.HasIndex("RecipeId");
 
-                    b.ToTable("NutritionFacts", (string)null);
+                    b.ToTable("NutritionFacts");
                 });
 
             modelBuilder.Entity("TastyFood.Infrastructure.Data.Entities.Product", b =>
@@ -387,7 +394,7 @@ namespace TastyFood.Infrastructure.Migrations
 
                     b.HasIndex("ShoppingListId");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("TastyFood.Infrastructure.Data.Entities.Recipe", b =>
@@ -410,6 +417,9 @@ namespace TastyFood.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(60)
@@ -425,7 +435,7 @@ namespace TastyFood.Infrastructure.Migrations
 
                     b.HasIndex("UserOwnerId");
 
-                    b.ToTable("Recipes", (string)null);
+                    b.ToTable("Recipes");
                 });
 
             modelBuilder.Entity("TastyFood.Infrastructure.Data.Entities.ShoppingList", b =>
@@ -444,44 +454,7 @@ namespace TastyFood.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("ShoppingLists", (string)null);
-                });
-
-            modelBuilder.Entity("TastyFood.Infrastructure.Data.Entities.Step", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int?>("DirectionId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Information")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DirectionId");
-
-                    b.ToTable("Steps", (string)null);
-                });
-
-            modelBuilder.Entity("TastyFood.Infrastructure.Data.Entities.UserRecipe", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("RecipeId")
-                        .HasColumnType("int");
-
-                    b.HasKey("UserId", "RecipeId");
-
-                    b.HasIndex("RecipeId");
-
-                    b.ToTable("UserRecipe", (string)null);
+                    b.ToTable("ShoppingLists");
                 });
 
             modelBuilder.Entity("ApplicationUserRecipe", b =>
@@ -605,6 +578,7 @@ namespace TastyFood.Infrastructure.Migrations
                     b.HasOne("TastyFood.Infrastructure.Data.Entities.ApplicationUser", "UserOwner")
                         .WithMany("OwnRecipes")
                         .HasForeignKey("UserOwnerId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Details");
@@ -623,42 +597,11 @@ namespace TastyFood.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("TastyFood.Infrastructure.Data.Entities.Step", b =>
-                {
-                    b.HasOne("TastyFood.Infrastructure.Data.Entities.Direction", null)
-                        .WithMany("Steps")
-                        .HasForeignKey("DirectionId");
-                });
-
-            modelBuilder.Entity("TastyFood.Infrastructure.Data.Entities.UserRecipe", b =>
-                {
-                    b.HasOne("TastyFood.Infrastructure.Data.Entities.Recipe", "Recipe")
-                        .WithMany()
-                        .HasForeignKey("RecipeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TastyFood.Infrastructure.Data.Entities.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Recipe");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("TastyFood.Infrastructure.Data.Entities.ApplicationUser", b =>
                 {
                     b.Navigation("OwnRecipes");
 
                     b.Navigation("ShoppingLists");
-                });
-
-            modelBuilder.Entity("TastyFood.Infrastructure.Data.Entities.Direction", b =>
-                {
-                    b.Navigation("Steps");
                 });
 
             modelBuilder.Entity("TastyFood.Infrastructure.Data.Entities.Ingredient", b =>
