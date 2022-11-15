@@ -2,8 +2,7 @@
 {
     using Microsoft.AspNetCore.Identity;
     using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-
+    using static TastyFood.Infrastructure.Data.DataConstants.ApplicationUserConstants;
     public class ApplicationUser : IdentityUser
     {
         public ApplicationUser()
@@ -14,9 +13,11 @@
         }
 
         [Required]
+        [StringLength(FirstNameMaxLength)]
         public string FirstName { get; set; } = null!;
 
         [Required]
+        [StringLength(LastNameMaxLength)]
         public string LastName { get; set; } = null!;
 
         public IEnumerable<ShoppingList> ShoppingLists { get; set; }

@@ -1,17 +1,14 @@
 ﻿namespace TastyFood.Infrastructure.Data.Entities
 {
     using System.ComponentModel.DataAnnotations;
+    using static TastyFood.Infrastructure.Data.DataConstants.DirectionConstants;
 
     public class Direction
     {
-        public Direction()
-        {
-            this.Steps = new List<Step>();
-        }
-
         public int Id { get; set; }
 
         [Required]
-        public IEnumerable<Step> Steps { get; set; }
+        [StringLength(StepMaxLength)]
+        public string Step { get; set; }
     }
 }

@@ -28,6 +28,8 @@
         [Required]
         public string ImageUrl { get; set; } = null!;
 
+        public bool IsDeleted { get; set; } = false;
+
         [Required]
         public IEnumerable<Ingredient> Ingredients { get; set; } 
 

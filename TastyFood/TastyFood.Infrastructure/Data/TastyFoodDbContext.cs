@@ -17,14 +17,14 @@
                 .HasMany(au => au.OwnRecipes)
                 .WithOne(or => or.UserOwner)
                 .HasForeignKey(or => or.UserOwnerId)
-                .OnDelete(DeleteBehavior.ClientSetNull);
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<ApplicationUser>()
                 .HasMany(au => au.FavoriteRecipes)
                 .WithMany(fr => fr.UsersFavoriteRecipes);
 
-            builder.Entity<UserRecipe>()
-                .HasKey(ur => new { ur.UserId, ur.RecipeId });
+            //builder.Entity<UserRecipe>()
+            //    .HasKey(ur => new { ur.UserId, ur.RecipeId });
 
 
 
@@ -46,7 +46,5 @@
         public DbSet<Recipe> Recipes { get; set; } = null!;
 
         public DbSet<ShoppingList> ShoppingLists { get; set; } = null!;
-
-        public DbSet<Step> Steps { get; set; } = null!;
     }
 }

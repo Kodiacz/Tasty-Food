@@ -2,6 +2,6 @@
 {
     public class CreateDirectionViewModel
     {
-        public IEnumerable<CreateStepViewModel> Steps { get; set; }
+        public string Steps { get; set; }
     }
 }
