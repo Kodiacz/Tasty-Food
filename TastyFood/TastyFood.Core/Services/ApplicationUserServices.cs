@@ -19,7 +19,11 @@
             this.signInManager = signInManager;
         }
 
-        
+        /// <summary>
+        /// Adding ApplicationUser entity in the database
+        /// </summary>
+        /// <param name="registerViewModel">RegisterViewModel passed from the View method</param>
+        /// <returns></returns>
         public async Task<bool> CreateApplicationUserAsync(RegisterViewModel registerViewModel)
         {
             var user = new ApplicationUser()
@@ -43,7 +47,7 @@
         }
 
         /// <summary>
-        /// creating a LoginVideModel and returns it
+        /// Creating a LoginVideModel and returns it
         /// </summary>
         /// <returns>
         /// LoginViewModel
@@ -51,7 +55,7 @@
         public LoginViewModel CreateLoginViewModel() => new LoginViewModel();
         
         /// <summary>
-        /// created a RegisterViewModel and returns it
+        /// Created a RegisterViewModel and returns it
         /// </summary>
         /// <returns>
         /// RegisterViewModel
@@ -59,11 +63,10 @@
         public RegisterViewModel CreateRegisterViewModel() => new RegisterViewModel();
 
         /// <summary>
-        /// 
+        /// Signing the user in the system
         /// </summary>
         /// <param name="loginViewModel"></param>
         /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
         public async Task<bool> SignApplicationUserInAsync(LoginViewModel loginViewModel)
         {
             var user = await userManager.FindByNameAsync(loginViewModel.Username);
