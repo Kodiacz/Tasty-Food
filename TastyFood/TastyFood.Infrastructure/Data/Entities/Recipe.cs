@@ -10,7 +10,6 @@
         {
             this.Ingredients = new List<Ingredient>();
             this.Directions = new List<Direction>();
-            this.NutritionFacts = new List<NutritionFact>();
             this.UsersFavoriteRecipes = new List<ApplicationUser>();
         }
 
@@ -35,7 +34,6 @@
 
         public IEnumerable<Direction> Directions { get; set; } 
 
-        public IEnumerable<NutritionFact> NutritionFacts { get; set; }
 
         [ForeignKey(nameof(Details))]
         public int DetailsId { get; set; }

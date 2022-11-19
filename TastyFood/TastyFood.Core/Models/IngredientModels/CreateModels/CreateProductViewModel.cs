@@ -1,13 +1,14 @@
-﻿using TastyFood.Core.Models.NutritionFactModels.CreateModels;
-
-namespace TastyFood.Core.Models.IngredientModels.CreateModels
+﻿namespace TastyFood.Core.Models.IngredientModels.CreateModels
 {
+    using System.ComponentModel.DataAnnotations;
+    using static TastyFood.Infrastructure.Data.DataConstants.ProductConstants;
+
     public class CreateProductViewModel
     {
         public CreateCategoryViewModel Category { get; set; }
 
-        public string Quantity { get; set; }
-
-        public IEnumerable<CreateNutritionFactViewModel> NutritionFacts { get; set; }
+        [Required]
+        [StringLength(NameMaxLength)]
+        public string Name { get; set; }
     }
 }

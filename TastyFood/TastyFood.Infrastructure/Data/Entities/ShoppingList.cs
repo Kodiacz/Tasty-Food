@@ -5,14 +5,13 @@
 
     public class ShoppingList
     {
-        public ShoppingList()
-        {
-            this.Products = new List<Product>();
-        }
-
         public int Id { get; set; }
 
-        public IEnumerable<Product> Products { get; set; }
+        [ForeignKey(nameof(Product))]
+        public int ProductId { get; set; }
+        public Product Product { get; set; }
+
+        public double Quantity { get; set; }
 
         [Required]
         [ForeignKey(nameof(User))]

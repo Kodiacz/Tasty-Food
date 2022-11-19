@@ -4,5 +4,7 @@
     {
         public const int QuantityMaxLength = 4;
         public const int QuantityMinLength = 1;
+
+        public const int NameMaxLength = 20;
     }
 }

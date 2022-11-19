@@ -323,36 +323,13 @@ namespace TastyFood.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("RecipeId")
+                    b.Property<int>("ProductId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("RecipeId");
-
-                    b.ToTable("Ingredients");
-                });
-
-            modelBuilder.Entity("TastyFood.Infrastructure.Data.Entities.NutritionFact", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("int");
+                    b.Property<double>("Quantity")
+                        .HasColumnType("float");
 
                     b.Property<int?>("RecipeId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Value")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -361,7 +338,7 @@ namespace TastyFood.Infrastructure.Migrations
 
                     b.HasIndex("RecipeId");
 
-                    b.ToTable("NutritionFacts");
+                    b.ToTable("Ingredients");
                 });
 
             modelBuilder.Entity("TastyFood.Infrastructure.Data.Entities.Product", b =>
@@ -375,24 +352,14 @@ namespace TastyFood.Infrastructure.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("IngredientId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Quantity")
+                    b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(4)
-                        .HasColumnType("nvarchar(4)");
-
-                    b.Property<int?>("ShoppingListId")
-                        .HasColumnType("int");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
-
-                    b.HasIndex("IngredientId");
-
-                    b.HasIndex("ShoppingListId");
 
                     b.ToTable("Products");
                 });
@@ -446,11 +413,19 @@ namespace TastyFood.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Quantity")
+                        .HasColumnType("float");
+
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
 
                     b.HasIndex("UserId");
 
@@ -532,20 +507,17 @@ namespace TastyFood.Infrastructure.Migrations
 
             modelBuilder.Entity("TastyFood.Infrastructure.Data.Entities.Ingredient", b =>
                 {
+                    b.HasOne("TastyFood.Infrastructure.Data.Entities.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("TastyFood.Infrastructure.Data.Entities.Recipe", null)
                         .WithMany("Ingredients")
                         .HasForeignKey("RecipeId");
-                });
 
-            modelBuilder.Entity("TastyFood.Infrastructure.Data.Entities.NutritionFact", b =>
-                {
-                    b.HasOne("TastyFood.Infrastructure.Data.Entities.Product", null)
-                        .WithMany("NutritionFacts")
-                        .HasForeignKey("ProductId");
-
-                    b.HasOne("TastyFood.Infrastructure.Data.Entities.Recipe", null)
-                        .WithMany("NutritionFacts")
-                        .HasForeignKey("RecipeId");
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("TastyFood.Infrastructure.Data.Entities.Product", b =>
@@ -555,14 +527,6 @@ namespace TastyFood.Infrastructure.Migrations
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("TastyFood.Infrastructure.Data.Entities.Ingredient", null)
-                        .WithMany("Products")
-                        .HasForeignKey("IngredientId");
-
-                    b.HasOne("TastyFood.Infrastructure.Data.Entities.ShoppingList", null)
-                        .WithMany("Products")
-                        .HasForeignKey("ShoppingListId");
 
                     b.Navigation("Category");
                 });
@@ -588,11 +552,19 @@ namespace TastyFood.Infrastructure.Migrations
 
             modelBuilder.Entity("TastyFood.Infrastructure.Data.Entities.ShoppingList", b =>
                 {
+                    b.HasOne("TastyFood.Infrastructure.Data.Entities.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("TastyFood.Infrastructure.Data.Entities.ApplicationUser", "User")
                         .WithMany("ShoppingLists")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Product");
 
                     b.Navigation("User");
                 });
@@ -604,28 +576,11 @@ namespace TastyFood.Infrastructure.Migrations
                     b.Navigation("ShoppingLists");
                 });
 
-            modelBuilder.Entity("TastyFood.Infrastructure.Data.Entities.Ingredient", b =>
-                {
-                    b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("TastyFood.Infrastructure.Data.Entities.Product", b =>
-                {
-                    b.Navigation("NutritionFacts");
-                });
-
             modelBuilder.Entity("TastyFood.Infrastructure.Data.Entities.Recipe", b =>
                 {
                     b.Navigation("Directions");
 
                     b.Navigation("Ingredients");
-
-                    b.Navigation("NutritionFacts");
-                });
-
-            modelBuilder.Entity("TastyFood.Infrastructure.Data.Entities.ShoppingList", b =>
-                {
-                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

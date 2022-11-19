@@ -39,8 +39,6 @@
 
         public DbSet<Ingredient> Ingredients { get; set; } = null!;
 
-        public DbSet<NutritionFact> NutritionFacts { get; set; } = null!;
-
         public DbSet<Product> Products { get; set; } = null!;
 
         public DbSet<Recipe> Recipes { get; set; } = null!;
