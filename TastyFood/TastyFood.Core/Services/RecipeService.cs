@@ -4,14 +4,15 @@
     using TastyFood.Core.Models.IngredientModels.CreateModels;
     using TastyFood.Core.Models.RecipeModels.CreateModels;
     using TastyFood.Infrastructure.Data;
+    using TastyFood.Infrastructure.Data.Common;
 
     public class RecipeService : IRecipeService
     {
-        private readonly TastyFoodDbContext dbContext;
+        private readonly IRepository repo;
 
-        public RecipeService(TastyFoodDbContext dbContext)
+        public RecipeService(IRepository repo)
         {
-            this.dbContext = dbContext;
+            this.repo = repo;
         }
 
         public CreateProductViewModel CreateProductViewModel()
