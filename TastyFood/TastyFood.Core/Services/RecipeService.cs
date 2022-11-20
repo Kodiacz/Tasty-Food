@@ -3,7 +3,6 @@
     using TastyFood.Core.Contracts;
     using TastyFood.Core.Models.IngredientModels.CreateModels;
     using TastyFood.Core.Models.RecipeModels.CreateModels;
-    using TastyFood.Infrastructure.Data;
     using TastyFood.Infrastructure.Data.Common;
 
     public class RecipeService : IRecipeService

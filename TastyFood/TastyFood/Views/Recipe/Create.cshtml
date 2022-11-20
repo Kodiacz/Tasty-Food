@@ -10,22 +10,22 @@
 <div class="row">
     <div class="col-sm-1 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
         <form asp-controller="Recipe" asp-action="Create" class="needs-validation" method="post">
-            <div>
+            <div class="form-group">
                 <label asp-for="@Model.Title" class="form-label">Title:</label>
                 <input asp-for="@Model.Title" class="form-control" aria-required="true" />
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
-            <div class="mb-3">
+            <div class="form-group">
                 <label asp-for="@Model.Description" class="form-label mt-4">Description:</label>
                 <textarea asp-for="@Model.Description" class="form-control" aria-required="true" rows="5"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
-            <div class="mb-3">
+            <div class="form-group">
                 <label asp-for="@Model.ImageUrl" class="form-label">Image URL:</label>
                 <input asp-for="@Model.Description" class="form-control" aria-required="true" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
-            <div class="contrainer text-center">
+            <div class="form-group">
                 <div class="row-2">
                     <div class="row">
                         <div class="col">
@@ -53,9 +53,7 @@
                     </div>
                 </div>
             </div>
-            <div class="my-4">
-                <input class="btn btn-primary btn-lg" type="submit" value="continue with adding the products" />
-            </div>
+            <button class="btn btn-info my-3 position-relative">Add more fields &nbsp; <i class="bi bi-plus-circle"></i></button>
         </form>
     </div>
 </div>
