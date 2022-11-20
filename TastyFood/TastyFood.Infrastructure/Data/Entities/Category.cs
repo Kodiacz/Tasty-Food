@@ -11,5 +11,7 @@
         [Required]
         [StringLength(TypeMaxLength, MinimumLength = TypeMinLength)]
         public string Type { get; set; } = null!;
+
+        public IEnumerable<Product> Products { get; set; }
     }
 }

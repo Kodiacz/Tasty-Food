@@ -53,12 +53,37 @@
                     </div>
                 </div>
             </div>
-            <button class="btn btn-info my-3 position-relative">Add more fields &nbsp; <i class="bi bi-plus-circle"></i></button>
+            <div class="my-3 container card" id="IngridientsDiv">
+                <a class="btn btn-info my-3" onclick="AddMoreFields()">Add more fields for ingedients &nbsp; <i class="bi bi-plus-circle"></i></a>
+                <hr />
+            </div>
+            <button class="btn btn-primary">Add Recipe</button>
         </form>
     </div>
 </div>
 
 
 @section Scripts {
+    <script>
+        var index = 0
+
+        function AddMoreFields() {
+            $("#IngridientsDiv")
+                .append(`<p>Product: ${index + 1}<p>
+                        <div class='row'>
+                           <input type='text' placeholder='Product name e.g. potato' name='Ingredients["${index}"].Product.Name' />
+                        </div>
+                        <div class='row'>
+                           <input type='text' placeholder='Product type e.g. vegetable' name='Ingredients["${index}"].Product.Category.Type' />
+                        </div>
+                        <div class='row'>
+                           <input type='text' placeholder='Product quantity e.g. 1.3' name='Ingredients["${index}"].Quantity' />
+                        </div>
+                        <hr />`)
+            index++
+            console.log("AddMoreField()")
+        };
+    </script>
+
     <partial name="_ValidationScriptsPartial" />
 }

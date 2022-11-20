@@ -523,7 +523,7 @@ namespace TastyFood.Infrastructure.Migrations
             modelBuilder.Entity("TastyFood.Infrastructure.Data.Entities.Product", b =>
                 {
                     b.HasOne("TastyFood.Infrastructure.Data.Entities.Category", "Category")
-                        .WithMany()
+                        .WithMany("Products")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -574,6 +574,11 @@ namespace TastyFood.Infrastructure.Migrations
                     b.Navigation("OwnRecipes");
 
                     b.Navigation("ShoppingLists");
+                });
+
+            modelBuilder.Entity("TastyFood.Infrastructure.Data.Entities.Category", b =>
+                {
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("TastyFood.Infrastructure.Data.Entities.Recipe", b =>
