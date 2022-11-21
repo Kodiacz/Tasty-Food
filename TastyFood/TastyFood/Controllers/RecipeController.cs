@@ -17,19 +17,20 @@ namespace TastyFood.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            var currentUserId = User.Id();
             var model = this.recipeService.CreateRecipeViewModel();
-            model.CreatorUsername = User.Identity.Name;
 
             return View(model);
 
         }
 
+        [HttpPost]
         public IActionResult Create(CreateRecipeViewModel model)
         {
-            return this.Json(model);
+            var currentUserId = User.Id();
+            
+            this.recipeService.CreateRecipe(model, currentUserId);
 
-            //return RedirectToAction("Create", "Product", recipeViewModel);
+            return RedirectToAction("Index", "Home");
         }
     }
 }

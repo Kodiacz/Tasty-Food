@@ -38,9 +38,25 @@
             var recipe = new Recipe()
             {
                 Title = model.Title,
-                C
                 Description = model.Description,
+                ImageUrl = model.ImageUrl,
+                Details = new Detail
+                {
+                    PreparationTime = model.Details.PreparationTime,
+                    CookTime = model.Details.CookTime,
+                    AdditionalTime = model.Details.AdditionalTime,
+                    ServingsQuantity = model.Details.ServingsQuantity,
+                },
             };
+
+            foreach (var item in model.Ingredients)
+            {
+                string name = item.Product.Name.ToLower();
+                string category = item.Product.Category.Type.ToLower();
+                
+
+                if (repo.All<Product>().Any(p => p)
+            }
         }
     }
 }
