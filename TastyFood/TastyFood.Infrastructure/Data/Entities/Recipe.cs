@@ -32,7 +32,7 @@
         [Required]
         public ICollection<Ingredient> Ingredients { get; set; } 
 
-        public IEnumerable<Direction> Directions { get; set; } 
+        public ICollection<Direction> Directions { get; set; } 
 
 
         [ForeignKey(nameof(Details))]
