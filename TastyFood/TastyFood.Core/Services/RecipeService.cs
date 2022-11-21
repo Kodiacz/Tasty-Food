@@ -53,7 +53,7 @@
             {
                 string name = item.Product.Name.ToLower();
                 string category = item.Product.Category.Type.ToLower();
-                
+                string quantity = item.Quantity.ToLower();
 
                 if (repo.All<Product>().Any(p => p)
             }
