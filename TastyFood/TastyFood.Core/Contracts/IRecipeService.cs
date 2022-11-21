@@ -24,6 +24,6 @@
         /// Create a recipe and add it to the database
         /// </summary>
         /// <returns></returns>
-        Task CreateRecipe();
+        Task CreateRecipe(CreateRecipeViewModel model, string currentUserId);
     }
 }

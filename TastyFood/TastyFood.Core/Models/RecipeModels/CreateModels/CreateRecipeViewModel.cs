@@ -17,9 +17,6 @@ namespace TastyFood.Core.Models.RecipeModels.CreateModels
         public string Title { get; set; } = null!;
 
         [Required]
-        public string CreatorUsername { get; set; } = null!;
-
-        [Required]
         public string Description { get; set; } = null!;
 
         [Required]

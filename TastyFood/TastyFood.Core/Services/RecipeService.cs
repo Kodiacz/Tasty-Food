@@ -4,6 +4,7 @@
     using TastyFood.Core.Models.IngredientModels.CreateModels;
     using TastyFood.Core.Models.RecipeModels.CreateModels;
     using TastyFood.Infrastructure.Data.Common;
+    using TastyFood.Infrastructure.Data.Entities;
 
     public class RecipeService : IRecipeService
     {
@@ -32,9 +33,14 @@
             return new CreateRecipeViewModel();
         }
 
-        public Task CreateRecipe()
+        public Task CreateRecipe(CreateRecipeViewModel model, string currentUserId)
         {
-
+            var recipe = new Recipe()
+            {
+                Title = model.Title,
+                C
+                Description = model.Description,
+            };
         }
     }
 }

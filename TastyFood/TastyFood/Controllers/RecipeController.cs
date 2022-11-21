@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using HouseRentingSystem.Extensions;
+using Microsoft.AspNetCore.Mvc;
 using TastyFood.Core.Contracts;
 using TastyFood.Core.Models.RecipeModels.CreateModels;
 
@@ -16,14 +17,17 @@ namespace TastyFood.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            var recipeViewModel = this.recipeService.CreateRecipeViewModel();
+            var currentUserId = User.Id();
+            var model = this.recipeService.CreateRecipeViewModel();
+            model.CreatorUsername = User.Identity.Name;
 
-            return View(recipeViewModel);
+            return View(model);
+
         }
 
-        public IActionResult Create(CreateRecipeViewModel recipeViewModel)
+        public IActionResult Create(CreateRecipeViewModel model)
         {
-            return this.Json(recipeViewModel);
+            return this.Json(model);
 
             //return RedirectToAction("Create", "Product", recipeViewModel);
         }
