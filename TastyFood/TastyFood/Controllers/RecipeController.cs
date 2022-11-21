@@ -23,7 +23,9 @@ namespace TastyFood.Controllers
 
         public IActionResult Create(CreateRecipeViewModel recipeViewModel)
         {
-            return RedirectToAction("Create", "Product", recipeViewModel);
+            return this.Json(recipeViewModel);
+
+            //return RedirectToAction("Create", "Product", recipeViewModel);
         }
     }
 }

@@ -14,16 +14,27 @@
             this.repo = repo;
         }
 
+        /// <summary>
+        /// Creating a CreateProductViewModel
+        /// </summary>
+        /// <returns>Returns instance of CreateProductViewModel</returns>
         public CreateProductViewModel CreateProductViewModel()
         {
             return new CreateProductViewModel();
         }
 
+        /// <summary>
+        /// Creating a CreateRecipeViewModel
+        /// </summary>
+        /// <returns>Returns instance of CreateRecipeViewModel</returns>
         public CreateRecipeViewModel CreateRecipeViewModel()
         {
             return new CreateRecipeViewModel();
         }
 
+        public Task CreateRecipe()
+        {
 
+        }
     }
 }

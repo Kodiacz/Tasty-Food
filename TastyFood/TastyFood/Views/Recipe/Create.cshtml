@@ -22,8 +22,8 @@
             </div>
             <div class="form-group">
                 <label asp-for="@Model.ImageUrl" class="form-label">Image URL:</label>
-                <input asp-for="@Model.Description" class="form-control" aria-required="true" />
-                <span asp-validation-for="Description" class="text-danger"></span>
+                <input asp-for="@Model.ImageUrl" class="form-control" aria-required="true" />
+                <span asp-validation-for="ImageUrl" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <div class="row-2">
@@ -53,10 +53,14 @@
                     </div>
                 </div>
             </div>
-            <div class="my-3 container card" id="IngridientsDiv">
-                <a class="btn btn-info my-3" onclick="AddMoreFields()">Add more fields for ingedients &nbsp; <i class="bi bi-plus-circle"></i></a>
+            <div class="my-3 form-group" id="IngridientsDiv">
                 <hr />
             </div>
+            <a class="btn btn-info my-3" onclick="AddMoreIngredientFields()">Add Ingedients &nbsp; <i class="bi bi-plus-circle"></i></a>
+            <div class="my-3 form-group" id="DirectionsDiv">
+                <hr />
+            </div>
+            <a class="btn btn-info my-3" onclick="AddMoreDirectionsFields()">Add Steps &nbsp; <i class="bi bi-plus-circle"></i></a>
             <button class="btn btn-primary">Add Recipe</button>
         </form>
     </div>
@@ -65,24 +69,58 @@
 
 @section Scripts {
     <script>
-        var index = 0
+        var ingredientsIndex = 0
+        var stepsIndex = 0
 
-        function AddMoreFields() {
+        function AddMoreIngredientFields() {
+
+            let prefix;
+
+            if (ingredientsIndex + 1 == 1) {
+                prefix = 'st';
+            } else if (ingredientsIndex + 1 == 2) {
+                prefix = 'nd';
+            } else if (ingredientsIndex + 1 == 3) {
+                prefix = 'rd';
+            } else {
+                prefix = 'th';
+            }
+
             $("#IngridientsDiv")
-                .append(`<p>Product: ${index + 1}<p>
-                        <div class='row'>
-                           <input type='text' placeholder='Product name e.g. potato' name='Ingredients["${index}"].Product.Name' />
-                        </div>
-                        <div class='row'>
-                           <input type='text' placeholder='Product type e.g. vegetable' name='Ingredients["${index}"].Product.Category.Type' />
-                        </div>
-                        <div class='row'>
-                           <input type='text' placeholder='Product quantity e.g. 1.3' name='Ingredients["${index}"].Quantity' />
-                        </div>
-                        <hr />`)
-            index++
-            console.log("AddMoreField()")
-        };
+                .append(`<p>${ingredientsIndex + 1}${prefix} Ingredient:<p>
+                         <div class='form-control'>
+                            <input type='text' placeholder='Product name e.g. potato' name="Ingredients[${ingredientsIndex}].Product.Name" />
+                         </div>
+                         <div class='form-control'>
+                            <input type='text' placeholder='Product type e.g. vegetable' name='Ingredients[${ingredientsIndex}].Product.Category.Type' />
+                         </div>
+                         <div class='form-control'>
+                            <input type='text' placeholder='Product quantity e.g. 1.3' name='Ingredients[${ingredientsIndex}].Quantity' />
+                         </div>
+                         <hr />`)
+            ingredientsIndex++
+            console.log(ingredientsIndex)
+        }
+
+        function AddMoreDirectionsFields() {
+
+            let prefix;
+
+            if (stepsIndex + 1 == 1) {
+                prefix = 'st';
+            } else if (stepsIndex + 1 == 2) {
+                prefix = 'nd';
+            } else if (stepsIndex + 1 == 3) {
+                prefix = 'rd';
+            } else {
+                prefix = 'th';
+            }
+
+            $('#DirectionsDiv').append(`
+                                        <p>${stepsIndex + 1}${prefix} Step:<p>
+                                        <textarea class='form-control' name='Directions[${stepsIndex}].Step' aria-required='true' rows='5'></textarea>`);
+            stepsIndex++
+        }
     </script>
 
     <partial name="_ValidationScriptsPartial" />

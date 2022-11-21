@@ -5,10 +5,10 @@
 
     public class CreateProductViewModel
     {
-        public CreateCategoryViewModel Category { get; set; }
-
         [Required]
         [StringLength(NameMaxLength)]
         public string Name { get; set; }
+
+        public CreateCategoryViewModel Category { get; set; }
     }
 }

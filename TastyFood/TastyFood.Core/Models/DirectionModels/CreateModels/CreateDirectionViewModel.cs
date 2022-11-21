@@ -2,6 +2,6 @@
 {
     public class CreateDirectionViewModel
     {
-        public string Steps { get; set; }
+        public string Step { get; set; }
     }
 }
