@@ -30,7 +30,7 @@
         public bool IsDeleted { get; set; } = false;
 
         [Required]
-        public IEnumerable<Ingredient> Ingredients { get; set; } 
+        public ICollection<Ingredient> Ingredients { get; set; } 
 
         public IEnumerable<Direction> Directions { get; set; } 
 
