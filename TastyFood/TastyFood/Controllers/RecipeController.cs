@@ -24,11 +24,11 @@ namespace TastyFood.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(CreateRecipeViewModel model)
+        public async Task<IActionResult> Create(CreateRecipeViewModel model)
         {
             var currentUserId = User.Id();
             
-            this.recipeService.CreateRecipe(model, currentUserId);
+            await this.recipeService.CreateRecipe(model, currentUserId);
 
             return RedirectToAction("Index", "Home");
         }

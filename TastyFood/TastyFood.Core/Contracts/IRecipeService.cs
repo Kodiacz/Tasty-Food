@@ -25,5 +25,10 @@
         /// </summary>
         /// <returns></returns>
         Task CreateRecipe(CreateRecipeViewModel model, string currentUserId);
+
+        //Task GetRecipes(GetRecipeViewModel model)
+        //{
+
+        //}
     }
 }

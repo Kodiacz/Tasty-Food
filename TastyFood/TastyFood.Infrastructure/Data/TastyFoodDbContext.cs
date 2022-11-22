@@ -26,8 +26,6 @@
             //builder.Entity<UserRecipe>()
             //    .HasKey(ur => new { ur.UserId, ur.RecipeId });
 
-
-
             base.OnModelCreating(builder);
         }
 

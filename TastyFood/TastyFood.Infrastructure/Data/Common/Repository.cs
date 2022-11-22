@@ -118,7 +118,7 @@
         }
 
         /// <summary>
-        /// Disposing the context when it is not neede
+        /// Disposing the context when it is not needed
         /// Don't have to call this method explicitely
         /// Leave it to the IoC container
         /// </summary>

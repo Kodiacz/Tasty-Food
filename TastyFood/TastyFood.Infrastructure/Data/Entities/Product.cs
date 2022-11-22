@@ -17,5 +17,16 @@
         [ForeignKey(nameof(Category))]
         public int CategoryId { get; set; }
         public Category Category { get; set; } = null!;
+
+
+        [Required]
+        [ForeignKey(nameof(Ingredient))]
+        public int IngredientId { get; set; }
+        public Ingredient Ingredient { get; set; } = null!;
+
+        [Required]
+        [ForeignKey(nameof(ShoppingList))]
+        public int ShoppingListId { get; set; }
+        public ShoppingList ShoppingList { get; set; } = null!;
     }
 }

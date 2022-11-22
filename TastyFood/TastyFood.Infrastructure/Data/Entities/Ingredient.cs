@@ -18,5 +18,9 @@
         [Required]
         [StringLength(QuantityMaxLength, MinimumLength = QuantityMinLength)]
         public string Quantity { get; set; }
+
+        [ForeignKey(nameof(Recipe))]
+        public int RecipeId { get; set; }
+        public Recipe Recipe { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿namespace TastyFood.Infrastructure.Data.Entities
 {
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
     using static TastyFood.Infrastructure.Data.DataConstants.CategoryConstants;
 
     public class Category
@@ -12,6 +13,8 @@
         [StringLength(TypeMaxLength, MinimumLength = TypeMinLength)]
         public string Type { get; set; } = null!;
 
-        public IEnumerable<Product> Products { get; set; }
+        [ForeignKey(nameof(Product))]
+        public int ProducId { get; set; }
+        public Product Product { get; set; }
     }
 }
