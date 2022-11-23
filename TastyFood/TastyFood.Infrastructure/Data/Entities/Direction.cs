@@ -10,10 +10,11 @@
 
         [Required]
         [StringLength(StepMaxLength)]
-        public string Step { get; set; }
+        public string Step { get; set; } = null!;
 
         [ForeignKey(nameof(Recipe))]
+        [Required]
         public int RecipeId { get; set; }
-        public Recipe Recipe { get; set; }
+        public Recipe Recipe { get; set; } = null!;
     }
 }

@@ -8,9 +8,9 @@
     {
         public Recipe()
         {
-            this.Ingredients = new List<Ingredient>();
-            this.Directions = new List<Direction>();
-            this.UsersFavoriteRecipes = new List<ApplicationUser>();
+            this.Ingredients = new HashSet<Ingredient>();
+            this.Directions = new HashSet<Direction>();
+            this.UsersFavoriteRecipes = new HashSet<ApplicationUser>();
         }
 
         [Key]
@@ -32,17 +32,30 @@
         [Required]
         public ICollection<Ingredient> Ingredients { get; set; } 
 
-        public ICollection<Direction> Directions { get; set; } 
+        public ICollection<Direction> Directions { get; set; }
 
 
-        [ForeignKey(nameof(Details))]
-        public int DetailsId { get; set; }
-        public Detail? Details { get; set; }
+        //[ForeignKey(nameof(Details))]
+        //public int DetailsId { get; set; }
+        //public Detail? Details { get; set; }
+
+        [Required]
+        public int PreparationTime { get; set; }
+
+        [Required]
+        public int CookTime { get; set; }
+
+        [Required]
+        public int AdditionalTime { get; set; }
+
+        [Required]
+        public int ServingsQuantity { get; set; }
 
         [ForeignKey(nameof(UserOwner))]
-        public string UserOwnerId { get; set; }
-        public ApplicationUser UserOwner { get; set; }
+        [Required]
+        public string UserOwnerId { get; set; } = null!;
+        public ApplicationUser UserOwner { get; set; } = null!;
 
-        public IEnumerable<ApplicationUser> UsersFavoriteRecipes { get; set; }
+        public virtual ICollection<ApplicationUser> UsersFavoriteRecipes { get; set; }
     }
 }

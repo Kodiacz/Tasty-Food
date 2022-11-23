@@ -10,4 +10,8 @@
     <ProjectReference Include="..\TastyFood.Infrastructure\TastyFood.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\DirectionModels\" />
+  </ItemGroup>
+
 </Project>

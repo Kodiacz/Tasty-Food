@@ -3,13 +3,14 @@
     using Microsoft.AspNetCore.Identity;
     using System.ComponentModel.DataAnnotations;
     using static TastyFood.Infrastructure.Data.DataConstants.ApplicationUserConstants;
+
     public class ApplicationUser : IdentityUser
     {
         public ApplicationUser()
         {
-            this.ShoppingLists = new List<ShoppingList>();
-            this.OwnRecipes = new List<Recipe>();
-            this.FavoriteRecipes = new List<Recipe>();
+            this.ShoppingLists = new HashSet<ShoppingList>();
+            this.OwnRecipes = new HashSet<Recipe>();
+            this.FavoriteRecipes = new HashSet<Recipe>();
         }
 
         [Required]
@@ -20,10 +21,10 @@
         [StringLength(LastNameMaxLength)]
         public string LastName { get; set; } = null!;
 
-        public IEnumerable<ShoppingList> ShoppingLists { get; set; }
+        public virtual ICollection<ShoppingList> ShoppingLists { get; set; }
 
-        public IEnumerable<Recipe> OwnRecipes { get; set; }
+        public virtual ICollection<Recipe> OwnRecipes { get; set; }
 
-        public IEnumerable<Recipe> FavoriteRecipes { get; set; }
+        public virtual ICollection<Recipe> FavoriteRecipes { get; set; }
     }
 }

@@ -29,8 +29,6 @@
             base.OnModelCreating(builder);
         }
 
-        public DbSet<Category> Categories { get; set; } = null!;
-
         public DbSet<Detail> Details { get; set; } = null!;
 
         public DbSet<Direction> Directions { get; set; } = null!;

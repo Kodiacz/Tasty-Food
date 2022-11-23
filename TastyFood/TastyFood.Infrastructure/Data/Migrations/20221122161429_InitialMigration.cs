@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace TastyFood.Infrastructure.Migrations
+namespace TastyFood.Infrastructure.Data.Migrations
 {
     public partial class InitialMigration : Migration
     {
@@ -48,35 +48,6 @@ namespace TastyFood.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Categories",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Type = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Categories", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Details",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    PreparationTime = table.Column<int>(type: "int", nullable: false),
-                    CookTime = table.Column<int>(type: "int", nullable: false),
-                    AdditionalTime = table.Column<int>(type: "int", nullable: false),
-                    ServingsQuantity = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Details", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -195,7 +166,10 @@ namespace TastyFood.Infrastructure.Migrations
                     Description = table.Column<string>(type: "nvarchar(550)", maxLength: 550, nullable: false),
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    DetailsId = table.Column<int>(type: "int", nullable: false),
+                    PreparationTime = table.Column<int>(type: "int", nullable: false),
+                    CookTime = table.Column<int>(type: "int", nullable: false),
+                    AdditionalTime = table.Column<int>(type: "int", nullable: false),
+                    ServingsQuantity = table.Column<int>(type: "int", nullable: false),
                     UserOwnerId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
@@ -207,10 +181,23 @@ namespace TastyFood.Infrastructure.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ShoppingLists",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ShoppingLists", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Recipes_Details_DetailsId",
-                        column: x => x.DetailsId,
-                        principalTable: "Details",
+                        name: "FK_ShoppingLists_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -265,9 +252,10 @@ namespace TastyFood.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    Product = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     Quantity = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    RecipeId = table.Column<int>(type: "int", nullable: false)
+                    RecipeId = table.Column<int>(type: "int", nullable: false),
+                    ShoppingListId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -278,61 +266,11 @@ namespace TastyFood.Infrastructure.Migrations
                         principalTable: "Recipes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Products",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    CategoryId = table.Column<int>(type: "int", nullable: false),
-                    IngredientId = table.Column<int>(type: "int", nullable: false),
-                    ShoppingListId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Products", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Products_Categories_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "Categories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Products_Ingredients_IngredientId",
-                        column: x => x.IngredientId,
-                        principalTable: "Ingredients",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ShoppingLists",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ProductId = table.Column<int>(type: "int", nullable: false),
-                    Quantity = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ShoppingLists", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ShoppingLists_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ShoppingLists_Products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Products",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_Ingredients_ShoppingLists_ShoppingListId",
+                        column: x => x.ShoppingListId,
+                        principalTable: "ShoppingLists",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
@@ -385,34 +323,14 @@ namespace TastyFood.Infrastructure.Migrations
                 column: "RecipeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Ingredients_ProductId",
-                table: "Ingredients",
-                column: "ProductId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Ingredients_RecipeId",
                 table: "Ingredients",
                 column: "RecipeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Products_CategoryId",
-                table: "Products",
-                column: "CategoryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Products_IngredientId",
-                table: "Products",
-                column: "IngredientId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Products_ShoppingListId",
-                table: "Products",
+                name: "IX_Ingredients_ShoppingListId",
+                table: "Ingredients",
                 column: "ShoppingListId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Recipes_DetailsId",
-                table: "Recipes",
-                column: "DetailsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Recipes_UserOwnerId",
@@ -420,54 +338,13 @@ namespace TastyFood.Infrastructure.Migrations
                 column: "UserOwnerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ShoppingLists_ProductId",
-                table: "ShoppingLists",
-                column: "ProductId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_ShoppingLists_UserId",
                 table: "ShoppingLists",
                 column: "UserId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Ingredients_Products_ProductId",
-                table: "Ingredients",
-                column: "ProductId",
-                principalTable: "Products",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Products_ShoppingLists_ShoppingListId",
-                table: "Products",
-                column: "ShoppingListId",
-                principalTable: "ShoppingLists",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Recipes_AspNetUsers_UserOwnerId",
-                table: "Recipes");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_ShoppingLists_AspNetUsers_UserId",
-                table: "ShoppingLists");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Ingredients_Recipes_RecipeId",
-                table: "Ingredients");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Ingredients_Products_ProductId",
-                table: "Ingredients");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_ShoppingLists_Products_ProductId",
-                table: "ShoppingLists");
-
             migrationBuilder.DropTable(
                 name: "ApplicationUserRecipe");
 
@@ -490,28 +367,19 @@ namespace TastyFood.Infrastructure.Migrations
                 name: "Directions");
 
             migrationBuilder.DropTable(
-                name: "AspNetRoles");
+                name: "Ingredients");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "Recipes");
 
             migrationBuilder.DropTable(
-                name: "Details");
-
-            migrationBuilder.DropTable(
-                name: "Products");
-
-            migrationBuilder.DropTable(
-                name: "Categories");
-
-            migrationBuilder.DropTable(
-                name: "Ingredients");
-
-            migrationBuilder.DropTable(
                 name: "ShoppingLists");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
         }
     }
 }

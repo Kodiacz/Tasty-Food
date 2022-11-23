@@ -10,17 +10,22 @@
         [Key]
         public int Id { get; set; }
 
-
-        [ForeignKey(nameof(Product))]
-        public int ProductId { get; set; }
-        public Product Product { get; set; }
+        [Required]
+        [StringLength(NameMaxLength)]
+        public string Product { get; set; } = null!;
 
         [Required]
         [StringLength(QuantityMaxLength, MinimumLength = QuantityMinLength)]
-        public string Quantity { get; set; }
+        public string Quantity { get; set; } = null!;
 
         [ForeignKey(nameof(Recipe))]
+        [Required]
         public int RecipeId { get; set; }
-        public Recipe Recipe { get; set; }
+        public Recipe Recipe { get; set; } = null!;
+
+        [ForeignKey(nameof(ShoppingList))]
+        [Required]
+        public int ShoppingListId { get; set; }
+        public ShoppingList ShoppingList { get; set; } = null!;
     }
 }

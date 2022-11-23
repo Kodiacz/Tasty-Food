@@ -5,11 +5,12 @@
 
     public class CreateIngredientViewModel
     {
-        public CreateProductViewModel Product { get; set; }
-
+        [Required]
+        [StringLength(NameMaxLength)]
+        public string Product { get; set; } = null!;
 
         [Required]
         [StringLength(QuantityMaxLength, MinimumLength = QuantityMinLength)]
-        public string Quantity { get; set; }
+        public string Quantity { get; set; } = null!;
     }
 }
