@@ -27,17 +27,7 @@
         [Required]
         public string ImageUrl { get; set; } = null!;
 
-        public bool IsDeleted { get; set; } = false;
-
-        [Required]
-        public ICollection<Ingredient> Ingredients { get; set; } 
-
-        public ICollection<Direction> Directions { get; set; }
-
-
-        //[ForeignKey(nameof(Details))]
-        //public int DetailsId { get; set; }
-        //public Detail? Details { get; set; }
+        public bool IsActive { get; set; } = true;
 
         [Required]
         public int PreparationTime { get; set; }
@@ -50,6 +40,11 @@
 
         [Required]
         public int ServingsQuantity { get; set; }
+
+        [Required]
+        public ICollection<Ingredient> Ingredients { get; set; } 
+
+        public ICollection<Direction> Directions { get; set; }
 
         [ForeignKey(nameof(UserOwner))]
         [Required]

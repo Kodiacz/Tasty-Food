@@ -18,13 +18,13 @@
         [StringLength(QuantityMaxLength, MinimumLength = QuantityMinLength)]
         public string Quantity { get; set; } = null!;
 
-        [ForeignKey(nameof(Recipe))]
         [Required]
+        [ForeignKey(nameof(Recipe))]
         public int RecipeId { get; set; }
         public Recipe Recipe { get; set; } = null!;
 
-        [ForeignKey(nameof(ShoppingList))]
         [Required]
+        [ForeignKey(nameof(ShoppingList))]
         public int ShoppingListId { get; set; }
         public ShoppingList ShoppingList { get; set; } = null!;
     }
