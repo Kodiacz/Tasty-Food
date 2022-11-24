@@ -15,6 +15,7 @@
         [Required]
         [ForeignKey(nameof(User))]
         public string UserId { get; set; } = null!;
+        [InverseProperty(nameof(ApplicationUser.ShoppingLists))]
         public ApplicationUser User { get; set; } = null!;
 
         [Required]

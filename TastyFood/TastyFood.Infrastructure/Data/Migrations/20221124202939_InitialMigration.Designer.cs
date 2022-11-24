@@ -12,7 +12,7 @@ using TastyFood.Infrastructure.Data;
 namespace TastyFood.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(TastyFoodDbContext))]
-    [Migration("20221122161429_InitialMigration")]
+    [Migration("20221124202939_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -295,7 +295,7 @@ namespace TastyFood.Infrastructure.Data.Migrations
                     b.Property<int>("RecipeId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ShoppingListId")
+                    b.Property<int>("ShoppingListId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -459,11 +459,15 @@ namespace TastyFood.Infrastructure.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TastyFood.Infrastructure.Data.Entities.ShoppingList", null)
+                    b.HasOne("TastyFood.Infrastructure.Data.Entities.ShoppingList", "ShoppingList")
                         .WithMany("Ingredients")
-                        .HasForeignKey("ShoppingListId");
+                        .HasForeignKey("ShoppingListId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Recipe");
+
+                    b.Navigation("ShoppingList");
                 });
 
             modelBuilder.Entity("TastyFood.Infrastructure.Data.Entities.Recipe", b =>

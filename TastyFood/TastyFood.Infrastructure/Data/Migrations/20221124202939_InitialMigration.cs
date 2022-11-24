@@ -255,7 +255,7 @@ namespace TastyFood.Infrastructure.Data.Migrations
                     Product = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     Quantity = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     RecipeId = table.Column<int>(type: "int", nullable: false),
-                    ShoppingListId = table.Column<int>(type: "int", nullable: true)
+                    ShoppingListId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -270,7 +270,8 @@ namespace TastyFood.Infrastructure.Data.Migrations
                         name: "FK_Ingredients_ShoppingLists_ShoppingListId",
                         column: x => x.ShoppingListId,
                         principalTable: "ShoppingLists",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
