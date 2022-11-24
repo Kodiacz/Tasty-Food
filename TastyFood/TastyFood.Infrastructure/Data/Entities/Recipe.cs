@@ -54,8 +54,10 @@
         [ForeignKey(nameof(UserOwner))]
         [Required]
         public string UserOwnerId { get; set; } = null!;
+        [InverseProperty(nameof(ApplicationUser.OwnRecipes))]
         public ApplicationUser UserOwner { get; set; } = null!;
 
+        [InverseProperty(nameof(ApplicationUser.FavoriteRecipes))]
         public virtual ICollection<ApplicationUser> UsersFavoriteRecipes { get; set; }
     }
 }
