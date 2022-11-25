@@ -1,5 +1,53 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model IEnumerable<OwnRecipesViewModel>
+
 @{
+    ViewBag.Title = "Your favorite recipes";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+@if (@Model.Count() == 0)
+{
+    <h1 class="text-center">You don't have recipes yet <i class="bi bi-emoji-frown"></i></h1>
+}
+else
+{
+    int i = Model.Count();
+
+    <div class="row">
+        <ul class="">
+            @foreach (var item in Model)
+            {
+                string cardBackground;
+                string btnBacground;
+
+                if (i % 2 == 0)
+                {
+                    cardBackground = "bg-primary";
+                    btnBacground = "btn-secondary";
+                }
+                else
+                {
+                    cardBackground = "bg-secondary";
+                    btnBacground = "btn-primary";
+                }
+
+                i++;
+
+                <li class="list-group-item">
+                    <div class="col">
+                        <div class="card text-white @cardBackground" style="width: 18rem;">
+                            <img src="@item.ImageUrl" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Card title</h5>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <a href="#" class="btn @btnBacground">Read more</a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            }
+        </ul>
+    </div>
 }

@@ -2,6 +2,6 @@
 {
     public static class DirectionConstants
     {
-        public const int StepMaxLength = 300;
+        public const int StepMaxLength = 450;
     }
 }

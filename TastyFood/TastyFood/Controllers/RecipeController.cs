@@ -8,14 +8,10 @@ namespace TastyFood.Controllers
     public class RecipeController : Controller
     {
         private readonly IRecipeService recipeService;
-        private readonly string currentUserId;
-        private readonly string currentUserName;
 
         public RecipeController(IRecipeService recipeService)
         {
             this.recipeService = recipeService;
-            this.currentUserId = User.Id();
-            this.currentUserName = User.Identity.Name;
         }
 
         [HttpGet]
@@ -30,15 +26,19 @@ namespace TastyFood.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateRecipeViewModel model)
         {
-            await this.recipeService.CreateRecipe(model, this.currentUserId);
+            var currentUserId = User.Id();
+            
+            await this.recipeService.CreateRecipe(model, currentUserId);
 
             return RedirectToAction("Index", "Home");
         }
 
-        [HttpGet]
         public async Task<IActionResult> MyRecipes()
         {
-            var model = await this.recipeService.GetAllUserOwnRecipes(this.currentUserId, this.currentUserName);
+            var currentUserId = User.Id();
+            var currentUserName = User?.Identity?.Name;
+
+            var model = await this.recipeService.GetAllUserOwnRecipes(currentUserId, currentUserName);
 
             return View(model);
         }
