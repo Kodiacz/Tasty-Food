@@ -26,7 +26,7 @@
         }
 
         /// <summary>
-        /// Create a recipe and add it to the database
+        /// Creates a recipe and adds it to the database
         /// </summary>
         /// <returns></returns>
         public async Task CreateRecipe(CreateRecipeViewModel model, string currentUserId)

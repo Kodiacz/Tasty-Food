@@ -32,5 +32,10 @@ namespace TastyFood.Controllers
 
             return RedirectToAction("Index", "Home");
         }
+
+        public async Task<IActionResult> MyRecipes()
+        {
+
+        }
     }
 }
