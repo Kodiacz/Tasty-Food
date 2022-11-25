@@ -1,7 +1,6 @@
 ﻿namespace TastyFood.Core.Contracts
 {
     using System.Threading.Tasks;
-    using TastyFood.Core.Models.IngredientModels.CreateModels;
     using TastyFood.Core.Models.RecipeModels;
 
     public interface IRecipeService
@@ -24,6 +23,6 @@
         /// Creates a OwnRecipesViewModel();
         /// </summary>
         /// <returns>returns IEnumerable<OwnRecipesViewModel></returns>
-        IEnumerable<OwnRecipesViewModel> GetAllUserOwnRecipes(string currentUserId, string currentUserName);
+        Task<IEnumerable<OwnRecipesViewModel>> GetAllUserOwnRecipes(string currentUserId, string currentUserName);
     }
 }

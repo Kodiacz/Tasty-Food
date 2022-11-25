@@ -30,14 +30,17 @@ namespace TastyFood.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateRecipeViewModel model)
         {
-            await this.recipeService.CreateRecipe(model, currentUserId);
+            await this.recipeService.CreateRecipe(model, this.currentUserId);
 
             return RedirectToAction("Index", "Home");
         }
 
+        [HttpGet]
         public async Task<IActionResult> MyRecipes()
         {
-            var model = this.recipeService.GetAllUserOwnRecipes(currentUserId, currentUserName);
+            var model = await this.recipeService.GetAllUserOwnRecipes(this.currentUserId, this.currentUserName);
+
+            return View(model);
         }
     }
 }
