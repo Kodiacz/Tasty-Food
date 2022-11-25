@@ -1,16 +1,16 @@
-﻿namespace TastyFood.Core.Models.RecipeModels.CreateModels
+﻿namespace TastyFood.Core.Models.RecipeModels
 {
     using System.ComponentModel.DataAnnotations;
-    using TastyFood.Core.Models.DirectionModels.CreateModels;
-    using TastyFood.Core.Models.IngredientModels.CreateModels;
+    using TastyFood.Core.Models.DirectionModels;
+    using TastyFood.Core.Models.IngredientModels;
     using static TastyFood.Infrastructure.Data.DataConstants.RecipeConstants;
 
     public class CreateRecipeViewModel
     {
         public CreateRecipeViewModel()
         {
-            this.Ingredients = new List<CreateIngredientViewModel>();
-            this.Directions = new List<CreateDirectionViewModel>();
+            Ingredients = new List<IngredientViewModel>();
+            Directions = new List<DirectionViewModel>();
         }
 
         [Required]
@@ -38,8 +38,8 @@
         [Range(ServingsQuantityMinLength, ServingsQuantityMaxLength)]
         public int ServingsQuantity { get; set; }
 
-        public IEnumerable<CreateIngredientViewModel> Ingredients { get; set; }
+        public IEnumerable<IngredientViewModel> Ingredients { get; set; }
 
-        public IEnumerable<CreateDirectionViewModel> Directions { get; set; }
+        public IEnumerable<DirectionViewModel> Directions { get; set; }
     }
 }

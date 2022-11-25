@@ -1,9 +1,11 @@
 ﻿namespace TastyFood.Core.Services
 {
+    using Microsoft.EntityFrameworkCore;
+    using System.Collections.Generic;
     using TastyFood.Core.Contracts;
-    using TastyFood.Core.Models.IngredientModels.CreateModels;
-    using TastyFood.Core.Models.RecipeModels.CreateModels;
-    using TastyFood.Infrastructure.Data;
+    using TastyFood.Core.Models.DirectionModels;
+    using TastyFood.Core.Models.IngredientModels;
+    using TastyFood.Core.Models.RecipeModels;
     using TastyFood.Infrastructure.Data.Common;
     using TastyFood.Infrastructure.Data.Entities;
 
@@ -70,6 +72,41 @@
 
             await this.repo.AddAsync(recipe);
             await this.repo.SaveChangesAsync();
+        }
+
+        /// <summary>
+        /// Creates a OwnRecipesViewModel();
+        /// </summary>
+        /// <returns>returns IEnumerable<OwnRecipesViewModel></returns>
+        public async Task<IEnumerable<OwnRecipesViewModel>> GetAllUserOwnRecipes(string currentUserId, string currentUserName)
+        {
+            var model = await this.repo.All<Recipe>()
+                .Include(r => r.Ingredients)
+                .Include(r => r.Directions)
+                .Where(r => r.IsActive && r.UserOwnerId == currentUserId)
+                .Select(r => new OwnRecipesViewModel
+                {
+                    Title = r.Title,
+                    Creator = currentUserName,
+                    Description = r.Description,
+                    ImageUrl = r.ImageUrl,
+                    PreparationTime = r.PreparationTime,
+                    CookTime = r.CookTime,
+                    AdditionalTime = r.AdditionalTime,
+                    ServingsQuantity = r.ServingsQuantity,
+                    Directions = r.Directions.Select(d => new DirectionViewModel
+                    {
+                        Step = d.Step,
+                    }),
+                    Ingredients = r.Ingredients.Select(i => new IngredientViewModel
+                    {
+                        Product = i.Product,
+                        Quantity = i.Quantity,
+                    }),
+                })
+                .ToListAsync();
+
+            return model;
         }
     }
 }

@@ -1,9 +1,9 @@
-﻿namespace TastyFood.Core.Models.IngredientModels.CreateModels
+﻿namespace TastyFood.Core.Models.IngredientModels
 {
     using System.ComponentModel.DataAnnotations;
     using static TastyFood.Infrastructure.Data.DataConstants.ProductConstants;
 
-    public class CreateIngredientViewModel
+    public class IngredientViewModel
     {
         [Required]
         [StringLength(NameMaxLength)]

@@ -2,14 +2,14 @@
 {
     using System.Threading.Tasks;
     using TastyFood.Core.Models.IngredientModels.CreateModels;
-    using TastyFood.Core.Models.RecipeModels.CreateModels;
+    using TastyFood.Core.Models.RecipeModels;
 
     public interface IRecipeService
     {
         // Create action methods
 
         /// <summary>
-        /// Creating a CreateRecipeViewModel
+        /// Creates a CreateRecipeViewModel
         /// </summary>
         /// <returns>Returns instance of CreateRecipeViewModel</returns>
         CreateRecipeViewModel CreateRecipeViewModel();
@@ -19,5 +19,11 @@
         /// </summary>
         /// <returns></returns>
         Task CreateRecipe(CreateRecipeViewModel model, string currentUserId);
+
+        /// <summary>
+        /// Creates a OwnRecipesViewModel();
+        /// </summary>
+        /// <returns>returns IEnumerable<OwnRecipesViewModel></returns>
+        IEnumerable<OwnRecipesViewModel> GetAllUserOwnRecipes(string currentUserId, string currentUserName);
     }
 }
