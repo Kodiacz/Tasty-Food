@@ -11,7 +11,7 @@
         {
             this.ShoppingLists = new HashSet<ShoppingList>();
             this.OwnRecipes = new HashSet<Recipe>();
-            this.FavoriteRecipes = new HashSet<Recipe>();
+            this.FavoriteRecipes = new HashSet<ApplicationUserFavoriteRecipe>();
         }
 
         [Required]
@@ -27,7 +27,6 @@
         [InverseProperty(nameof(Recipe.UserOwner))]
         public virtual ICollection<Recipe> OwnRecipes { get; set; }
 
-        [InverseProperty(nameof(Recipe.UsersFavoriteRecipes))]
-        public virtual ICollection<Recipe> FavoriteRecipes { get; set; }
+        public virtual ICollection<ApplicationUserFavoriteRecipe> FavoriteRecipes { get; set; }
     }
 }

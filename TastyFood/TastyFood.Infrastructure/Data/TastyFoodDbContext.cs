@@ -13,29 +13,33 @@
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            //builder.Entity<ApplicationUser>()
-            //    .HasMany(au => au.OwnRecipes)
-            //    .WithOne(or => or.UserOwner)
-            //    .HasForeignKey(or => or.UserOwnerId)
-            //    .OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<ApplicationUserFavoriteRecipe>()
+                .HasKey(ar => new { ar.ApplicationUserId, ar.RecipeId });
 
-            //builder.Entity<ApplicationUser>()
-            //    .HasMany(au => au.FavoriteRecipes)
-            //    .WithMany(fr => fr.UsersFavoriteRecipes);
+            builder.Entity<ApplicationUserFavoriteRecipe>()
+                .HasOne(ar => ar.User)
+                .WithMany(ar => ar.FavoriteRecipes)
+                .HasForeignKey(ar => ar.ApplicationUserId)
+                .OnDelete(DeleteBehavior.Restrict);
 
-            //builder.Entity<UserRecipe>()
-            //    .HasKey(ur => new { ur.UserId, ur.RecipeId });
+            builder.Entity<ApplicationUserFavoriteRecipe>()
+                .HasOne(ar => ar.FavoriteRecipe)
+                .WithMany(ar => ar.UsersFavoriteRecipes)
+                .HasForeignKey(ar => ar.RecipeId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Ingredient>()
+                .HasOne(i => i.ShoppingList)
+                .WithMany(i => i.Ingredients)
+                .OnDelete(DeleteBehavior.NoAction);
 
             base.OnModelCreating(builder);
         }
 
-        public DbSet<Detail> Details { get; set; } = null!;
 
         public DbSet<Direction> Directions { get; set; } = null!;
 
         public DbSet<Ingredient> Ingredients { get; set; } = null!;
-
-        public DbSet<Product> Products { get; set; } = null!;
 
         public DbSet<Recipe> Recipes { get; set; } = null!;
 

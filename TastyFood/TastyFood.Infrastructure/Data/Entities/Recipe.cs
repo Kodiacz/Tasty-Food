@@ -10,7 +10,7 @@
         {
             this.Ingredients = new HashSet<Ingredient>();
             this.Directions = new HashSet<Direction>();
-            this.UsersFavoriteRecipes = new HashSet<ApplicationUser>();
+            this.UsersFavoriteRecipes = new HashSet<ApplicationUserFavoriteRecipe>();
         }
 
         [Key]
@@ -41,9 +41,10 @@
         [Required]
         public int ServingsQuantity { get; set; }
 
-        [Required]
+        [InverseProperty(nameof(Ingredient.Recipe))]
         public ICollection<Ingredient> Ingredients { get; set; } 
 
+        [InverseProperty(nameof(Ingredient.Recipe))]
         public ICollection<Direction> Directions { get; set; }
 
         [ForeignKey(nameof(UserOwner))]
@@ -52,7 +53,6 @@
         [InverseProperty(nameof(ApplicationUser.OwnRecipes))]
         public ApplicationUser UserOwner { get; set; } = null!;
 
-        [InverseProperty(nameof(ApplicationUser.FavoriteRecipes))]
-        public virtual ICollection<ApplicationUser> UsersFavoriteRecipes { get; set; }
+        public virtual ICollection<ApplicationUserFavoriteRecipe> UsersFavoriteRecipes { get; set; }
     }
 }

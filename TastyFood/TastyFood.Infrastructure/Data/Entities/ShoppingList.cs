@@ -18,7 +18,6 @@
         [InverseProperty(nameof(ApplicationUser.ShoppingLists))]
         public ApplicationUser User { get; set; } = null!;
 
-        [Required]
         public virtual ICollection<Ingredient> Ingredients { get; set; }
     }
 }
