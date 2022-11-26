@@ -1,11 +1,13 @@
 ﻿namespace TastyFood.Core.Services
 {
-    using Microsoft.EntityFrameworkCore;
     using System.Collections.Generic;
+
+    using Microsoft.EntityFrameworkCore;
+
     using TastyFood.Core.Contracts;
+    using TastyFood.Core.Models.RecipeModels;
     using TastyFood.Core.Models.DirectionModels;
     using TastyFood.Core.Models.IngredientModels;
-    using TastyFood.Core.Models.RecipeModels;
     using TastyFood.Infrastructure.Data.Common;
     using TastyFood.Infrastructure.Data.Entities;
 
@@ -104,24 +106,27 @@
         /// <returns>DetailRecipeViewModel with all the needed data</returns>
         public async Task<DetailRecipeViewModel> GetRecipeWithIdAsync(int recipeId, string currentUserName)
         {
-            Recipe entity = await this.repo.GetByIdAsync<Recipe>(recipeId);
+            Recipe recipeEntity = await this.repo.GetByIdAsync<Recipe>(recipeId);
+
+            ICollection<Ingredient> ingredientsEntities = this.repo.All<Ingredient>().Where(i => i.RecipeId == recipeId).ToHashSet();
+            ICollection<Direction> directionsEntities = this.repo.All<Direction>().Where(d => d.RecipeId == recipeId).ToHashSet();
 
             return new DetailRecipeViewModel
             {
-                Title = entity.Title,
+                Title = recipeEntity.Title,
                 Creator = currentUserName,
-                Description = entity.Description,
-                ImageUrl = entity.ImageUrl,
-                PreparationTime = entity.PreparationTime,
-                CookTime = entity.CookTime,
-                AdditionalTime = entity.AdditionalTime,
-                ServingsQuantity = entity.ServingsQuantity,
-                Ingredients = entity.Ingredients.Select(i => new IngredientViewModel
+                Description = recipeEntity.Description,
+                ImageUrl = recipeEntity.ImageUrl,
+                PreparationTime = recipeEntity.PreparationTime,
+                CookTime = recipeEntity.CookTime,
+                AdditionalTime = recipeEntity.AdditionalTime,
+                ServingsQuantity = recipeEntity.ServingsQuantity,
+                Ingredients = ingredientsEntities.Select(i => new IngredientViewModel
                 {
                     Product = i.Product,
                     Quantity = i.Quantity,
                 }).ToList(),
-                Directions = entity.Directions.Select(d => new DirectionViewModel
+                Directions = directionsEntities.Select(d => new DirectionViewModel
                 {
                     Step = d.Step,
                 }).ToList(),
