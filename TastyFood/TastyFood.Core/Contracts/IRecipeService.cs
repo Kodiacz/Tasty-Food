@@ -20,9 +20,9 @@
         Task CreateRecipe(CreateRecipeViewModel model, string currentUserId);
 
         /// <summary>
-        /// Creates a OwnRecipesViewModel();
+        /// Creates a collection of AllOwnRecipeViewModel 
         /// </summary>
         /// <returns>returns IEnumerable<OwnRecipesViewModel></returns>
-        Task<IEnumerable<DetailRecipeViewModel>> GetAllUserOwnRecipes(string currentUserId, string currentUserName);
+        Task<IEnumerable<AllOwnRecipeViewModel>> GetAllUserOwnRecipes(string currentUserId, string currentUserName);
     }
 }

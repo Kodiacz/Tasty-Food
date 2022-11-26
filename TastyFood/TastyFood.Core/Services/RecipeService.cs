@@ -75,34 +75,21 @@
         }
 
         /// <summary>
-        /// Creates a OwnRecipesViewModel();
+        /// Creates a collection of AllOwnRecipeViewModel 
         /// </summary>
         /// <returns>returns IEnumerable<OwnRecipesViewModel></returns>
-        public async Task<IEnumerable<DetailRecipeViewModel>> GetAllUserOwnRecipes(string currentUserId, string currentUserName)
+        public async Task<IEnumerable<AllOwnRecipeViewModel>> GetAllUserOwnRecipes(string currentUserId, string currentUserName)
         {
             var model = await this.repo.All<Recipe>()
                 .Include(r => r.Ingredients)
                 .Include(r => r.Directions)
                 .Where(r => r.IsActive && r.UserOwnerId == currentUserId)
-                .Select(r => new DetailRecipeViewModel
+                .Select(r => new AllOwnRecipeViewModel
                 {
+                    Id = r.Id,
                     Title = r.Title,
-                    Creator = currentUserName,
                     Description = r.Description,
                     ImageUrl = r.ImageUrl,
-                    PreparationTime = r.PreparationTime,
-                    CookTime = r.CookTime,
-                    AdditionalTime = r.AdditionalTime,
-                    ServingsQuantity = r.ServingsQuantity,
-                    Directions = r.Directions.Select(d => new DirectionViewModel
-                    {
-                        Step = d.Step,
-                    }),
-                    Ingredients = r.Ingredients.Select(i => new IngredientViewModel
-                    {
-                        Product = i.Product,
-                        Quantity = i.Quantity,
-                    }),
                 })
                 .ToListAsync();
 
