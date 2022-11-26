@@ -16,21 +16,20 @@ else
     int i = Model.Count();
 
     <div class="row">
-        @*<ul class="">*@
         @foreach (var recipe in Model)
         {
             string cardBackground;
-            string btnBacground;
+            string readMoreBtnBackground;
 
             if (i % 2 == 0)
             {
-                cardBackground = "bg-primary";
-                btnBacground = "btn-secondary";
+                cardBackground = "bg-info";
+                readMoreBtnBackground = "btn-secondary";
             }
             else
             {
                 cardBackground = "bg-secondary";
-                btnBacground = "btn-primary";
+                readMoreBtnBackground = "btn-info";
             }
 
             i++;
@@ -38,10 +37,13 @@ else
             <div class="col-sm-4">
                 <div class="card text-white @cardBackground my-3" style="width: 18rem;">
                     <img src="@recipe.ImageUrl" class="card-img-top" alt="...">
-                    <div class="card-body">
+                    <div class="card-body shadow-lg rounded">
                         <h5 class="card-title">@recipe.Title</h5>
                         <p class="card-text">@recipe.Description</p>
-                        <a href="#" class="btn @btnBacground">Read more</a>
+                        <a asp-controller="Recipe" asp-action="Detail" asp-route-id="@recipe.Id" class="btn @readMoreBtnBackground text-dark">Read more</a>
+                        <a asp-controller="Recipe" asp-action="Edit" asp-route-id="@recipe.Id" class="btn btn-warning text-dark">Edit</a>
+                        <a asp-controller="Recipe" asp-action="Delete" asp-route-id="@recipe.Id" class="btn btn-dark my-1 text-danger">Delete</a>
+
                     </div>
                 </div>
             </div>
