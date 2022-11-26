@@ -1,4 +1,4 @@
-﻿@model IEnumerable<OwnRecipesViewModel>
+﻿@model IEnumerable<DetailRecipeViewModel>
 
 @{
     ViewBag.Title = "Your favorite recipes";
@@ -16,38 +16,36 @@ else
     int i = Model.Count();
 
     <div class="row">
-        <ul class="">
-            @foreach (var item in Model)
+        @*<ul class="">*@
+        @foreach (var recipe in Model)
+        {
+            string cardBackground;
+            string btnBacground;
+
+            if (i % 2 == 0)
             {
-                string cardBackground;
-                string btnBacground;
-
-                if (i % 2 == 0)
-                {
-                    cardBackground = "bg-primary";
-                    btnBacground = "btn-secondary";
-                }
-                else
-                {
-                    cardBackground = "bg-secondary";
-                    btnBacground = "btn-primary";
-                }
-
-                i++;
-
-                <li class="list-group-item">
-                    <div class="col">
-                        <div class="card text-white @cardBackground" style="width: 18rem;">
-                            <img src="@item.ImageUrl" class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                <a href="#" class="btn @btnBacground">Read more</a>
-                            </div>
-                        </div>
-                    </div>
-                </li>
+                cardBackground = "bg-primary";
+                btnBacground = "btn-secondary";
             }
-        </ul>
+            else
+            {
+                cardBackground = "bg-secondary";
+                btnBacground = "btn-primary";
+            }
+
+            i++;
+
+            <div class="col-sm-4">
+                <div class="card text-white @cardBackground my-3" style="width: 18rem;">
+                    <img src="@recipe.ImageUrl" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">@recipe.Title</h5>
+                        <p class="card-text">@recipe.Description</p>
+                        <a href="#" class="btn @btnBacground">Read more</a>
+                    </div>
+                </div>
+            </div>
+        }
+
     </div>
 }

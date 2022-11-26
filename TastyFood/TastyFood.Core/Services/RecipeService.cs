@@ -78,13 +78,13 @@
         /// Creates a OwnRecipesViewModel();
         /// </summary>
         /// <returns>returns IEnumerable<OwnRecipesViewModel></returns>
-        public async Task<IEnumerable<OwnRecipesViewModel>> GetAllUserOwnRecipes(string currentUserId, string currentUserName)
+        public async Task<IEnumerable<DetailRecipeViewModel>> GetAllUserOwnRecipes(string currentUserId, string currentUserName)
         {
             var model = await this.repo.All<Recipe>()
                 .Include(r => r.Ingredients)
                 .Include(r => r.Directions)
                 .Where(r => r.IsActive && r.UserOwnerId == currentUserId)
-                .Select(r => new OwnRecipesViewModel
+                .Select(r => new DetailRecipeViewModel
                 {
                     Title = r.Title,
                     Creator = currentUserName,
