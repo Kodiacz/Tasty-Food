@@ -4,9 +4,9 @@
     using TastyFood.Core.Models.DirectionModels;
     using TastyFood.Core.Models.IngredientModels;
 
-    public class OwnRecipesViewModel
+    public class DetailRecipeViewModel
     {
-        public OwnRecipesViewModel()
+        public DetailRecipeViewModel()
         {
             Ingredients = new List<IngredientViewModel>();
             Directions = new List<DirectionViewModel>();
