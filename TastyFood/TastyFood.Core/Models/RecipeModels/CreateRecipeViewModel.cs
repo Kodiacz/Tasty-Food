@@ -38,8 +38,8 @@
         [Range(ServingsQuantityMinLength, ServingsQuantityMaxLength)]
         public int ServingsQuantity { get; set; }
 
-        public IEnumerable<IngredientViewModel> Ingredients { get; set; }
+        public ICollection<IngredientViewModel> Ingredients { get; set; }
 
-        public IEnumerable<DirectionViewModel> Directions { get; set; }
+        public ICollection<DirectionViewModel> Directions { get; set; }
     }
 }

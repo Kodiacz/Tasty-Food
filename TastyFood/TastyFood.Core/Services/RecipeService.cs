@@ -31,7 +31,7 @@
         /// Creates a recipe and adds it to the database
         /// </summary>
         /// <returns></returns>
-        public async Task CreateRecipe(CreateRecipeViewModel model, string currentUserId)
+        public async Task CreateRecipeAsync(CreateRecipeViewModel model, string currentUserId)
         {
             var recipe = new Recipe()
             {
@@ -75,10 +75,11 @@
         }
 
         /// <summary>
-        /// Creates a collection of AllOwnRecipeViewModel 
+        /// Creates a collection of AllOwnRecipeViewModel
         /// </summary>
+        /// <param name="currentUserId">The id of the current User</param>
         /// <returns>returns IEnumerable<OwnRecipesViewModel></returns>
-        public async Task<IEnumerable<AllOwnRecipeViewModel>> GetAllUserOwnRecipes(string currentUserId, string currentUserName)
+        public async Task<IEnumerable<AllOwnRecipeViewModel>> GetAllUserOwnRecipesAsync(string currentUserId)
         {
             var model = await this.repo.All<Recipe>()
                 .Include(r => r.Ingredients)
@@ -94,6 +95,37 @@
                 .ToListAsync();
 
             return model;
+        }
+
+        /// <summary>
+        /// Gets the Recipe entity from the database and maps it to the view model
+        /// </summary>
+        /// <param name="recipeId">the id of the Recipe entity in the database</param>
+        /// <returns>DetailRecipeViewModel with all the needed data</returns>
+        public async Task<DetailRecipeViewModel> GetRecipeWithIdAsync(int recipeId, string currentUserName)
+        {
+            Recipe entity = await this.repo.GetByIdAsync<Recipe>(recipeId);
+
+            return new DetailRecipeViewModel
+            {
+                Title = entity.Title,
+                Creator = currentUserName,
+                Description = entity.Description,
+                ImageUrl = entity.ImageUrl,
+                PreparationTime = entity.PreparationTime,
+                CookTime = entity.CookTime,
+                AdditionalTime = entity.AdditionalTime,
+                ServingsQuantity = entity.ServingsQuantity,
+                Ingredients = entity.Ingredients.Select(i => new IngredientViewModel
+                {
+                    Product = i.Product,
+                    Quantity = i.Quantity,
+                }).ToList(),
+                Directions = entity.Directions.Select(d => new DirectionViewModel
+                {
+                    Step = d.Step,
+                }).ToList(),
+            };
         }
     }
 }

@@ -28,17 +28,25 @@ namespace TastyFood.Controllers
         {
             var currentUserId = User.Id();
             
-            await this.recipeService.CreateRecipe(model, currentUserId);
+            await this.recipeService.CreateRecipeAsync(model, currentUserId);
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(nameof(MyRecipes));
         }
 
         public async Task<IActionResult> MyRecipes()
         {
             var currentUserId = User.Id();
-            var currentUserName = User?.Identity?.Name;
 
-            var model = await this.recipeService.GetAllUserOwnRecipes(currentUserId, currentUserName);
+            var model = await this.recipeService.GetAllUserOwnRecipesAsync(currentUserId);
+
+            return View(model);
+        }
+
+
+        public async Task<IActionResult> Detail(int id)
+        {
+            var currentUserName = User?.Identity?.Name;
+            var model = await this.recipeService.GetRecipeWithIdAsync(id, currentUserName);
 
             return View(model);
         }
