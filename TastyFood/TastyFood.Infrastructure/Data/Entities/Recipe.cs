@@ -42,10 +42,10 @@
         public int ServingsQuantity { get; set; }
 
         [InverseProperty(nameof(Ingredient.Recipe))]
-        public ICollection<Ingredient> Ingredients { get; set; } 
+        public virtual ICollection<Ingredient> Ingredients { get; set; } 
 
         [InverseProperty(nameof(Ingredient.Recipe))]
-        public ICollection<Direction> Directions { get; set; }
+        public virtual ICollection<Direction> Directions { get; set; }
 
         [ForeignKey(nameof(UserOwner))]
         [Required]
