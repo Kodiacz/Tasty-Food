@@ -81,21 +81,23 @@
                 </h2>
                 <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample" style="">
                     <div class="accordion-body">
-                        <ul class="list-group">
-                            @foreach (var ingredient in Model.Ingredients)
-                            {
-                                string background = ingredientIterator % 2 == 0 ? "primary" : "secondary";
+                        <form class="form-group">
+                            <ul class="list-group">
+                                @foreach (var ingredient in Model.Ingredients)
+                                {
+                                    string background = ingredientIterator % 2 == 0 ? "primary" : "secondary";
+                                    string checkBoxId = $"{ingredientIterator}Checkbox";
 
-                                <li class="list-group-item bg-@background">
-                                    <input class="form-check-input me-1" type="checkbox" value="" id="firstCheckbox">
-                                    <label class="form-check-label" for="firstCheckbox">@ingredient.Product @ingredient.Quantity</label>
-                                </li>
+                                    <li class="list-group-item bg-@background">
+                                        <label class="form-check-label" for="firstCheckbox">@ingredient.Product @ingredient.Quantity</label>
+                                        <input asp-for="@ingredient.Product" class="form-check-input me-1" type="checkbox" value="@ingredient.Product @ingredient.Quantity" id="@checkBoxId">
+                                    </li>
 
-                                @{
                                     ingredientIterator++;
+
                                 }
-                            }
-                        </ul>
+                            </ul>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -137,9 +139,7 @@
                                 </div>
                             </div>
 
-                            @{
-                                stepIterator++;
-                            }
+                            stepIterator++;
                         }
                     </div>
                 </div>
@@ -147,3 +147,9 @@
         </div>
     </div>
 </div>
+
+@section scripts{
+    <script>
+
+    </script>
+}

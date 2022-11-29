@@ -37,6 +37,7 @@
         }
 
 
+        //TODO: Move before the methods
         public DbSet<Direction> Directions { get; set; } = null!;
 
         public DbSet<Ingredient> Ingredients { get; set; } = null!;
