@@ -121,11 +121,7 @@
                 CookTime = recipeEntity.CookTime,
                 AdditionalTime = recipeEntity.AdditionalTime,
                 ServingsQuantity = recipeEntity.ServingsQuantity,
-                Ingredients = ingredientsEntities.Select(i => new IngredientViewModel
-                {
-                    Product = i.Product,
-                    Quantity = i.Quantity,
-                }).ToList(),
+                Ingredients = ingredientsEntities.Select(i => new KeyValuePair<string, bool>($"{i.Product} - {i.Quantity}", false)).ToDictionary(x => x.Key, x => x.Value),
                 Directions = directionsEntities.Select(d => new DirectionViewModel
                 {
                     Step = d.Step,

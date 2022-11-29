@@ -8,7 +8,7 @@
     {
         public DetailRecipeViewModel()
         {
-            Ingredients = new List<IngredientViewModel>();
+            Ingredients = new Dictionary<string, bool>();
             Directions = new List<DirectionViewModel>();
         }
 
@@ -31,7 +31,7 @@
 
         public int ServingsQuantity { get; set; }
 
-        public ICollection<IngredientViewModel> Ingredients { get; set; }
+        public Dictionary<string, bool> Ingredients { get; set; }
 
         public ICollection<DirectionViewModel> Directions { get; set; }
     }

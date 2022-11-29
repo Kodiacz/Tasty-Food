@@ -81,7 +81,7 @@
                 </h2>
                 <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample" style="">
                     <div class="accordion-body">
-                        <form class="form-group">
+                        <form asp-controller="" asp-action="">
                             <ul class="list-group">
                                 @foreach (var ingredient in Model.Ingredients)
                                 {
@@ -89,14 +89,15 @@
                                     string checkBoxId = $"{ingredientIterator}Checkbox";
 
                                     <li class="list-group-item bg-@background">
-                                        <label class="form-check-label" for="firstCheckbox">@ingredient.Product @ingredient.Quantity</label>
-                                        <input asp-for="@ingredient.Product" class="form-check-input me-1" type="checkbox" value="@ingredient.Product @ingredient.Quantity" id="@checkBoxId">
+                                        <label class="form-check-label" for="firstCheckbox">@ingredient.Key</label>
+                                        <input asp-for="@ingredient.Value" class="form-check-input me-1" type="checkbox" value="@ingredient.Key" id="@checkBoxId">
                                     </li>
 
                                     ingredientIterator++;
 
                                 }
                             </ul>
+                            <button type="submit" class="btn btn-primary">Test</button>
                         </form>
                     </div>
                 </div>
