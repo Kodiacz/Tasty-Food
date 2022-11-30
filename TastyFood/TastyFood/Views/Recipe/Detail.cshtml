@@ -81,7 +81,7 @@
                 </h2>
                 <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample" style="">
                     <div class="accordion-body">
-                        <form asp-controller="" asp-action="">
+                        <form method="post">
                             <ul class="list-group">
                                 @foreach (var ingredient in Model.Ingredients)
                                 {
@@ -89,15 +89,17 @@
                                     string checkBoxId = $"{ingredientIterator}Checkbox";
 
                                     <li class="list-group-item bg-@background">
-                                        <label class="form-check-label" for="firstCheckbox">@ingredient.Key</label>
-                                        <input asp-for="@ingredient.Value" class="form-check-input me-1" type="checkbox" value="@ingredient.Key" id="@checkBoxId">
+                                        <input for="@ingredient.Value" class="form-check-input me-1 ingredients" type="checkbox" value="@ingredient.Key" id="@checkBoxId">
+                                        <label class="form-check-label" for="@ingredient.Key">@ingredient.Key</label>
                                     </li>
 
                                     ingredientIterator++;
-
                                 }
                             </ul>
-                            <button type="submit" class="btn btn-primary">Test</button>
+                            @*<a class="btn btn-info my-3" onclick="DownloadIngretients()">Add Ingedients &nbsp; <i class="bi bi-plus-circle"></i></a>*@
+
+                            <button type="submit" class="btn btn-primary my-2" asp-controller="ShoppingList" asp-action="Download">Download Ingredients</button>
+                            <button type="submit" class="btn btn-primary my-2" asp-controller="ShoppingList" asp-action="Save">Save Ingredients to shoppinglist</button>
                         </form>
                     </div>
                 </div>
@@ -151,6 +153,12 @@
 
 @section scripts{
     <script>
-
+        function DownloadIngretients() {
+            let inputs = document.querySelectorAll('.ingredients')
+            //debugger
+            for (let i = 0; i < inputs.length; i++) {
+                console.log(inputs[i].checked)
+            }
+        }
     </script>
 }

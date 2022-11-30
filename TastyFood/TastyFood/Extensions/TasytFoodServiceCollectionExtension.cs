@@ -1,8 +1,8 @@
 ﻿namespace Microsoft.Extensions.DependencyInjection
 {
     using TastyFood.Contracts;
+    using TastyFood.Core;
     using TastyFood.Core.Contracts;
-    using TastyFood.Core.Services;
     using TastyFood.Infrastructure.Data.Common;
     using TastyFood.Services;
 

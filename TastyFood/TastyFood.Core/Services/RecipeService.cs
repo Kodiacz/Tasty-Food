@@ -1,4 +1,4 @@
-﻿namespace TastyFood.Core.Services
+﻿namespace TastyFood.Core
 {
     using System.Collections.Generic;
 
@@ -11,6 +11,7 @@
     using TastyFood.Infrastructure.Data.Common;
     using TastyFood.Infrastructure.Data.Entities;
 
+#pragma warning disable IDE0003 
     public class RecipeService : IRecipeService
     {
         private readonly IRepository repo;
@@ -66,14 +67,14 @@
                     Step = modelDirection.Step,
                 };
 
-                await this.repo.AddAsync(direction);
+                await repo.AddAsync(direction);
 
                 recipe.Directions.Add(direction);
             }
 
 
-            await this.repo.AddAsync(recipe);
-            await this.repo.SaveChangesAsync();
+            await repo.AddAsync(recipe);
+            await repo.SaveChangesAsync();
         }
 
         /// <summary>
@@ -83,7 +84,7 @@
         /// <returns>returns IEnumerable<OwnRecipesViewModel></returns>
         public async Task<IEnumerable<AllOwnRecipeViewModel>> GetAllUserOwnRecipesAsync(string currentUserId)
         {
-            var model = await this.repo.All<Recipe>()
+            var model = await repo.All<Recipe>()
                 .Include(r => r.Ingredients)
                 .Include(r => r.Directions)
                 .Where(r => r.IsActive && r.UserOwnerId == currentUserId)
@@ -106,10 +107,10 @@
         /// <returns>DetailRecipeViewModel with all the needed data</returns>
         public async Task<DetailRecipeViewModel> GetRecipeWithIdAsync(int recipeId, string currentUserName)
         {
-            Recipe recipeEntity = await this.repo.GetByIdAsync<Recipe>(recipeId);
+            Recipe recipeEntity = await repo.GetByIdAsync<Recipe>(recipeId);
 
-            ICollection<Ingredient> ingredientsEntities = this.repo.All<Ingredient>().Where(i => i.RecipeId == recipeId).ToHashSet();
-            ICollection<Direction> directionsEntities = this.repo.All<Direction>().Where(d => d.RecipeId == recipeId).ToHashSet();
+            ICollection<Ingredient> ingredientsEntities = repo.All<Ingredient>().Where(i => i.RecipeId == recipeId).ToHashSet();
+            ICollection<Direction> directionsEntities = repo.All<Direction>().Where(d => d.RecipeId == recipeId).ToHashSet();
 
             return new DetailRecipeViewModel
             {
