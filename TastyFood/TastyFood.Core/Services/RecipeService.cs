@@ -133,5 +133,41 @@
                 }).ToList(),
             };
         }
+
+        /// <summary>
+        /// Creating an EditRecipeViewModel and assigning the proper values to it
+        /// </summary>
+        /// <param name="recipeId"></param>
+        /// <returns>Returning EditRecipeViewModel</returns>
+        public async Task<EditRecipeViewModel> CreateEditRecipeViewModelAsync(int recipeId)
+        {
+            var entity = await this.repo.AllReadonly<Recipe>()
+                .Include(r => r.Ingredients)
+                .Include(r => r.Directions)
+                .Where(r => r.IsActive && r.Id == recipeId)
+                .FirstOrDefaultAsync();
+
+            var model = new EditRecipeViewModel
+            {
+                Title = entity!.Title,
+                Description = entity.Description,
+                ImageUrl = entity.ImageUrl,
+                PreparationTime = entity.PreparationTime,
+                CookTime = entity.CookTime,
+                AdditionalTime = entity.AdditionalTime,
+                ServingsQuantity = entity.ServingsQuantity,
+                Ingredients = entity.Ingredients.Select(i => new IngredientViewModel
+                {
+                    Product = i.Product,
+                    Quantity = i.Quantity,
+                }).ToList(),
+                Directions = entity.Directions.Select(d => new DirectionViewModel
+                {
+                    Step = d.Step,
+                }).ToList(),
+            };
+
+            return model;
+        }
     }
 }

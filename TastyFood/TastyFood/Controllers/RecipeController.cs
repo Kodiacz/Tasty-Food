@@ -50,5 +50,19 @@ namespace TastyFood.Controllers
 
             return View(model);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var model = await this.recipeService.CreateEditRecipeViewModelAsync(id);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditRecipeViewModel model, int id)
+        {
+            return RedirectToAction(nameof(Detail), new { id = id });
+        }
     }
 }
