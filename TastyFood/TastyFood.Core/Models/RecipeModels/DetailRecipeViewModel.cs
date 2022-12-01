@@ -8,7 +8,7 @@
     {
         public DetailRecipeViewModel()
         {
-            Ingredients = new Dictionary<string, bool>();
+            Ingredients = new List<CheckBoxOptionViewModel>();
             Directions = new List<DirectionViewModel>();
         }
 
@@ -31,7 +31,9 @@
 
         public int ServingsQuantity { get; set; }
 
-        public Dictionary<string, bool> Ingredients { get; set; }
+        public ICollection<CheckBoxOptionViewModel> Ingredients { get; set; }
+
+        public ICollection<string> IngredientsOutput { get; set; }
 
         public ICollection<DirectionViewModel> Directions { get; set; }
     }

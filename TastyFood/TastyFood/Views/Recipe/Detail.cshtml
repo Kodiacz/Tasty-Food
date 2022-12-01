@@ -89,8 +89,17 @@
                                     string checkBoxId = $"{ingredientIterator}Checkbox";
 
                                     <li class="list-group-item bg-@background">
-                                        <input for="@ingredient.Value" class="form-check-input me-1 ingredients" type="checkbox" value="@ingredient.Key" id="@checkBoxId">
-                                        <label class="form-check-label" for="@ingredient.Key">@ingredient.Key</label>
+                                        <input class="form-check-input me-1 ingredients"
+                                               type="checkbox"
+                                               value="@ingredient.Value"
+                                               name="IngredientsOutPut"
+                                               id="Checkbox_@ingredientIterator"
+                                               checked="@ingredient.IsChecked">
+
+                                        <label class="form-check-label" 
+                                               for="Checkbox_@ingredientIterator">
+                                               @ingredient.Description
+                                        </label>
                                     </li>
 
                                     ingredientIterator++;

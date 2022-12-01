@@ -27,7 +27,7 @@ namespace TastyFood.Controllers
         public async Task<IActionResult> Create(CreateRecipeViewModel model)
         {
             var currentUserId = User.Id();
-            
+
             await this.recipeService.CreateRecipeAsync(model, currentUserId);
 
             return RedirectToAction(nameof(MyRecipes));
