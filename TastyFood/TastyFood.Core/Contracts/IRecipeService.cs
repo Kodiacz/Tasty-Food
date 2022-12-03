@@ -43,5 +43,13 @@
         /// <param name="recipeId"></param>
         /// <returns>Returning EditRecipeViewModel</returns>
         Task<EditRecipeViewModel> CreateEditRecipeViewModelAsync(int recipeId);
+
+        /// <summary>
+        /// Updating the Recipe entity in the database with the EditRecipeViewModel
+        /// </summary>
+        /// <param name="model">RecipeViewModel variable</param>
+        /// <param name="recipeId">Recipe id in the database</param>
+        /// <returns></returns>
+        Task UpdateRecipeAsync(EditRecipeViewModel model, int recipeId);
     }
 }

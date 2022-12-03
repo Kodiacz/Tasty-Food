@@ -169,5 +169,31 @@
 
             return model;
         }
+
+        public async Task UpdateRecipeAsync(EditRecipeViewModel model, int recipeId)
+        {
+            var entity = await this.repo.AllReadonly<Recipe>()
+                .Include(r => r.Ingredients)
+                .Include(r => r.Directions)
+                .Where(r => r.IsActive && r.Id == recipeId)
+                .FirstOrDefaultAsync();
+
+            entity!.Title = model.Title;
+            entity.Description = model.Description;
+            entity.ImageUrl = model.ImageUrl;
+            entity.PreparationTime = model.PreparationTime;
+            entity.CookTime = model.CookTime;
+            entity.AdditionalTime = model.AdditionalTime;
+            entity.ServingsQuantity = model.ServingsQuantity;
+            entity.Ingredients = model.Ingredients.Select(i => new Ingredient
+            {
+                Product = i.Product,
+                Quantity = i.Quantity,
+            }).ToHashSet();
+            entity.Directions = model.Directions.Select(d => new Direction
+            {
+                Step = d.Step
+            }).ToHashSet();
+        }
     }
 }

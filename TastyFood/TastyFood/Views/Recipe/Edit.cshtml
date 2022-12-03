@@ -1,0 +1,174 @@
+﻿@model EditRecipeViewModel
+
+@{
+    ViewBag.Title = "Edit Your Favorite Recipe";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<div class="row">
+    <div class="col-sm-1 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+        <form asp-controller="Recipe" asp-action="Edit" class="needs-validation" method="post">
+            <div class="form-group">
+                <label asp-for="@Model.Title" class="form-label">Title:</label>
+                <input asp-for="@Model.Title" class="form-control" aria-required="true" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Description" class="form-label mt-4">Description:</label>
+                <textarea asp-for="@Model.Description" class="form-control" aria-required="true" rows="5"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.ImageUrl" class="form-label">Image URL:</label>
+                <input asp-for="@Model.ImageUrl" class="form-control" aria-required="true" />
+                <span asp-validation-for="ImageUrl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="row-2">
+                    <div class="row">
+                        <div class="col">
+                            <label asp-for="@Model.PreparationTime" class="form-label">Preparation Time:</label>
+                            <input asp-for="@Model.PreparationTime" class="form-control" aria-required="true" />
+                            <span asp-validation-for="PreparationTime" class="text-danger"></span>
+                        </div>
+                        <div class="col">
+                            <label asp-for="@Model.CookTime" class="form-label">Cook Time:</label>
+                            <input asp-for="@Model.CookTime" class="form-control" aria-required="true" />
+                            <span asp-validation-for="CookTime" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label asp-for="@Model.AdditionalTime" class="form-label">Additional Time:</label>
+                            <input asp-for="@Model.AdditionalTime" class="form-control" aria-required="true" />
+                            <span asp-validation-for="AdditionalTime" class="text-danger"></span>
+                        </div>
+                        <div class="col">
+                            <label asp-for="@Model.ServingsQuantity" class="form-label">Servings:</label>
+                            <input asp-for="@Model.ServingsQuantity" class="form-control" aria-required="true" />
+                            <span asp-validation-for="ServingsQuantity" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="my-3 form-group" id="IngridientsDiv">
+                <hr />
+                @{
+                    int ingredientsIndex = 1;
+                }
+
+                @foreach (var ingredient in Model.Ingredients)
+                {
+                    int ingredientsIndexLastDigit = ingredientsIndex % 10;
+                    string prefix;
+
+                    switch (ingredientsIndexLastDigit)
+                    {
+                        case 1: prefix = "st"; break;
+                        case 2: prefix = "nd"; break;
+                        case 3: prefix = "rd"; break;
+                        default: prefix = "th"; break;
+                    }
+
+                    <p>Previous @ingredientsIndex@prefix Ingredient:</p>
+                    <div class='form-control'>
+                        <input asp-for="@ingredient.Product" name="Ingredients[@ingredientsIndex].Product type="text" placeholder='Product name e.g. potato' class="old-ingredients" />
+                    </div>
+                    <div class='form-control'>
+                        <input asp-for="@ingredient.Quantity" name='Ingredients[@ingredientsIndex].Quantity' type="text" placeholder='Product quantity e.g. 1.3' />
+                    </div>
+
+                    ingredientsIndex++;
+                }
+            </div>
+            <hr />
+            <a class="btn btn-info my-3" onclick="AddMoreIngredientFields()">Add Ingedients &nbsp; <i class="bi bi-plus-circle"></i></a>
+            <div class="my-3 form-group" id="DirectionsDiv">
+                <hr />
+                @{
+                    int stepsIndex = 1;
+                }
+
+                @foreach (var step in Model.Directions)
+                {
+                    int stepsIndexLastDigit = stepsIndex % 10;
+                    string prefix;
+
+                    switch (stepsIndexLastDigit)
+                    {
+                        case 1: prefix = "st"; break;
+                        case 2: prefix = "nd"; break;
+                        case 3: prefix = "rd"; break;
+                        default: prefix = "th"; break;
+                    }
+                    <p>Previous @stepsIndex@prefix Step:</p>
+                    <textarea asp-for="@step.Step" class='form-control old-steps' name='Directions[@stepsIndex].Step' aria-required='true' rows='5'></textarea>
+                    <span asp-validation-for="@step.Step" class="text-danger"></span>
+
+                    stepsIndex++;
+                }
+            </div>
+            <a class="btn btn-info my-3" onclick="AddMoreDirectionsFields()">Add Steps &nbsp; <i class="bi bi-plus-circle"></i></a>
+            <button class="btn btn-primary">Edit Recipe</button>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        var ingredientsIndex = document.querySelectorAll('.old-ingredients').length
+        var stepsIndex = document.querySelectorAll('.old-steps').length
+
+        function AddMoreIngredientFields() {
+            let prefix;
+
+            if (ingredientsIndex + 1 == 1) {
+                prefix = 'st';
+            } else if (ingredientsIndex + 1 == 2) {
+                prefix = 'nd';
+            } else if (ingredientsIndex + 1 == 3) {
+                prefix = 'rd';
+            } else {
+                prefix = 'th';
+            }
+
+            $("#IngridientsDiv")
+                .append(`<p>${ingredientsIndex + 1}${prefix} Ingredient:<p>
+                         <div class='form-control'>
+                            <input type='text' placeholder='Product name e.g. potato' name="Ingredients[${ingredientsIndex}].Product" />
+                         </div>
+                         <div class='form-control'>
+                            <input type='text' placeholder='Product quantity e.g. 1.3' name='Ingredients[${ingredientsIndex}].Quantity' />
+                         </div>
+                         <hr />`)
+            ingredientsIndex++
+        }
+
+        function AddMoreDirectionsFields() {
+            console.log(stepsIndex)
+            let suffix
+            let lastDigit = stepsIndex % 10
+
+            if (lastDigit + 1 == 1) {
+                suffix = 'st';
+            } else if (lastDigit + 1 == 2) {
+                suffix = 'nd';
+            } else if (lastDigit + 1 == 3) {
+                suffix = 'rd';
+            } else {
+                suffix = 'th';
+            }
+
+            $('#DirectionsDiv').append(`
+                                        <p>${stepsIndex + 1}${suffix} Step:<p>
+                                        <textarea class='form-control' name='Directions[${stepsIndex}].Step' aria-required='true' rows='5'></textarea>
+                                        <span asp-validation-for="Directions[${stepsIndex}].Step" class="text-danger"></span>`);
+            stepsIndex++
+        }
+    </script>
+
+    <partial name="_ValidationScriptsPartial" />
+}

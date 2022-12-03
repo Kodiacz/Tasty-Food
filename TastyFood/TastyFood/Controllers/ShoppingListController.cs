@@ -22,5 +22,11 @@
 
             return File(Encoding.UTF8.GetBytes(sb.ToString().TrimEnd()), "text/plain");
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Save()
+        {
+            return View();
+        }
     }
 }

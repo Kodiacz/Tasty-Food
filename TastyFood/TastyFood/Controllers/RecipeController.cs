@@ -62,6 +62,8 @@ namespace TastyFood.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(EditRecipeViewModel model, int id)
         {
+            await this.recipeService.UpdateRecipeAsync(model, id);
+
             return RedirectToAction(nameof(Detail), new { id = id });
         }
     }
