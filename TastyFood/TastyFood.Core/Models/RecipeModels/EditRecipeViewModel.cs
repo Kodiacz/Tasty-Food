@@ -33,8 +33,8 @@ namespace TastyFood.Core.Models.RecipeModels
         [Required]
         public int ServingsQuantity { get; set; }
 
-        public ICollection<IngredientViewModel> Ingredients { get; set; }
+        public List<IngredientViewModel> Ingredients { get; set; }
 
-        public ICollection<DirectionViewModel> Directions { get; set; }
+        public List<DirectionViewModel> Directions { get; set; }
     }
 }

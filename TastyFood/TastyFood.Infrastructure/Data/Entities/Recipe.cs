@@ -8,8 +8,8 @@
     {
         public Recipe()
         {
-            this.Ingredients = new HashSet<Ingredient>();
-            this.Directions = new HashSet<Direction>();
+            this.Ingredients = new List<Ingredient>();
+            this.Directions = new List<Direction>();
             this.UsersFavoriteRecipes = new HashSet<ApplicationUserFavoriteRecipe>();
         }
 
@@ -42,10 +42,10 @@
         public int ServingsQuantity { get; set; }
 
         [InverseProperty(nameof(Ingredient.Recipe))]
-        public virtual ICollection<Ingredient> Ingredients { get; set; } 
+        public virtual List<Ingredient> Ingredients { get; set; } 
 
         [InverseProperty(nameof(Ingredient.Recipe))]
-        public virtual ICollection<Direction> Directions { get; set; }
+        public virtual List<Direction> Directions { get; set; }
 
         [ForeignKey(nameof(UserOwner))]
         [Required]

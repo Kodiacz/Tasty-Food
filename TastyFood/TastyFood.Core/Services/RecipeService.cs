@@ -170,9 +170,15 @@
             return model;
         }
 
+        /// <summary>
+        /// Updating the Recipe entity in the database with the EditRecipeViewModel
+        /// </summary>
+        /// <param name="model">EditRecipeViewModel type that contains the new data for the updated Recipe entity</param>
+        /// <param name="recipeId">integer that cointains the Recipe id in the database</param>
+        /// <returns></returns>
         public async Task UpdateRecipeAsync(EditRecipeViewModel model, int recipeId)
         {
-            var entity = await this.repo.AllReadonly<Recipe>()
+            var entity = await this.repo.All<Recipe>()
                 .Include(r => r.Ingredients)
                 .Include(r => r.Directions)
                 .Where(r => r.IsActive && r.Id == recipeId)
@@ -185,15 +191,40 @@
             entity.CookTime = model.CookTime;
             entity.AdditionalTime = model.AdditionalTime;
             entity.ServingsQuantity = model.ServingsQuantity;
-            entity.Ingredients = model.Ingredients.Select(i => new Ingredient
+
+            for (int i = 0; i < model.Ingredients.Count; i++)
             {
-                Product = i.Product,
-                Quantity = i.Quantity,
-            }).ToHashSet();
-            entity.Directions = model.Directions.Select(d => new Direction
+                if (i >= entity.Ingredients.Count)
+                {
+                    entity.Ingredients.Add(new Ingredient
+                    {
+                        Product = model.Ingredients[i].Product.ToLower(),
+                        Quantity = model.Ingredients[i].Quantity.ToLower(),
+                    });
+                }
+                else
+                {
+                    entity.Ingredients[i].Product = model.Ingredients[i].Product;
+                    entity.Ingredients[i].Quantity = model.Ingredients[i].Quantity;
+                }
+            }
+
+            for (int i = 0; i < model.Directions.Count; i++)
             {
-                Step = d.Step
-            }).ToHashSet();
+                if (i >= entity.Ingredients.Count)
+                {
+                    entity.Directions.Add(new Direction
+                    {
+                        Step = model.Directions[i].Step
+                    });
+                }
+                else
+                {
+                    entity.Directions[i].Step = model.Directions[i].Step;
+                }
+            }
+
+            await this.repo.SaveChangesAsync();
         }
     }
 }
