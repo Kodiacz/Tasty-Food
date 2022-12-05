@@ -82,6 +82,7 @@
                 <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample" style="">
                     <div class="accordion-body">
                         <form method="post">
+                            <button type="button" class="btn btn-outline-info mb-1" id="check-all-btn" onclick="CheckAllIngredients()">Check all</button>
                             <ul class="list-group">
                                 @foreach (var ingredient in Model.Ingredients)
                                 {
@@ -105,8 +106,8 @@
                                     ingredientIterator++;
                                 }
                             </ul>
-                            <button type="submit" class="btn btn-primary my-2" id="download-btn" asp-controller="ShoppingList" asp-action="Download">Download Ingredients</button>
-                            <button type="submit" class="btn btn-primary my-2" id="save-btn" asp-controller="ShoppingList" asp-action="Save">Save Ingredients to a Shopping List</button>
+                            <button type="submit" class="btn btn-outline-primary my-2" id="download-btn" asp-controller="ShoppingList" asp-action="Download">Download Ingredients</button>
+                            <button type="submit" class="btn btn-outline-primary my-2" id="save-btn" asp-controller="ShoppingList" asp-action="Save">Save Ingredients to a Shopping List</button>
                         </form>
                     </div>
                 </div>
@@ -167,9 +168,24 @@
                 saveBtn.disabled = true
             } else {
                 downloadBtn.disabled = false
-                saveBtn.disabled = false 
+                saveBtn.disabled = false
+            }
+        }
+
+        function CheckAllIngredients() {
+            let checkedCount = checkBoxes.filter(cb => cb.checked)
+
+            if (checkedCount < checkBoxes.length) {
+                for (var i = 0; i < checkBoxes.length; i++) {
+                    checkBoxes[i].checked = true
+                }
+            } else {
+                for (var i = 0; i < checkBoxes.length; i++) {
+                    checkBoxes[i].checked = false
+                }
             }
 
+            checkButtonStatus()
         }
 
         checkButtonStatus()
