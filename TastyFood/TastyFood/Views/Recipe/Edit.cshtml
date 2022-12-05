@@ -74,10 +74,12 @@
 
                     <p id="ingredient-paragraph-@ingredientsIndex" class="ingredients-paragraphs">@(ingredientsIndex + 1)@prefix Ingredient:</p>
                     <div class='input-group ingredients-divs' id="ingredient-div-@ingredientsIndex">
-                        <span class="input-group-text">Product name and Quantity</span>
-                        <input asp-for="@ingredient.Product" name="Ingredients[@ingredientsIndex].Product" type="text" placeholder='Product name e.g. potato' class="form-control old-products" />
-                        <input asp-for="@ingredient.Quantity" name='Ingredients[@ingredientsIndex].Quantity' type="text" placeholder='Product quantity e.g. 1.3' class="form-control old-quantities" />
-                        <button type="button" onclick="RemoveIngredient('@ingredientsIndex')" class="btn btn-outline-danger form-control"><i class="bi bi-x-square-fill"></i></button>
+                        <span class="input-group-text">Product and Quantity</span>
+                        <input asp-for="@ingredient.Product" name="Ingredients[@ingredientsIndex].Product" type="text" placeholder='e.g. potato' class="form-control old-products" />
+                        <input asp-for="@ingredient.Quantity" name='Ingredients[@ingredientsIndex].Quantity' type="text" placeholder='e.g. 1.3' class="form-control old-quantities" />
+                        <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Delete this product">
+                            <button type="button" onclick="RemoveIngredient('@ingredientsIndex')" class="btn btn-outline-danger form-control delete-ingredients-btns"><i class="bi bi-x-square-fill"></i></button>
+                        </span>
                     </div>
 
                     ingredientsIndex++;
@@ -105,8 +107,10 @@
                     }
 
                     <div class="d-grid gap-2 d-md-flex justify-content-between mt-3">
-                        <p>@(stepsIndexLastDigit + 1)@prefix Step:</p>
-                        <button type="button" onclick="RemoveIngredient" class="btn btn-outline-danger mb-1"><i class="bi bi-x-square-fill"></i></button>
+                        <p>@(stepsIndex + 1)@prefix Step:</p>
+                        <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-placement="left" data-bs-trigger="hover focus" data-bs-content="Delete this step">
+                            <button type="button" onclick="RemoveStep('@stepsIndexLastDigit')" class="btn btn-outline-danger form-control"><i class="bi bi-x-square-fill"></i></button>
+                        </span>
                     </div>
                     <textarea asp-for="@step.Step" class='form-control old-steps' name='Directions[@stepsIndex].Step' aria-required='true' rows='5'></textarea>
                     <span asp-validation-for="@step.Step" class="text-danger"></span>
@@ -126,91 +130,91 @@
         var ingredientsIndex = document.querySelectorAll('.old-products').length
         var stepsIndex = document.querySelectorAll('.old-steps').length
 
-        function AddMoreIngredientFields() {
-            let prefix;
+        function createSuffix(lastDigit) {
+            let suffix;
 
-            if (ingredientsIndex + 1 == 1) {
-                prefix = 'st';
-            } else if (ingredientsIndex + 1 == 2) {
-                prefix = 'nd';
-            } else if (ingredientsIndex + 1 == 3) {
-                prefix = 'rd';
-            } else {
-                prefix = 'th';
+            switch (lastDigit) {
+                case 1: suffix = "st"; break;
+                case 2: suffix = "nd"; break;
+                case 3: suffix = "rd"; break;
+                default: suffix = "th"; break;
             }
 
-            $("#IngridientsDiv")
-                .append(`<p>${ingredientsIndex + 1}${prefix} Ingredient:<p>
-                                                                         <button type="button" onclick="RemoveIngredient" class="btn btn-outline-danger mb-1"><i class="bi bi-x-square-fill"></i></button>
-                                                                         <div class='form-control'>
-                                                                            <input type='text' placeholder='Product name e.g. potato' name="Ingredients[${ingredientsIndex}].Product" />
-                                                                         </div>
-                                                                         <div class='form-control'>
-                                                                            <input type='text' placeholder='Product quantity e.g. 1.3' name='Ingredients[${ingredientsIndex}].Quantity' />
-                                                                         </div>
-                                                                         <hr />`)
+            return suffix;
+        }
+
+        function AddMoreIngredientFields() {
+            let lastDigit = stepsIndex % 10
+            let suffix = createSuffix(lastDigit);
+
+            $("#IngridientsDiv").append(`
+                            <p id="ingredient-paragraph-${ingredientsIndex}" class="ingredients-paragraphs">${ingredientsIndex + 1}${suffix} Ingredient:</p>
+                            <div class='input-group ingredients-divs' id="ingredient-div-${ingredientsIndex}">
+                            <span class="input-group-text">Product and Quantity</span>
+                            <input name="Ingredients[${ingredientsIndex}].Product" type="text" placeholder='e.g. potato' class="form-control old-products" />
+                            <input name='Ingredients[${ingredientsIndex}].Quantity' type="text" placeholder='e.g. 1.3 kg' class="form-control old-quantities" />
+                            <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Delete this product">
+                            <button type="button" onclick="RemoveIngredient('${ingredientsIndex}')" class="btn btn-outline-danger form-control"><i class="bi bi-x-square-fill"></i></button>
+                            </span>
+                            </div>
+                            `)
+
             ingredientsIndex++
+            console.log(ingredientsIndex)
         }
 
         function AddMoreDirectionsFields() {
-            console.log(stepsIndex)
-            let suffix
             let lastDigit = stepsIndex % 10
-
-            if (lastDigit + 1 == 1) {
-                suffix = 'st';
-            } else if (lastDigit + 1 == 2) {
-                suffix = 'nd';
-            } else if (lastDigit + 1 == 3) {
-                suffix = 'rd';
-            } else {
-                suffix = 'th';
-            }
+            let suffix = createSuffix(lastDigit)
 
             $('#DirectionsDiv').append(`
-                                                                                        <p>${stepsIndex + 1}${suffix} Step:<p>
-                                                                                        <textarea class='form-control' name='Directions[${stepsIndex}].Step' aria-required='true' rows='5'></textarea>
-                                                                                        <span asp-validation-for="Directions[${stepsIndex}].Step" class="text-danger"></span>`);
+                                    <p>${stepsIndex + 1}${suffix} Step:<p>
+                                    <textarea class='form-control' name='Directions[${stepsIndex}].Step' aria-required='true' rows='5'></textarea>
+                                    <span asp-validation-for="Directions[${stepsIndex}].Step" class="text-danger"></span>`);
+
             stepsIndex++
         }
 
         function RemoveIngredient(id) {
-            let suffix;
-            let divToRemove = document.querySelector(`#ingredient-paragraph-${id}`)
-            let paragraphToRemove = document.querySelector(`#ingredient-div-${id}`)
 
-            divToRemove.remove()
+            let divToRemove = document.querySelector(`#ingredient-div-${id}`)
+            let paragraphToRemove = document.querySelector(`#ingredient-paragraph-${id}`)
+
             paragraphToRemove.remove()
+            divToRemove.remove()
 
             let allIngredientsParagraphs = document.querySelectorAll(`.ingredients-paragraphs`)
             let allIngredientsDivs = document.querySelectorAll(`.ingredients-divs`)
             let allProducts = document.querySelectorAll('.old-products')
             let allQuantities = document.querySelectorAll('.old-quantities')
+            let allDeleteIngredientBtns = document.querySelectorAll('.delete-ingredients-btns')
 
             for (let i = 0; i < allProducts.length; i++) {
                 let lastDigit = (i + 1) % 10
-
-                switch (lastDigit) {
-                    case 1: suffix = "st"; break;
-                    case 2: suffix = "nd"; break;
-                    case 3: suffix = "rd"; break;
-                    default: suffix = "th"; break;
-                }
+                let suffix = createSuffix(lastDigit);
 
                 allIngredientsParagraphs[i].innerText = `${i + 1}${suffix} Ingredient:`
+                allIngredientsParagraphs[i].setAttribute('id', `ingredient-paragraph-${i}`)
                 allIngredientsDivs[i].setAttribute('id', `ingredient-div-${i}`)
                 allProducts[i].setAttribute('name', `Ingredients[${i}].Product`)
                 allQuantities[i].setAttribute('name', `Ingredients[${i}].Quantity`)
+                allDeleteIngredientBtns[i].setAttribute('onclick', `RemoveIngredient(${i})`)
             }
 
-            console.log('Done')
+            ingredientsIndex = document.querySelectorAll('.old-products').length
         }
 
         function RemoveStep() {
 
         }
-
     </script>
+
+    @*<script>
+        var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+        var popoverList = popoverTriggerList.map(function(popoverTrigger) {
+            return new bootstrap.Popover(popoverTrigger)
+        })
+    </script>*@
 
     <partial name="_ValidationScriptsPartial" />
 }
