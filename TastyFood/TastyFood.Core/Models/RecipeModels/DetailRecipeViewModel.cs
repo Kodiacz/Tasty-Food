@@ -1,6 +1,7 @@
 ﻿namespace TastyFood.Core.Models.RecipeModels
 {
     using System.ComponentModel.DataAnnotations;
+
     using TastyFood.Core.Models.DirectionModels;
     using TastyFood.Core.Models.IngredientModels;
 

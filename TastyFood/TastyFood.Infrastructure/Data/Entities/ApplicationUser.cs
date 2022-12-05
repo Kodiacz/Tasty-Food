@@ -1,8 +1,10 @@
 ﻿namespace TastyFood.Infrastructure.Data.Entities
 {
-    using Microsoft.AspNetCore.Identity;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
+
+    using Microsoft.AspNetCore.Identity;
+
     using static TastyFood.Infrastructure.Data.DataConstants.ApplicationUserConstants;
 
     public class ApplicationUser : IdentityUser

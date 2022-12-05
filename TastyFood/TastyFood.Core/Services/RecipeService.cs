@@ -109,6 +109,11 @@
         {
             Recipe recipeEntity = await repo.GetByIdAsync<Recipe>(recipeId);
 
+            if (!recipeEntity.IsActive)
+            {
+                throw new ArgumentException("the entity is deleted");
+            }
+
             ICollection<Ingredient> ingredientsEntities = repo.All<Ingredient>().Where(i => i.RecipeId == recipeId).ToHashSet();
             ICollection<Direction> directionsEntities = repo.All<Direction>().Where(d => d.RecipeId == recipeId).ToHashSet();
 
@@ -211,7 +216,7 @@
 
             for (int i = 0; i < model.Directions.Count; i++)
             {
-                if (i >= entity.Ingredients.Count)
+                if (i >= entity.Directions.Count)
                 {
                     entity.Directions.Add(new Direction
                     {
@@ -225,6 +230,17 @@
             }
 
             await this.repo.SaveChangesAsync();
+        }
+
+        public async Task DeleteSoft(int recipeId)
+        {
+            var entity = await this.repo.All<Recipe>()
+                .Where(r => r.IsActive && r.Id == recipeId)
+                .FirstOrDefaultAsync();
+
+            entity!.IsActive = false;
+
+           await this.repo.SaveChangesAsync();
         }
     }
 }

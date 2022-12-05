@@ -1,7 +1,7 @@
-﻿using System.Security.Claims;
-
-namespace HouseRentingSystem.Extensions
+﻿namespace TastyFood.Extensions
 {
+    using System.Security.Claims;
+
     public static class ClaimsPrincipalExtension
     {
         public static string Id(this ClaimsPrincipal user)

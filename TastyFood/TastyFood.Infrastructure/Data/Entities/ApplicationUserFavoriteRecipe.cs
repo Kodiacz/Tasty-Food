@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace TastyFood.Infrastructure.Data.Entities
+﻿namespace TastyFood.Infrastructure.Data.Entities
 {
+    using System.ComponentModel.DataAnnotations.Schema;
+
     public class ApplicationUserFavoriteRecipe
     {
         [ForeignKey(nameof(User))]

@@ -2,6 +2,7 @@
 {
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Authorization;
+
     using TastyFood.Contracts;
     using TastyFood.Core.Models.ApplicationUserModels.LoginModels;
     using TastyFood.Core.Models.ApplicationUserModels.RegisterModels;

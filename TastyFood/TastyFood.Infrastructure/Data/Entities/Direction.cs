@@ -2,6 +2,7 @@
 {
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
+
     using static TastyFood.Infrastructure.Data.DataConstants.DirectionConstants;
 
     public class Direction

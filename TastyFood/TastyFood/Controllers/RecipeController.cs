@@ -1,10 +1,13 @@
-﻿using HouseRentingSystem.Extensions;
-using Microsoft.AspNetCore.Mvc;
-using TastyFood.Core.Contracts;
-using TastyFood.Core.Models.RecipeModels;
-
-namespace TastyFood.Controllers
+﻿namespace TastyFood.Controllers
 {
+    using TastyFood.Extensions;
+    using TastyFood.Core.Contracts;
+    using TastyFood.Core.Models.RecipeModels;
+
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Authorization;
+
+    [Authorize]
     public class RecipeController : Controller
     {
         private readonly IRecipeService recipeService;
@@ -46,9 +49,15 @@ namespace TastyFood.Controllers
         public async Task<IActionResult> Detail(int id)
         {
             var currentUserName = User?.Identity?.Name;
-            var model = await this.recipeService.GetRecipeWithIdAsync(id, currentUserName);
-
-            return View(model);
+            try
+            {
+                var model = await this.recipeService.GetRecipeWithIdAsync(id, currentUserName);
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
         }
 
         [HttpGet]
@@ -65,6 +74,13 @@ namespace TastyFood.Controllers
             await this.recipeService.UpdateRecipeAsync(model, id);
 
             return RedirectToAction(nameof(Detail), new { id = id });
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            await this.recipeService.DeleteSoft(id);
+
+            return RedirectToAction(nameof(MyRecipes));
         }
     }
 }

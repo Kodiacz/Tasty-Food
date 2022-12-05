@@ -1,8 +1,9 @@
 ﻿namespace TastyFood.Infrastructure.Data.Common
 {
+    using System.Linq.Expressions;
+
     using Microsoft.EntityFrameworkCore.ChangeTracking;
     using Microsoft.EntityFrameworkCore;
-    using System.Linq.Expressions;
 
     /// <summary>
     /// Implementation of repository access methods

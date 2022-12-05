@@ -1,7 +1,8 @@
 ﻿namespace TastyFood.Infrastructure.Data
 {
-    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+
     using TastyFood.Infrastructure.Data.Entities;
 
     public class TastyFoodDbContext : IdentityDbContext<ApplicationUser>

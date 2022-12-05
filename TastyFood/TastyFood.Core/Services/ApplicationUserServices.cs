@@ -6,6 +6,7 @@
     using TastyFood.Infrastructure.Data.Entities;
     using TastyFood.Core.Models.ApplicationUserModels.LoginModels;
     using TastyFood.Core.Models.ApplicationUserModels.RegisterModels;
+
     public class ApplicationUserService : IApplicationUserService
     {
         private readonly UserManager<ApplicationUser> userManager;

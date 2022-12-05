@@ -1,8 +1,10 @@
 ﻿namespace TastyFood.Controllers
 {
+    using System.Text;
+
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Net.Http.Headers;
-    using System.Text;
+
     using TastyFood.Core.Models.RecipeModels;
 
     public class ShoppingListController : Controller

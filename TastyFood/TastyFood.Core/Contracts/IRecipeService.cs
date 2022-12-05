@@ -1,6 +1,7 @@
 ﻿namespace TastyFood.Core.Contracts
 {
     using System.Threading.Tasks;
+
     using TastyFood.Core.Models.RecipeModels;
 
     public interface IRecipeService
@@ -51,5 +52,12 @@
         /// <param name="recipeId">Recipe id in the database</param>
         /// <returns></returns>
         Task UpdateRecipeAsync(EditRecipeViewModel model, int recipeId);
+
+        /// <summary>
+        /// Marks the entity as deleted but it doesn't really deletes the entity from the database
+        /// </summary>
+        /// <param name="recipeId">integer type that represents the id of the Recipe entity</param>
+        /// <returns></returns>
+        Task DeleteSoft(int recipeId);
     }
 }

@@ -1,10 +1,10 @@
 ﻿namespace Microsoft.Extensions.DependencyInjection
 {
-    using TastyFood.Contracts;
     using TastyFood.Core;
+    using TastyFood.Services;
+    using TastyFood.Contracts;
     using TastyFood.Core.Contracts;
     using TastyFood.Infrastructure.Data.Common;
-    using TastyFood.Services;
 
     public static class TastyFoodServiceCollectionExtension
     {
