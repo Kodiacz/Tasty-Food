@@ -90,23 +90,23 @@
 
                                     <li class="list-group-item bg-@background">
                                         <input class="form-check-input me-1 ingredients"
-                                               type="checkbox"
-                                               value="@ingredient.Value"
-                                               name="IngredientsOutPut"
-                                               id="Checkbox_@ingredientIterator"
-                                               checked="@ingredient.IsChecked">
+                                           type="checkbox"
+                                           value="@ingredient.Value"
+                                           name="IngredientsOutPut"
+                                           id="Checkbox_@ingredientIterator"
+                                           checked="@ingredient.IsChecked">
 
-                                        <label class="form-check-label" 
-                                               for="Checkbox_@ingredientIterator">
-                                               @ingredient.Description
+                                        <label class="form-check-label"
+                                           for="Checkbox_@ingredientIterator">
+                                            @ingredient.Description
                                         </label>
                                     </li>
 
                                     ingredientIterator++;
                                 }
                             </ul>
-                            <button type="submit" class="btn btn-primary my-2" asp-controller="ShoppingList" asp-action="Download">Download Ingredients</button>
-                            <button type="submit" class="btn btn-primary my-2" asp-controller="ShoppingList" asp-action="Save">Save Ingredients to a Shopping List</button>
+                            <button type="submit" class="btn btn-primary my-2" id="download-btn" asp-controller="ShoppingList" asp-action="Download">Download Ingredients</button>
+                            <button type="submit" class="btn btn-primary my-2" id="save-btn" asp-controller="ShoppingList" asp-action="Save">Save Ingredients to a Shopping List</button>
                         </form>
                     </div>
                 </div>
@@ -152,12 +152,26 @@
 
 @section scripts {
     <script>
-        function DownloadIngretients() {
-            let inputs = document.querySelectorAll('.ingredients')
+        let checkBoxes = Array.from(document.querySelectorAll('.ingredients'))
 
-            for (let i = 0; i < inputs.length; i++) {
-                console.log(inputs[i].checked)
+        let downloadBtn = document.querySelector('#download-btn')
+        let saveBtn = document.querySelector('#save-btn')
+
+        checkBoxes.forEach(cb => cb.addEventListener('change', checkButtonStatus))
+
+        function checkButtonStatus() {
+            let checkedCount = checkBoxes.filter(cb => cb.checked)
+
+            if (checkedCount.length == 0) {
+                downloadBtn.disabled = true
+                saveBtn.disabled = true
+            } else {
+                downloadBtn.disabled = false
+                saveBtn.disabled = false 
             }
+
         }
+
+        checkButtonStatus()
     </script>
 }
