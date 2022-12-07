@@ -2,12 +2,12 @@
 {
     using System.ComponentModel.DataAnnotations;
 
-    using static TastyFood.Infrastructure.Data.DataConstants.ProductConstants;
+    using static TastyFood.Infrastructure.Data.DataConstants.IngredientConstants;
 
     public class IngredientViewModel
     {
         [Required]
-        [StringLength(NameMaxLength)]
+        [StringLength(ProductMaxLength)]
         public string Product { get; set; } = null!;
 
         [Required]

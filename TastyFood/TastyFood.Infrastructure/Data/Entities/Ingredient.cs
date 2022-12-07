@@ -3,7 +3,7 @@
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    using static TastyFood.Infrastructure.Data.DataConstants.ProductConstants;
+    using static TastyFood.Infrastructure.Data.DataConstants.IngredientConstants;
 
     public class Ingredient
     {
@@ -12,7 +12,7 @@
         public int Id { get; set; }
 
         [Required]
-        [StringLength(NameMaxLength)]
+        [StringLength(ProductMaxLength)]
         public string Product { get; set; } = null!;
 
         [Required]
