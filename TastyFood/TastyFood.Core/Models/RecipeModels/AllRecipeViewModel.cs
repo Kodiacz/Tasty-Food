@@ -1,6 +1,6 @@
 ﻿namespace TastyFood.Core.Models.RecipeModels
 {
-    public class AllOwnRecipeViewModel
+    public class AllRecipeViewModel
     {
         public int Id { get; set; }
 

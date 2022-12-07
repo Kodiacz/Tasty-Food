@@ -23,10 +23,11 @@
         // MyRecipe action methods
 
         /// <summary>
-        /// Creates a collection of AllOwnRecipeViewModel
+        /// Gets a collection of AllRecipeViewModel which is filtered 
+        /// by the User ID
         /// </summary>
         /// <param name="currentUserId">The id of the current User</param>
-        /// <returns>returns IEnumerable<OwnRecipesViewModel></returns>
+        /// <returns>returns an IEnumerable collection of type AllRecipeViewModel</returns>
         Task<IEnumerable<AllRecipeViewModel>> GetAllUserOwnRecipesAsync(string currentUserId);
 
         // Detail action methods
@@ -35,8 +36,14 @@
         /// Gets the Recipe entity from the database and maps it to the view model
         /// </summary>
         /// <param name="recipeId">the id of the Recipe entity in the database</param>
-        /// <returns>DetailRecipeViewModel with all the needed data</returns>
+        /// <returns>returns object of type DetailRecipeViewModel</returns>
         Task<DetailRecipeViewModel> GetRecipeWithIdAsync(int recipeId, string currentUserName);
+
+        /// <summary>
+        /// Gets a collection of AllRecipeViewModel with no filter
+        /// </summary>
+        /// <returns>returns an IEnumerable collection of type AllRecipeViewModel</returns>
+        Task<IEnumerable<AllRecipeViewModel>> GetAllRecipesasync();
 
         /// <summary>
         /// Creating an EditRecipeViewModel and assigning the proper values to it
