@@ -1,0 +1,53 @@
+﻿@model IEnumerable<AllRecipeViewModel>
+
+@{
+    ViewBag.Title = "Your favorite recipes";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+@if (@Model.Count() == 0)
+{
+    <h1 class="text-center">You don't have recipes yet <i class="bi bi-emoji-frown"></i></h1>
+}
+else
+{
+    int i = Model.Count();
+
+    <div class="row">
+        @foreach (var recipe in Model)
+        {
+            string cardBackground;
+            string readMoreBtnBackground;
+
+            if (i % 2 == 0)
+            {
+                cardBackground = "bg-info";
+                readMoreBtnBackground = "btn-secondary";
+            }
+            else
+            {
+                cardBackground = "bg-secondary";
+                readMoreBtnBackground = "btn-info";
+            }
+
+            i++;
+
+            <div class="col-sm-4">
+                <div class="card text-white @cardBackground my-3" style="width: 18rem;">
+                    <img src="@recipe.ImageUrl" class="card-img-top" alt="...">
+                    <div class="card-body shadow-lg rounded">
+                        <h5 class="card-title">@recipe.Title</h5>
+                        <p class="card-text">@recipe.Description</p>
+                        <div class="btn-group">
+                            <a asp-controller="Recipe" asp-action="Detail" asp-route-id="@recipe.Id" class="btn @readMoreBtnBackground text-dark">Read more</a>
+                            <a asp-controller="Recipe" asp-action="Edit" asp-route-id="@recipe.Id" class="btn btn-warning text-dark">Edit</a>
+                            <a asp-controller="Recipe" asp-action="Delete" asp-route-id="@recipe.Id" class="btn btn-dark text-danger">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

@@ -78,10 +78,11 @@
         }
 
         /// <summary>
-        /// Creates a collection of AllOwnRecipeViewModel
+        /// Gets a collection of AllRecipeViewModel which is filtered 
+        /// by the User ID
         /// </summary>
         /// <param name="currentUserId">The id of the current User</param>
-        /// <returns>returns IEnumerable<OwnRecipesViewModel></returns>
+        /// <returns>returns an IEnumerable collection of type AllRecipeViewModel</returns>
         public async Task<IEnumerable<AllRecipeViewModel>> GetAllUserOwnRecipesAsync(string currentUserId)
         {
             var model = await repo.All<Recipe>()
@@ -104,7 +105,7 @@
         /// Gets the Recipe entity from the database and maps it to the view model
         /// </summary>
         /// <param name="recipeId">the id of the Recipe entity in the database</param>
-        /// <returns>DetailRecipeViewModel with all the needed data</returns>
+        /// <returns>returns object of type DetailRecipeViewModel</returns>
         public async Task<DetailRecipeViewModel> GetRecipeWithIdAsync(int recipeId, string currentUserName)
         {
             Recipe recipeEntity = await repo.GetByIdAsync<Recipe>(recipeId);
@@ -256,6 +257,24 @@
             entity!.IsActive = false;
 
            await this.repo.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<AllRecipeViewModel>> GetAllRecipesasync()
+        {
+            var model = await repo.All<Recipe>()
+                .Include(r => r.Ingredients)
+                .Include(r => r.Directions)
+                .Where(r => r.IsActive)
+                .Select(r => new AllRecipeViewModel
+                {
+                    Id = r.Id,
+                    Title = r.Title,
+                    Description = r.Description,
+                    ImageUrl = r.ImageUrl,
+                })
+                .ToListAsync();
+
+            return model;
         }
     }
 }
