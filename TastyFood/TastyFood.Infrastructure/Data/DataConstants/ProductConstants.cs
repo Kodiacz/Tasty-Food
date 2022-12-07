@@ -2,9 +2,10 @@
 {
     public static class ProductConstants
     {
-        public const int QuantityMaxLength = 30;
+        public const int QuantityMaxLength = 70;
         public const int QuantityMinLength = 1;
 
-        public const int NameMaxLength = 20;
+        public const int NameMaxLength = 70;
+        public const int NameMinLength = 1;
     }
 }
