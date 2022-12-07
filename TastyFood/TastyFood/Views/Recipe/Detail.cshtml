@@ -13,8 +13,8 @@
 <div class="row">
     <div class="col">
         <figure class="figure">
-        <h3 class="text-bg-secondary text-dark rounded">From @Model.Creator</h3>
-        <img src="@Model.ImageUrl" style="max-width: 100%; height: auto; width: auto\9;" class="rounded">
+            <h3 class="text-bg-secondary text-dark rounded">From @Model.Creator</h3>
+            <img src="@Model.ImageUrl" style="max-width: 100%; height: auto; width: auto\9;" class="rounded">
         </figure>
     </div>
 
@@ -23,14 +23,14 @@
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingOne">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                        <p>Description</p>
+                        <p class="text-dark lead">Description</p>
                     </button>
                 </h2>
-                <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample" style="">
+                <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" style="">
                     <div class="accordion-body">
                         <figure class="text-center">
                             <blockquote class="blockquote">
-                                <p class="mb-0">@Model.Description</p>
+                                <strong class="mb-0">@Model.Description</strong>
                             </blockquote>
                         </figure>
                     </div>
@@ -39,10 +39,10 @@
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingTwo">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                        <p>Needed time to prepare this delicious recipe</p>
+                        <p class="text-dark lead">Needed time to prepare this delicious recipe</p>
                     </button>
                 </h2>
-                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample" style="">
+                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" style="">
                     <div class="accordion-body">
                         <div class="container overflow-hidden text-center">
                             <div class="row gy-5">
@@ -65,7 +65,7 @@
                                     </div>
                                 </div>
                                 <div class="col-6">
-                                    <p>Servings time in minutes</p>
+                                    <p>Servings</p>
                                     <div class="p-3 border bg-success rounded">
                                         <p class="text-dark">@Model.ServingsQuantity</p>
                                     </div>
@@ -78,10 +78,10 @@
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingThree">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                        <p>Ingredients</p>
+                        <p class="text-dark lead">Ingredients</p>
                     </button>
                 </h2>
-                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample" style="">
+                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" style="">
                     <div class="accordion-body">
                         <form method="post">
                             <button type="button" class="btn btn-outline-info mb-1" id="check-all-btn" onclick="CheckAllIngredients()">Check all</button>
@@ -117,10 +117,10 @@
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingFour">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                        <p>Steps</p>
+                        <p class="text-dark lead">Steps</p>
                     </button>
                 </h2>
-                <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample" style="">
+                <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" style="">
                     <div class="accordion-body">
 
                         @foreach (var step in Model.Directions)
@@ -140,7 +140,7 @@
                             <div class="card text-white bg-@background mb-3" style="max-width: 20rem;">
                                 <div class="card-header">@lastDigit@suffix Step</div>
                                 <div class="card-body">
-                                    <p class="card-text">@step.Step</p>
+                                    <h5 class="text-dark card-text">@step.Step</h5>
                                 </div>
                             </div>
 
