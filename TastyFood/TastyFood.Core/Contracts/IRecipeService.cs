@@ -27,7 +27,7 @@
         /// </summary>
         /// <param name="currentUserId">The id of the current User</param>
         /// <returns>returns IEnumerable<OwnRecipesViewModel></returns>
-        Task<IEnumerable<AllOwnRecipeViewModel>> GetAllUserOwnRecipesAsync(string currentUserId);
+        Task<IEnumerable<AllRecipeViewModel>> GetAllUserOwnRecipesAsync(string currentUserId);
 
         // Detail action methods
 

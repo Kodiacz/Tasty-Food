@@ -82,13 +82,13 @@
         /// </summary>
         /// <param name="currentUserId">The id of the current User</param>
         /// <returns>returns IEnumerable<OwnRecipesViewModel></returns>
-        public async Task<IEnumerable<AllOwnRecipeViewModel>> GetAllUserOwnRecipesAsync(string currentUserId)
+        public async Task<IEnumerable<AllRecipeViewModel>> GetAllUserOwnRecipesAsync(string currentUserId)
         {
             var model = await repo.All<Recipe>()
                 .Include(r => r.Ingredients)
                 .Include(r => r.Directions)
                 .Where(r => r.IsActive && r.UserOwnerId == currentUserId)
-                .Select(r => new AllOwnRecipeViewModel
+                .Select(r => new AllRecipeViewModel
                 {
                     Id = r.Id,
                     Title = r.Title,
