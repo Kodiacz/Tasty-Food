@@ -7,6 +7,7 @@
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item">
+            <div class="btn-group">
             <a class="nav-link active dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" title="More Options">Hello @User.Identity?.Name!</a>
             <div class="dropdown-menu dropdown-menu-xl-end">
                 <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index">Manage Account</a>
@@ -14,6 +15,7 @@
                 <a class="dropdown-item" asp-controller="Recipe" asp-action="MyRecipes">My recipes</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#">Separated link</a>
+            </div>
             </div>
         </li>
         <li class="nav-item">
