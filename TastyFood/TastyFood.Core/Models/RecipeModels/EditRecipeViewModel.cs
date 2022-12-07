@@ -36,6 +36,10 @@
 
         public List<IngredientViewModel> Ingredients { get; set; }
 
+        public List<IngredientViewModel> DeletedIngredients { get; set; }
+
         public List<DirectionViewModel> Directions { get; set; }
+
+        public List<DirectionViewModel> DeletedDirections { get; set; }
     }
 }

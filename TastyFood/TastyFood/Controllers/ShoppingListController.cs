@@ -11,8 +11,13 @@
     {
         // TODO: Look for optimisation
         [HttpPost]
-        public IActionResult Download(DetailRecipeViewModel model)
+        public IActionResult Download(DetailRecipeViewModel model, int recipeId)
         {
+            if (model == null || model.IngredientsOutput.Count == 0)
+            {
+                return RedirectToAction("Detail", "Recipe", new { id = recipeId });
+            }
+
             StringBuilder sb = new StringBuilder();
 
             foreach (var ingredient in model.IngredientsOutput)

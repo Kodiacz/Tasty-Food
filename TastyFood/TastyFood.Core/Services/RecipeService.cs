@@ -119,6 +119,7 @@
 
             return new DetailRecipeViewModel
             {
+                Id = recipeId,
                 Title = recipeEntity.Title,
                 Creator = currentUserName,
                 Description = recipeEntity.Description,
@@ -209,6 +210,13 @@
                 }
                 else
                 {
+                    if (model.DeletedIngredients.Count > i && entity.Ingredients.Any(ing => ing.Product == model.DeletedIngredients[i].Product))
+                    {
+                        Ingredient ingredientToDelete = entity.Ingredients.Where(ing => ing.Product == model.DeletedIngredients[i].Product).First();
+                        model.Ingredients.Remove(model.DeletedIngredients[i]);
+                        entity.Ingredients.Remove(ingredientToDelete);
+                    }
+
                     entity.Ingredients[i].Product = model.Ingredients[i].Product;
                     entity.Ingredients[i].Quantity = model.Ingredients[i].Quantity;
                 }
@@ -220,11 +228,18 @@
                 {
                     entity.Directions.Add(new Direction
                     {
-                        Step = model.Directions[i].Step
+                        Step = model.Directions[i].Step.ToLower(),
                     });
                 }
                 else
                 {
+                    if (model.DeletedDirections.Count > i && entity.Directions.Any(ing => ing.Step == model.DeletedDirections[i].Step))
+                    {
+                        Direction ingredientToDelete = entity.Directions.Where(ing => ing.Step == model.DeletedDirections[i].Step).First();
+                        model.Directions.Remove(model.DeletedDirections[i]);
+                        entity.Directions.Remove(ingredientToDelete);
+                    }
+
                     entity.Directions[i].Step = model.Directions[i].Step;
                 }
             }
