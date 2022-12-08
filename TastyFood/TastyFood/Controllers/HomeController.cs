@@ -3,7 +3,6 @@
     using Microsoft.AspNetCore.Mvc;
     using TastyFood.Core.Contracts;
     using TastyFood.Core.Models.RecipeModels;
-    using TastyFood.Extensions;
 
     public class HomeController : Controller
     {

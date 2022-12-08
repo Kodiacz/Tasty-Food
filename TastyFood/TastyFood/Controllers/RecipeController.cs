@@ -3,10 +3,10 @@
     using TastyFood.Extensions;
     using TastyFood.Core.Contracts;
     using TastyFood.Core.Models.RecipeModels;
+    using TastyFood.Infrastructure.Data.DataConstants;
 
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Authorization;
-    using TastyFood.Infrastructure.Data.DataConstants;
 
     [Authorize]
     public class RecipeController : Controller

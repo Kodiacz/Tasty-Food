@@ -48,6 +48,10 @@ else
                                 <a asp-controller="Recipe" asp-action="Edit" asp-route-id="@recipe.Id" class="btn btn-warning text-dark">Edit</a>
                                 <a asp-controller="Recipe" asp-action="Delete" asp-route-id="@recipe.Id" class="btn btn-dark text-danger">Delete</a>
                             }
+                            else
+                            {
+                                <a asp-controller="Recipe" asp-action="AddToFavorite" asp-route-id="@recipe.Id" class="btn btn-success text-dark">Favorite</a>
+                            }
                         </div>
                     </div>
                 </div>

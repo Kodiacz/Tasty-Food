@@ -10,7 +10,9 @@
         public EditRecipeViewModel()
         {
             Ingredients = new List<IngredientViewModel>();
+            DeletedIngredients = new List<IngredientViewModel>();
             Directions = new List<DirectionViewModel>();
+            DeletedDirections = new List<DirectionViewModel>();
         }
 
         [Required]

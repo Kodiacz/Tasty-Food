@@ -215,7 +215,7 @@
                 }
                 else
                 {
-                    if (model.DeletedIngredients.Count > i && entity.Ingredients.Any(ing => ing.Product == model.DeletedIngredients[i].Product))
+                    if (model.DeletedIngredients.Count > i  && entity.Ingredients.Any(ing => ing.Product == model.DeletedIngredients[i].Product))
                     {
                         Ingredient ingredientToDelete = entity.Ingredients.Where(ing => ing.Product == model.DeletedIngredients[i].Product).First();
                         model.Ingredients.Remove(model.DeletedIngredients[i]);
