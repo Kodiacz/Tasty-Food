@@ -92,6 +92,7 @@
                 .Select(r => new AllRecipeViewModel
                 {
                     Id = r.Id,
+                    OwnerId = r.UserOwnerId,
                     Title = r.Title,
                     Description = r.Description,
                     ImageUrl = r.ImageUrl,
@@ -109,6 +110,9 @@
         public async Task<DetailRecipeViewModel> GetRecipeWithIdAsync(int recipeId, string currentUserName)
         {
             Recipe recipeEntity = await repo.GetByIdAsync<Recipe>(recipeId);
+            ApplicationUser recipeOwner = this.repo.AllReadonly<ApplicationUser>()
+                .Where(au => au.Id == recipeEntity.UserOwnerId)
+                .FirstOrDefault()!;
 
             if (!recipeEntity.IsActive)
             {
@@ -122,7 +126,7 @@
             {
                 Id = recipeId,
                 Title = recipeEntity.Title,
-                Creator = currentUserName,
+                Creator = recipeOwner,
                 Description = recipeEntity.Description,
                 ImageUrl = recipeEntity.ImageUrl,
                 PreparationTime = recipeEntity.PreparationTime,
@@ -259,7 +263,7 @@
            await this.repo.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<AllRecipeViewModel>> GetAllRecipesasync()
+        public async Task<IEnumerable<AllRecipeViewModel>> GetAllRecipesAsync()
         {
             var model = await repo.All<Recipe>()
                 .Include(r => r.Ingredients)
@@ -268,6 +272,7 @@
                 .Select(r => new AllRecipeViewModel
                 {
                     Id = r.Id,
+                    OwnerId = r.UserOwnerId,
                     Title = r.Title,
                     Description = r.Description,
                     ImageUrl = r.ImageUrl,

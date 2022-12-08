@@ -3,6 +3,7 @@
     using System.ComponentModel.DataAnnotations;
 
     using TastyFood.Core.Models.DirectionModels;
+    using TastyFood.Infrastructure.Data.Entities;
 
     public class DetailRecipeViewModel
     {
@@ -20,7 +21,7 @@
 
         public string ImageUrl { get; set; } = null!;
 
-        public string Creator { get; set; }
+        public ApplicationUser Creator { get; set; }
 
         public int PreparationTime { get; set; }
 

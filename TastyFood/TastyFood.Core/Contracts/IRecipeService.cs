@@ -43,7 +43,7 @@
         /// Gets a collection of AllRecipeViewModel with no filter
         /// </summary>
         /// <returns>returns an IEnumerable collection of type AllRecipeViewModel</returns>
-        Task<IEnumerable<AllRecipeViewModel>> GetAllRecipesasync();
+        Task<IEnumerable<AllRecipeViewModel>> GetAllRecipesAsync();
 
         /// <summary>
         /// Creating an EditRecipeViewModel and assigning the proper values to it

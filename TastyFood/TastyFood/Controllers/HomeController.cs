@@ -3,6 +3,7 @@
     using Microsoft.AspNetCore.Mvc;
     using TastyFood.Core.Contracts;
     using TastyFood.Core.Models.RecipeModels;
+    using TastyFood.Extensions;
 
     public class HomeController : Controller
     {
@@ -25,7 +26,7 @@
 
         public async Task<IActionResult> AllRecipes()
         {
-            IEnumerable<AllRecipeViewModel> model = await this.recipeService.GetAllRecipesasync();
+            IEnumerable<AllRecipeViewModel> model = await this.recipeService.GetAllRecipesAsync();
 
             return View(model);
         }
