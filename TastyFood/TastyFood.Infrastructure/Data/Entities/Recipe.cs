@@ -11,7 +11,7 @@
         {
             this.Ingredients = new List<Ingredient>();
             this.Directions = new List<Direction>();
-            this.UsersFavoriteRecipes = new HashSet<ApplicationUserFavoriteRecipe>();
+            this.UsersFavoriteRecipes = new HashSet<ApplicationUser>();
         }
 
         [Key]
@@ -54,6 +54,7 @@
         [InverseProperty(nameof(ApplicationUser.OwnRecipes))]
         public ApplicationUser UserOwner { get; set; } = null!;
 
-        public virtual ICollection<ApplicationUserFavoriteRecipe> UsersFavoriteRecipes { get; set; }
+        [InverseProperty(nameof(ApplicationUser.FavoriteRecipes))]
+        public virtual ICollection<ApplicationUser?> UsersFavoriteRecipes { get; set; }
     }
 }

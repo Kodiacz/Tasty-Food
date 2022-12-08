@@ -14,20 +14,10 @@
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<ApplicationUserFavoriteRecipe>()
-                .HasKey(ar => new { ar.ApplicationUserId, ar.RecipeId });
 
-            builder.Entity<ApplicationUserFavoriteRecipe>()
-                .HasOne(ar => ar.User)
-                .WithMany(ar => ar.FavoriteRecipes)
-                .HasForeignKey(ar => ar.ApplicationUserId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.Entity<ApplicationUserFavoriteRecipe>()
-                .HasOne(ar => ar.FavoriteRecipe)
-                .WithMany(ar => ar.UsersFavoriteRecipes)
-                .HasForeignKey(ar => ar.RecipeId)
-                .OnDelete(DeleteBehavior.Restrict);
+            //builder.Entity<ApplicationUser>()
+            //    .HasMany(au => au.FavoriteRecipes)
+            //    .WithMany(fr => fr.UsersFavoriteRecipes);
 
             builder.Entity<Ingredient>()
                 .HasOne(i => i.ShoppingList)
