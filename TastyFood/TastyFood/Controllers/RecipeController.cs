@@ -129,5 +129,14 @@
 
             return View(model);
         }
+
+        public async Task<IActionResult> AddToFavorites(int id)
+        {
+            string currentUserId = this.User.Id();
+
+            await this.recipeService.AddRecipeToUserFavoritesList(id, currentUserId);
+
+            return RedirectToAction(nameof(AllRecipes));
+        }
     }
 }

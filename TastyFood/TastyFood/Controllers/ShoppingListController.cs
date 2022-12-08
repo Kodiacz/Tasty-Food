@@ -31,7 +31,7 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> Save()
+        public async Task<IActionResult> Save(DetailRecipeViewModel model, int recipeId)
         {
             return View();
         }

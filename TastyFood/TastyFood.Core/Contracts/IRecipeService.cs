@@ -66,5 +66,12 @@
         /// <param name="recipeId">integer type that represents the id of the Recipe entity</param>
         /// <returns></returns>
         Task DeleteSoft(int recipeId);
+
+        /// <summary>
+        /// Adding the recipe into the user's favorite list
+        /// </summary>
+        /// <param name="recipeId"></param>
+        /// <returns></returns>
+        Task AddRecipeToUserFavoritesList(int recipeId, string currentUserId);
     }
 }

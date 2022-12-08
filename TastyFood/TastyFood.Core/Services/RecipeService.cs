@@ -281,5 +281,21 @@
 
             return model;
         }
+
+        public async Task AddRecipeToUserFavoritesList(int recipeId, string currentUserId)
+        {
+            Recipe entity = this.repo.AllReadonly<Recipe>()
+                .Where(r => r.IsActive && r.Id == recipeId)
+                .First();
+
+            ApplicationUser user = this.repo.All<ApplicationUser>()
+                .Where(au => au.Id == currentUserId)
+                .Include(au => au.FavoriteRecipes)
+                .First();
+
+            user.FavoriteRecipes.Add(entity);
+
+            await this.repo.SaveChangesAsync();
+        }
     }
 }
