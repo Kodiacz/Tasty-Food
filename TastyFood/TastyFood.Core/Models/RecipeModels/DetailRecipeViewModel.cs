@@ -14,13 +14,10 @@
 
         public int Id { get; set; }
 
-        [Required]
         public string Title { get; set; } = null!;
 
-        [Required]
         public string Description { get; set; } = null!;
 
-        [Required]
         public string ImageUrl { get; set; } = null!;
 
         public string Creator { get; set; }
