@@ -3,7 +3,6 @@
     using System.ComponentModel.DataAnnotations;
 
     using TastyFood.Core.Models.DirectionModels;
-    using TastyFood.Core.Models.IngredientModels;
 
     public class DetailRecipeViewModel
     {

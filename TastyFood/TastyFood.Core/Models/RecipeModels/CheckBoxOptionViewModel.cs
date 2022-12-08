@@ -1,7 +1,5 @@
 ﻿namespace TastyFood.Core.Models.RecipeModels
 {
-    using TastyFood.Core.Models.IngredientModels;
-
     public class CheckBoxOptionViewModel
     {
         public bool IsChecked { get; set; } = false;
