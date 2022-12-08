@@ -122,5 +122,12 @@
 
             return RedirectToAction(nameof(MyRecipes));
         }
+
+        public async Task<IActionResult> AllRecipes()
+        {
+            IEnumerable<AllRecipeViewModel> model = await this.recipeService.GetAllRecipesAsync();
+
+            return View(model);
+        }
     }
 }
