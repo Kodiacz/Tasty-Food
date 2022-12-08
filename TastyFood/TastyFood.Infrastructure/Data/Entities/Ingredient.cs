@@ -12,7 +12,7 @@
         public int Id { get; set; }
 
         [Required]
-        [StringLength(ProductMaxLength)]
+        [StringLength(ProductMaxLength, MinimumLength = ProductNameMinLength)]
         public string Product { get; set; } = null!;
 
         [Required]
