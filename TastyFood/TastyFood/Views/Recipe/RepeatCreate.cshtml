@@ -75,10 +75,12 @@
                         case 3: prefix = "rd"; break;
                         default: prefix = "th"; break;
                     }
-
+                    <div>
+                        <span class="text-danger" asp-validation-for="Ingredients[ingredientsIndex].Product"></span>
+                        <span class="text-danger" asp-validation-for="Ingredients[ingredientsIndex].Quantity"></span>
+                    </div>
                     <p id="ingredient-paragraph-@ingredientsIndex" class="ingredients-paragraphs">@(ingredientsIndex + 1)@prefix Ingredient:</p>
                     <div class='input-group ingredients-divs' id="ingredient-div-@ingredientsIndex">
-                        <span asp-validation-for="@ingredient.Product"></span>
                         <span class="input-group-text">Product and Quantity</span>
                         <input asp-for="@ingredient.Product" name="Ingredients[@ingredientsIndex].Product" type="text" placeholder='e.g. potato' class="form-control @productIsInvalid input-products" />
                         <input asp-for="@ingredient.Quantity" name='Ingredients[@ingredientsIndex].Quantity' type="text" placeholder='e.g. 1.3' class="form-control @quantityIsInvalid input-quantities" />
@@ -115,6 +117,7 @@
                     }
 
                     <div class="steps-divs" id="step-div-@stepsIndex">
+                        <span class="text-danger" asp-validation-for="Directions[stepsIndex].Step"></span>
                         <div class="d-grid gap-2 d-md-flex justify-content-between mt-3">
                             <p class="steps-paragraphs">@(stepsIndex + 1)@prefix Step:</p>
                             <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-placement="left" data-bs-trigger="hover focus" data-bs-content="Delete this step">
@@ -194,16 +197,16 @@
             let suffix = createSuffix(lastDigit);
 
             $("#IngridientsDiv").append(`
-                                                            <p id="ingredient-paragraph-${ingredientsIndex}" class="ingredients-paragraphs">${ingredientsIndex + 1}${suffix} Ingredient:</p>
-                                                            <div class='input-group ingredients-divs' id="ingredient-div-${ingredientsIndex}">
-                                                            <span class="input-group-text">Product and Quantity</span>
-                                                            <input name="Ingredients[${ingredientsIndex}].Product" type="text" placeholder='e.g. potato' class="form-control input-products" />
-                                                            <input name='Ingredients[${ingredientsIndex}].Quantity' type="text" placeholder='e.g. 1.3 kg' class="form-control input-quantities" />
-                                                            <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Delete this product">
-                                                            <button type="button" onclick="removeIngredient('${ingredientsIndex}')" class="btn btn-outline-danger form-control delete-ingredients-btns"><i class="bi bi-trash3"></i></button>
-                                                            </span>
-                                                            </div>
-                                                            `)
+                                    <p id="ingredient-paragraph-${ingredientsIndex}" class="ingredients-paragraphs">${ingredientsIndex + 1}${suffix} Ingredient:</p>
+                                    <div class='input-group ingredients-divs' id="ingredient-div-${ingredientsIndex}">
+                                    <span class="input-group-text">Product and Quantity</span>
+                                    <input name="Ingredients[${ingredientsIndex}].Product" type="text" placeholder='e.g. potato' class="form-control input-products" />
+                                    <input name='Ingredients[${ingredientsIndex}].Quantity' type="text" placeholder='e.g. 1.3 kg' class="form-control input-quantities" />
+                                    <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Delete this product">
+                                    <button type="button" onclick="removeIngredient('${ingredientsIndex}')" class="btn btn-outline-danger form-control delete-ingredients-btns"><i class="bi bi-trash3"></i></button>
+                                    </span>
+                                    </div>
+                                    `)
 
             ingredientsIndex++
         }
@@ -213,17 +216,17 @@
             let suffix = createSuffix(lastDigit)
 
             $('#DirectionsDiv').append(`
-                                                            <div class="steps-divs" id="step-div-${stepsIndex}">
-                                                            <div class="d-grid gap-2 d-md-flex justify-content-between mt-3">
-                                                            <p class="steps-paragraphs">${stepsIndex + 1}${suffix} Step:</p>
-                                                            <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-placement="left" data-bs-trigger="hover focus" data-bs-content="Delete this step">
-                                                            <button type="button" onclick="removeStep('${stepsIndex}')" class="btn btn-outline-danger form-control delete-steps-btns"><i class="bi bi-trash3"></i></button>
-                                                            </span>
-                                                            </div>
-                                                            <textarea class='form-control input-steps' name='Directions[${stepsIndex}].Step' aria-required='true' rows='5'></textarea>
-                                                            <span class="text-danger"></span>
-                                                            </div>
-                                                            `);
+                                    <div class="steps-divs" id="step-div-${stepsIndex}">
+                                    <div class="d-grid gap-2 d-md-flex justify-content-between mt-3">
+                                    <p class="steps-paragraphs">${stepsIndex + 1}${suffix} Step:</p>
+                                    <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-placement="left" data-bs-trigger="hover focus" data-bs-content="Delete this step">
+                                    <button type="button" onclick="removeStep('${stepsIndex}')" class="btn btn-outline-danger form-control delete-steps-btns"><i class="bi bi-trash3"></i></button>
+                                    </span>
+                                    </div>
+                                    <textarea class='form-control input-steps' name='Directions[${stepsIndex}].Step' aria-required='true' rows='5'></textarea>
+                                    <span class="text-danger"></span>
+                                    </div>
+                                    `);
 
             stepsIndex++
         }
