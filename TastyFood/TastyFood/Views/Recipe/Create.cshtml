@@ -92,9 +92,9 @@
             let validationPTagQuantity = `validation-p-tag-quantity-${ingredientsIndex}`
 
             $("#IngridientsDiv").append(`
-            <p id="ingredient-paragraph-${ingredientsIndex}" class="ingredients-paragraphs">${ingredientsIndex + 1}${suffix} Ingredient:</p>
             <p id="${validationPTagProduct}" class="text-danger"></p>
             <p id="${validationPTagQuantity}" class="text-danger"></p>
+            <p id="ingredient-paragraph-${ingredientsIndex}" class="ingredients-paragraphs">${ingredientsIndex + 1}${suffix} Ingredient:</p>
             <div class='input-group ingredients-divs' id="ingredient-div-${ingredientsIndex}">
             <span class="input-group-text">Product and Quantity</span>
             <input class="form-control input-products" name="Ingredients[${ingredientsIndex}].Product" type="text" placeholder='e.g. potato'/>
@@ -104,8 +104,8 @@
             </div>
                     `)
 
-            $(`input[name="Ingredients[${ingredientsIndex}].Product"]`).on('change', (e) => validate(e, validationPTagProduct, 'Product'))
-            $(`input[name="Ingredients[${ingredientsIndex}].Quantity"]`).on('change', (e) => validate(e, validationPTagQuantity, 'Quantity'))
+            $(`input[name="Ingredients[${ingredientsIndex}].Product"]`).on('change', (e) => validate(e, validationPTagProduct, 'product'))
+            $(`input[name="Ingredients[${ingredientsIndex}].Quantity"]`).on('change', (e) => validate(e, validationPTagQuantity, 'quantity'))
 
             ingredientsIndex++
         }
@@ -118,8 +118,8 @@
             $('#DirectionsDiv').append(`
             <div class="steps-divs" id="step-div-${stepsIndex}">
             <div class="d-grid gap-2 d-md-flex justify-content-between mt-3">
-            <p class="steps-paragraphs">${stepsIndex + 1}${suffix} Step:</p>
             <p id="${validationPTag}" class="text-danger"></p>
+            <p class="steps-paragraphs">${stepsIndex + 1}${suffix} Step:</p>
             <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-placement="left" data-bs-trigger="hover focus" data-bs-content="Delete this step">
             <button type="button" onclick="removeStep('${stepsIndex}')" class="btn btn-outline-danger form-control delete-steps-btns"><i class="bi bi-trash3"></i></button>
             </span>
@@ -129,7 +129,7 @@
             </div>
                     `);
 
-            $(`textarea[name="Directions[${stepsIndex}].Step"]`).on('change', (e) => validate(e, validationPTag, 'Step'))
+            $(`textarea[name="Directions[${stepsIndex}].Step"]`).on('change', (e) => validate(e, validationPTag, 'step'))
 
             stepsIndex++
         }
@@ -189,11 +189,11 @@
         function validate(e, id, type) {
             let inputValue = e.target.value
             let validationPTag = document.querySelector(`#${id}`)
-            let statementCase = type == 'Step' ? 450 : 70
+            let statementCase = type == 'step' ? 450 : 70
 
             if (inputValue.length > statementCase) {
                 e.target.classList.add("is-invalid")
-                validationPTag.textContent = `The ${type} should be less then ${statementCase} symbols long`
+                validationPTag.textContent = `The ${type} must be less then ${statementCase} symbols`
             } else {
                 e.target.classList.remove("is-invalid")
                 e.target.classList.add("is-valid")
