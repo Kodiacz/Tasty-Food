@@ -6,9 +6,9 @@
 
     using TastyFood.Core.Contracts;
     using TastyFood.Core.Models.RecipeModels;
+    using TastyFood.Infrastructure.Data.Common;
     using TastyFood.Core.Models.DirectionModels;
     using TastyFood.Core.Models.IngredientModels;
-    using TastyFood.Infrastructure.Data.Common;
     using TastyFood.Infrastructure.Data.Entities;
 
 #pragma warning disable IDE0003 
