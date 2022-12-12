@@ -1,7 +1,7 @@
 ﻿namespace TastyFood.Core.Contracts
 {
-    public class IShoppingListService
+    public interface IShoppingListService
     {
-
+        public Task CreateShoppintList();
     }
 }
