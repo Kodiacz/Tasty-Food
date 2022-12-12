@@ -111,6 +111,115 @@ namespace TastyFood.Test
             Assert.That(deletedEntity.IsActive, Is.EqualTo(false));
         }
 
+        [Test]
+        public async Task TestIfGetAllUserOwnRecipesAsyncDoesNotIncludeOtherUsers()
+        {
+            var repo = new Repository(inMemmoryContext);
+            var recipeService = new RecipeService(repo);
+
+            List<Recipe> recipes = new List<Recipe>()
+            {
+                new Recipe()
+                {
+                    Id = 1,
+                    Title = "Title1",
+                    Description = "Description1",
+                    ImageUrl = "test1",
+                    PreparationTime = 1,
+                    CookTime = 1,
+                    AdditionalTime = 1,
+                    ServingsQuantity = 1,
+                    UserOwnerId = "first",
+                },
+                new Recipe()
+                {
+                    Id = 2,
+                    Title = "Title2",
+                    Description = "Description2",
+                    ImageUrl = "test2",
+                    PreparationTime = 2,
+                    CookTime = 2,
+                    AdditionalTime = 2,
+                    ServingsQuantity = 2,
+                    UserOwnerId = "first",
+                },
+                new Recipe()
+                {
+                    Id = 3,
+                    Title = "Title3",
+                    Description = "Description3",
+                    ImageUrl = "test3",
+                    PreparationTime = 13,
+                    CookTime = 13,
+                    AdditionalTime = 13,
+                    ServingsQuantity = 13,
+                    UserOwnerId = "second",
+                },
+            };
+
+            await repo.AddRangeAsync(recipes);
+            await repo.SaveChangesAsync();
+
+            IEnumerable<AllRecipeViewModel> ownerRecipes = await recipeService.GetAllUserOwnRecipesAsync("first");
+
+            Assert.That(ownerRecipes.Count(), Is.EqualTo(2));
+        }
+
+        [Test]
+        public async Task TestIfGetAllUserOwnRecipesAsyncDoesNotIncludeOtherUsersAndDeletedRecipes()
+        {
+            var repo = new Repository(inMemmoryContext);
+            var recipeService = new RecipeService(repo);
+
+            List<Recipe> recipes = new List<Recipe>()
+            {
+                new Recipe()
+                {
+                    Id = 1,
+                    Title = "Title1",
+                    Description = "Description1",
+                    ImageUrl = "test1",
+                    PreparationTime = 1,
+                    CookTime = 1,
+                    AdditionalTime = 1,
+                    ServingsQuantity = 1,
+                    UserOwnerId = "first",
+                },
+                new Recipe()
+                {
+                    Id = 2,
+                    Title = "Title2",
+                    Description = "Description2",
+                    ImageUrl = "test2",
+                    PreparationTime = 2,
+                    CookTime = 2,
+                    AdditionalTime = 2,
+                    ServingsQuantity = 2,
+                    UserOwnerId = "first",
+                    IsActive = false,
+                },
+                new Recipe()
+                {
+                    Id = 3,
+                    Title = "Title3",
+                    Description = "Description3",
+                    ImageUrl = "test3",
+                    PreparationTime = 13,
+                    CookTime = 13,
+                    AdditionalTime = 13,
+                    ServingsQuantity = 13,
+                    UserOwnerId = "second",
+                },
+            };
+
+            await repo.AddRangeAsync(recipes);
+            await repo.SaveChangesAsync();
+
+            IEnumerable<AllRecipeViewModel> ownerRecipes = await recipeService.GetAllUserOwnRecipesAsync("first");
+
+            Assert.That(ownerRecipes.Count(), Is.EqualTo(1));
+        }
+
         [TearDown]
         public void TearDown()
         {
