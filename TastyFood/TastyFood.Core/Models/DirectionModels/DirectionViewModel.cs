@@ -7,7 +7,7 @@
     public class DirectionViewModel
     {
         [Required]
-        [StringLength(StepMaxLength)]
+        [StringLength(StepMaxLength, ErrorMessage = "The step must be less then 450 symbols")]
         public string Step { get; set; } = null!;
     }
 }
