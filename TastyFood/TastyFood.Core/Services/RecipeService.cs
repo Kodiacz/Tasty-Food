@@ -284,7 +284,7 @@
 
         public async Task AddRecipeToUserFavoritesList(int recipeId, string currentUserId)
         {
-            Recipe entity = this.repo.AllReadonly<Recipe>()
+            Recipe entity = this.repo.All<Recipe>()
                 .Where(r => r.IsActive && r.Id == recipeId)
                 .First();
 
