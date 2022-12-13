@@ -104,12 +104,23 @@
                                             @ingredient.Description
                                         </label>
                                     </li>
-
                                     ingredientIterator++;
                                 }
                             </ul>
+                            @Html.HiddenFor(m => m.Title)
+                            @Html.HiddenFor(m => m.Description)
+                            @Html.HiddenFor(m => m.ImageUrl)
+                            @Html.HiddenFor(m => m.PreparationTime)
+                            @Html.HiddenFor(m => m.CookTime)
+                            @Html.HiddenFor(m => m.AdditionalTime)
+                            @Html.HiddenFor(m => m.ServingsQuantity)
+                            @for (int i = 0; i < @Model.Directions.Count(); i++)
+                            {
+                                <input hidden name="Direction[@i].Step" value="@Model.Directions[i].Step"/>
+                            }
+                            @*<input hidden asp-for="@Model.Creator.UserName" value="@Model.Creator.UserName" />*@
                             <button type="submit" class="btn btn-outline-primary my-2" id="download-btn" asp-controller="ShoppingList" asp-action="Download" asp-route-id="@Model.Id">Download Ingredients <i class="bi bi-download"></i></button>
-                            <button type="submit" class="btn btn-outline-primary my-2" id="save-btn" asp-controller="ShoppingList" asp-action="Save">Save Ingredients to a Shopping List</button>
+                            <button type="submit" class="btn btn-outline-primary my-2" id="save-btn" asp-controller="ShoppingList" asp-action="Save" asp-route-id="@Model.Id">Save Ingredients to a Shopping List</button>
                         </form>
                     </div>
                 </div>
