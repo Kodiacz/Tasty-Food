@@ -117,6 +117,8 @@
                 .Where(au => au.Id == recipeEntity.UserOwnerId)
                 .FirstOrDefault()!;
 
+            guard.GuardAgainstNull(recipeEntity, $"The Recipe entity with ID {recipeId} is null");
+
             if (!recipeEntity.IsActive)
             {
                 throw new ArgumentException("the entity is deleted");
@@ -255,6 +257,11 @@
             await this.repo.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Marks the entity as deleted but it doesn't really deletes the entity from the database
+        /// </summary>
+        /// <param name="recipeId">integer type that represents the id of the Recipe entity</param>
+        /// <returns></returns>
         public async Task DeleteSoft(int recipeId)
         {
             var entity = await this.repo.All<Recipe>()
@@ -266,6 +273,10 @@
            await this.repo.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Gets a collection of AllRecipeViewModel with no filter
+        /// </summary>
+        /// <returns>returns an IEnumerable collection of type AllRecipeViewModel</returns>
         public async Task<IEnumerable<AllRecipeViewModel>> GetAllRecipesAsync()
         {
             var model = await repo.All<Recipe>()
@@ -285,6 +296,11 @@
             return model;
         }
 
+        /// <summary>
+        /// Adding the recipe into the user's favorite list
+        /// </summary>
+        /// <param name="recipeId"></param>
+        /// <returns></returns>
         public async Task AddRecipeToUserFavoritesListAsync(int recipeId, string currentUserId)
         {
             Recipe entity = this.repo.All<Recipe>()
