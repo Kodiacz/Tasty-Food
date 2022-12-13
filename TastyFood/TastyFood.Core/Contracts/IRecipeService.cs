@@ -72,6 +72,6 @@
         /// </summary>
         /// <param name="recipeId"></param>
         /// <returns></returns>
-        Task AddRecipeToUserFavoritesList(int recipeId, string currentUserId);
+        Task AddRecipeToUserFavoritesListAsync(int recipeId, string currentUserId);
     }
 }

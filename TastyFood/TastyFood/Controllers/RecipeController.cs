@@ -134,7 +134,7 @@
         {
             string currentUserId = this.User.Id();
 
-            await this.recipeService.AddRecipeToUserFavoritesList(id, currentUserId);
+            await this.recipeService.AddRecipeToUserFavoritesListAsync(id, currentUserId);
 
             return RedirectToAction(nameof(AllRecipes));
         }
