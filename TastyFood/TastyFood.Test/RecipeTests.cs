@@ -1,12 +1,10 @@
-using TastyFood.Core;
-using TastyFood.Core.Models.RecipeModels;
-
 namespace TastyFood.Test
 {
     public class Tests
     {
         private TastyFoodDbContext inMemmoryContext;
-        private Mock<IRepository> repoMock = new Mock<IRepository>();
+        private RecipeService recipeService;
+        private IRepository repo;
 
         [SetUp]
         public void Setup()
@@ -19,13 +17,14 @@ namespace TastyFood.Test
 
             inMemmoryContext.Database.EnsureDeleted();
             inMemmoryContext.Database.EnsureCreated();
+
+            repo = new Repository(inMemmoryContext);
+            recipeService = new RecipeService(repo);
         }
 
         [Test]
         public async Task TestIfRecipeIsCreated()
         {
-            var repo = new Repository(inMemmoryContext);
-
             await repo.AddAsync(new Recipe()
             {
                 Id = 255,
@@ -49,10 +48,6 @@ namespace TastyFood.Test
         [Test]
         public async Task TestIfRecipeIsEdited()
         {
-            var repo = new Repository(inMemmoryContext);
-            var recipeService = new RecipeService(repo);
-
-
             await repo.AddAsync(new Recipe()
             {
                 Id = 255,
@@ -87,9 +82,6 @@ namespace TastyFood.Test
         [Test]
         public async Task TestIfRecipeIsDeleted()
         {
-            var repo = new Repository(inMemmoryContext);
-            var recipeService = new RecipeService(repo);
-
             await repo.AddAsync(new Recipe()
             {
                 Id = 255,
@@ -114,9 +106,6 @@ namespace TastyFood.Test
         [Test]
         public async Task TestIfGetAllUserOwnRecipesAsyncDoesNotIncludeOtherUsers()
         {
-            var repo = new Repository(inMemmoryContext);
-            var recipeService = new RecipeService(repo);
-
             List<Recipe> recipes = new List<Recipe>()
             {
                 new Recipe()
@@ -168,9 +157,6 @@ namespace TastyFood.Test
         [Test]
         public async Task TestIfGetAllUserOwnRecipesAsyncDoesNotIncludeOtherUsersAndDeletedRecipes()
         {
-            var repo = new Repository(inMemmoryContext);
-            var recipeService = new RecipeService(repo);
-
             List<Recipe> recipes = new List<Recipe>()
             {
                 new Recipe()
@@ -218,6 +204,124 @@ namespace TastyFood.Test
             IEnumerable<AllRecipeViewModel> ownerRecipes = await recipeService.GetAllUserOwnRecipesAsync("first");
 
             Assert.That(ownerRecipes.Count(), Is.EqualTo(1));
+        }
+
+        [Test]
+        public async Task TestGetAllRecipesAsync()
+        {
+            List<Recipe> recipes = new List<Recipe>()
+            {
+                new Recipe()
+                {
+                    Id = 1,
+                    Title = "Title1",
+                    Description = "Description1",
+                    ImageUrl = "test1",
+                    PreparationTime = 1,
+                    CookTime = 1,
+                    AdditionalTime = 1,
+                    ServingsQuantity = 1,
+                    UserOwnerId = "first",
+                },
+                new Recipe()
+                {
+                    Id = 2,
+                    Title = "Title2",
+                    Description = "Description2",
+                    ImageUrl = "test2",
+                    PreparationTime = 2,
+                    CookTime = 2,
+                    AdditionalTime = 2,
+                    ServingsQuantity = 2,
+                    UserOwnerId = "first",
+                    IsActive = false,
+                },
+                new Recipe()
+                {
+                    Id = 3,
+                    Title = "Title3",
+                    Description = "Description3",
+                    ImageUrl = "test3",
+                    PreparationTime = 13,
+                    CookTime = 13,
+                    AdditionalTime = 13,
+                    ServingsQuantity = 13,
+                    UserOwnerId = "second",
+                },
+            };
+
+            await repo.AddRangeAsync(recipes);
+            await repo.SaveChangesAsync();
+
+            IEnumerable<AllRecipeViewModel> entityRecipes = await recipeService.GetAllRecipesAsync();
+
+            Assert.That(entityRecipes.Count(), Is.EqualTo(2));
+        }
+
+        [Test]
+        public async Task TestAddRecipeToUserFavoritesList()
+        {
+            ApplicationUser user = new ApplicationUser()
+            {
+                Id = "ID",
+                FirstName = "FirstName",
+                LastName = "LastName",
+            };
+
+            List<Recipe> recipes = new List<Recipe>()
+            {
+                new Recipe()
+                {
+                    Id = 1,
+                    Title = "Title1",
+                    Description = "Description1",
+                    ImageUrl = "test1",
+                    PreparationTime = 1,
+                    CookTime = 1,
+                    AdditionalTime = 1,
+                    ServingsQuantity = 1,
+                    UserOwnerId = "first",
+                },
+                new Recipe()
+                {
+                    Id = 2,
+                    Title = "Title2",
+                    Description = "Description2",
+                    ImageUrl = "test2",
+                    PreparationTime = 2,
+                    CookTime = 2,
+                    AdditionalTime = 2,
+                    ServingsQuantity = 2,
+                    UserOwnerId = "first",
+                    IsActive = false,
+                },
+                new Recipe()
+                {
+                    Id = 3,
+                    Title = "Title3",
+                    Description = "Description3",
+                    ImageUrl = "test3",
+                    PreparationTime = 13,
+                    CookTime = 13,
+                    AdditionalTime = 13,
+                    ServingsQuantity = 13,
+                    UserOwnerId = "second",
+                },
+            };
+
+            await repo.AddAsync(user);
+            await repo.AddRangeAsync(recipes);
+            await repo.SaveChangesAsync();
+
+            //user.FavoriteRecipes.Add(recipes[0]);
+
+            //await this.repo.SaveChangesAsync();
+
+            ApplicationUser userEntity = await repo.GetByIdAsync<ApplicationUser>("ID");
+            await recipeService.AddRecipeToUserFavoritesList(1, "ID");
+
+            Assert.That(userEntity.FavoriteRecipes.Count(), Is.EqualTo(1));
+
         }
 
         [TearDown]
