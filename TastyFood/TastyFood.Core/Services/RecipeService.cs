@@ -285,13 +285,13 @@
             return model;
         }
 
-        public async Task AddRecipeToUserFavoritesList(int recipeId, string currentUserId)
+        public async Task AddRecipeToUserFavoritesListAsync(int recipeId, string currentUserId)
         {
             Recipe entity = this.repo.All<Recipe>()
                 .Where(r => r.IsActive && r.Id == recipeId)
                 .First();
 
-            guard.GuardAgainstNull(entity, $"The recipe with ID {recipeId} is deleted");
+            guard.GuardAgainstDeletedEntity(entity.IsActive, $"The recipe with ID {recipeId} is deleted");
 
             ApplicationUser user = this.repo.All<ApplicationUser>()
                 .Where(au => au.Id == currentUserId)
