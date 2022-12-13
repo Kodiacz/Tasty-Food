@@ -6,9 +6,11 @@
         {
             if (value == false)
             {
-                var exceotion = errorMessage == null ?
+                var exception = errorMessage == null ?
                     new AlreadyDeletedException() :
                     new AlreadyDeletedException(errorMessage);
+
+                throw exception;
             }
         }
 
@@ -16,9 +18,11 @@
         {
             if (value == null)
             {
-                var exceotion = errorMessage == null ?
+                var exception = errorMessage == null ?
                     new ArgumentNullException() :
                     new ArgumentNullException(errorMessage);
+
+                throw exception;
             }
         }
     }

@@ -289,16 +289,16 @@
         {
             Recipe entity = this.repo.All<Recipe>()
                 .Where(r => r.IsActive && r.Id == recipeId)
-                .First();
+                .FirstOrDefault()!;
 
-            guard.GuardAgainstDeletedEntity(entity.IsActive, $"The recipe with ID {recipeId} is deleted");
+            guard.GuardAgainstNull(entity, $"The entity is null");
 
             ApplicationUser user = this.repo.All<ApplicationUser>()
                 .Where(au => au.Id == currentUserId)
                 .Include(au => au.FavoriteRecipes)
-                .First();
+                .FirstOrDefault()!;
 
-            guard.GuardAgainstNull(user, $"The user with ID {currentUserId} is deleted");
+            guard.GuardAgainstNull(user, $"The entity is null");
 
             user.FavoriteRecipes.Add(entity);
 

@@ -318,8 +318,11 @@ namespace TastyFood.Test
 
             ApplicationUser userEntity = await repo.GetByIdAsync<ApplicationUser>("ID");
             await recipeService.AddRecipeToUserFavoritesListAsync(1, "ID");
-            
-            Assert.ThrowsAsync<AlreadyDeletedException>(() => recipeService.AddRecipeToUserFavoritesListAsync(2, "ID"));
+
+            Assert.That(userEntity.FavoriteRecipes.Count(), Is.EqualTo(1));
+
+            Assert.ThrowsAsync<ArgumentNullException>(() => recipeService.AddRecipeToUserFavoritesListAsync(255, "ID"));
+            Assert.ThrowsAsync<ArgumentNullException>(() => recipeService.AddRecipeToUserFavoritesListAsync(255, null));
         }
 
         [TearDown]
