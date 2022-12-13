@@ -4,6 +4,7 @@
 
     using Microsoft.EntityFrameworkCore;
 
+    using TastyFood.Exceptions;
     using TastyFood.Core.Contracts;
     using TastyFood.Core.Models.RecipeModels;
     using TastyFood.Infrastructure.Data.Common;
@@ -11,14 +12,16 @@
     using TastyFood.Core.Models.IngredientModels;
     using TastyFood.Infrastructure.Data.Entities;
 
-#pragma warning disable IDE0003 
+#pragma warning disable IDE0003
     public class RecipeService : IRecipeService
     {
         private readonly IRepository repo;
+        private readonly IGuard guard;
 
-        public RecipeService(IRepository repo)
+        public RecipeService(IRepository repo, IGuard guard)
         {
             this.repo = repo;
+            this.guard = guard;
         }
 
         /// <summary>
@@ -288,10 +291,14 @@
                 .Where(r => r.IsActive && r.Id == recipeId)
                 .First();
 
+            guard.GuardAgainstNull(entity, $"The recipe with ID {recipeId} is deleted");
+
             ApplicationUser user = this.repo.All<ApplicationUser>()
                 .Where(au => au.Id == currentUserId)
                 .Include(au => au.FavoriteRecipes)
                 .First();
+
+            guard.GuardAgainstNull(user, $"The user with ID {currentUserId} is deleted");
 
             user.FavoriteRecipes.Add(entity);
 

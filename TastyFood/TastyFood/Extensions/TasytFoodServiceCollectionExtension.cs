@@ -3,6 +3,7 @@
     using TastyFood.Core;
     using TastyFood.Services;
     using TastyFood.Contracts;
+    using TastyFood.Exceptions;
     using TastyFood.Core.Contracts;
     using TastyFood.Infrastructure.Data.Common;
 
@@ -13,7 +14,7 @@
             services.AddScoped<IApplicationUserService, ApplicationUserService>();
             services.AddScoped<IRecipeService, RecipeService>();
             services.AddScoped<IRepository, Repository>();
-
+            services.AddScoped<IGuard, Guard>();
 
             return services;
         }

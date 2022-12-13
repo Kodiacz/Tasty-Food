@@ -313,15 +313,10 @@ namespace TastyFood.Test
             await repo.AddRangeAsync(recipes);
             await repo.SaveChangesAsync();
 
-            //user.FavoriteRecipes.Add(recipes[0]);
-
-            //await this.repo.SaveChangesAsync();
-
             ApplicationUser userEntity = await repo.GetByIdAsync<ApplicationUser>("ID");
-            await recipeService.AddRecipeToUserFavoritesList(1, "ID");
+            await recipeService.AddRecipeToUserFavoritesList(2, "ID");
 
             Assert.That(userEntity.FavoriteRecipes.Count(), Is.EqualTo(1));
-
         }
 
         [TearDown]

@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TastyFood.Infrastructure", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TastyFood.Core", "TastyFood.Core\TastyFood.Core.csproj", "{2A1A480D-4BE5-4F85-8017-031B34CD64B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TastyFood.Test", "TastyFood.Test\TastyFood.Test.csproj", "{B55161FB-9962-4D34-AF31-5F19844810BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TastyFood.Test", "TastyFood.Test\TastyFood.Test.csproj", "{B55161FB-9962-4D34-AF31-5F19844810BC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
