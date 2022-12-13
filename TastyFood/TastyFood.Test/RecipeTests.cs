@@ -1,3 +1,5 @@
+using TastyFood.Exceptions;
+
 namespace TastyFood.Test
 {
     public class Tests
@@ -5,6 +7,7 @@ namespace TastyFood.Test
         private TastyFoodDbContext inMemmoryContext;
         private RecipeService recipeService;
         private IRepository repo;
+        private Guard guard = new Guard();
 
         [SetUp]
         public void Setup()
@@ -19,7 +22,7 @@ namespace TastyFood.Test
             inMemmoryContext.Database.EnsureCreated();
 
             repo = new Repository(inMemmoryContext);
-            recipeService = new RecipeService(repo);
+            recipeService = new RecipeService(repo, guard);
         }
 
         [Test]
@@ -308,15 +311,15 @@ namespace TastyFood.Test
                     UserOwnerId = "second",
                 },
             };
-
+            
             await repo.AddAsync(user);
             await repo.AddRangeAsync(recipes);
             await repo.SaveChangesAsync();
 
             ApplicationUser userEntity = await repo.GetByIdAsync<ApplicationUser>("ID");
-            await recipeService.AddRecipeToUserFavoritesList(2, "ID");
-
-            Assert.That(userEntity.FavoriteRecipes.Count(), Is.EqualTo(1));
+            await recipeService.AddRecipeToUserFavoritesListAsync(1, "ID");
+            
+            Assert.ThrowsAsync<AlreadyDeletedException>(() => recipeService.AddRecipeToUserFavoritesListAsync(2, "ID"));
         }
 
         [TearDown]
