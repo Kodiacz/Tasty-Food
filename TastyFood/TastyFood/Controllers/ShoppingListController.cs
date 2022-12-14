@@ -8,6 +8,7 @@
     using TastyFood.Core.Models.RecipeModels;
     using TastyFood.Core.Models.ShoppingListModels;
     using TastyFood.Extensions;
+    using TastyFood.Infrastructure.Data.Entities;
 
     public class ShoppingListController : Controller
     {
@@ -44,11 +45,12 @@
         {
             string currentUserId = User.Id();
             string currentUsername = User?.Identity?.Name!;
+            receipeModel.Creator = this.shoppingListService.GetOwnerOfRecipe(id);
 
             CreateShoppingListViewModel shoppingListModel = this.shoppingListService.CreateShoppingListViewModel(receipeModel, currentUserId, currentUsername);
             await this.shoppingListService.CreateShoppintListAsync(shoppingListModel, id);
 
-            return View("Detail", receipeModel);
+            return View("~/Views/Recipe/Detail.cshtml", receipeModel);
         }
     }
 }
