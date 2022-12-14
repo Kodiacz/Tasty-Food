@@ -50,5 +50,14 @@
             await this.repo.AddAsync(shoppingEntity);
             await this.repo.SaveChangesAsync();
         }
+
+        public ApplicationUser GetOwnerOfRecipe(int recipeId)
+        {
+            ApplicationUser recipeOwner = this.repo.AllReadonly<ApplicationUser>()
+                .Where(au => au.OwnRecipes.Any(or => or.Id == recipeId))
+                .FirstOrDefault()!;
+
+            return recipeOwner;
+        }
     }
 }
