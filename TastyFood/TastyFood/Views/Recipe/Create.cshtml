@@ -69,13 +69,6 @@
 
 @section Scripts {
     <script src="~/js/CreateJavascrip.js"> </script>
-
-    <script>
-        var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
-        var popoverList = popoverTriggerList.map(function(popoverTrigger) {
-            return new bootstrap.Popover(popoverTrigger)
-        })
-    </script>
-
+    <script src="~/js/popoverJs.js"></script>
     <partial name="_ValidationScriptsPartial" />
 }
