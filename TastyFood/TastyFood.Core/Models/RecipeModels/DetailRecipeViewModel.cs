@@ -11,6 +11,7 @@
         {
             Ingredients = new List<CheckBoxOptionViewModel>();
             Directions = new List<DirectionViewModel>();
+            IngredientsOutput = new List<string>();
         }
 
         public int Id { get; set; }
@@ -31,10 +32,10 @@
 
         public int ServingsQuantity { get; set; }
 
-        public ICollection<CheckBoxOptionViewModel> Ingredients { get; set; }
+        public List<CheckBoxOptionViewModel> Ingredients { get; set; }
 
-        public ICollection<string> IngredientsOutput { get; set; }
+        public List<string> IngredientsOutput { get; set; }
 
-        public ICollection<DirectionViewModel> Directions { get; set; }
+        public List<DirectionViewModel> Directions { get; set; }
     }
 }
