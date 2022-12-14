@@ -41,16 +41,18 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> Save(DetailRecipeViewModel receipeModel, int id)
+        public async Task<IActionResult> Save(DetailRecipeViewModel recipeModel, int id)
         {
             string currentUserId = User.Id();
             string currentUsername = User?.Identity?.Name!;
-            receipeModel.Creator = this.shoppingListService.GetOwnerOfRecipe(id);
 
-            CreateShoppingListViewModel shoppingListModel = this.shoppingListService.CreateShoppingListViewModel(receipeModel, currentUserId, currentUsername);
+            CreateShoppingListViewModel shoppingListModel = this.shoppingListService.CreateShoppingListViewModel(recipeModel, currentUserId, currentUsername);
             await this.shoppingListService.CreateShoppintListAsync(shoppingListModel, id);
 
-            return View("~/Views/Recipe/Detail.cshtml", receipeModel);
+            recipeModel.Creator = this.shoppingListService.GetOwnerOfRecipe(id);
+            recipeModel.ShoppingListId = this.shoppingListService.GetCurrentUserShoppingListId(currentUserId, id);
+
+            return View("~/Views/Recipe/Detail.cshtml", recipeModel);
         }
     }
 }
