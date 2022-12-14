@@ -75,7 +75,6 @@
                 recipe.Directions.Add(direction);
             }
 
-
             await repo.AddAsync(recipe);
             await repo.SaveChangesAsync();
         }
@@ -121,11 +120,6 @@
                 .FirstOrDefault()!;
 
             guard.GuardAgainstNull(recipeOwner, $"The {nameof(ApplicationUser)} with ID {recipeEntity.UserOwnerId} does not exist");
-
-            if (!recipeEntity.IsActive)
-            {
-                throw new ArgumentException("the entity is deleted");
-            }
 
             ICollection<Ingredient> ingredientsEntities = repo.All<Ingredient>().Where(i => i.RecipeId == recipeId).ToHashSet();
             ICollection<Direction> directionsEntities = repo.All<Direction>().Where(d => d.RecipeId == recipeId).ToHashSet();
