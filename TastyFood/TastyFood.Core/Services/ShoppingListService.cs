@@ -1,5 +1,6 @@
 ﻿namespace TastyFood.Core.Services
 {
+    using Microsoft.EntityFrameworkCore;
     using System.Collections.Generic;
     using TastyFood.Core.Contracts;
     using TastyFood.Core.Models.IngredientModels;
@@ -84,12 +85,12 @@
         /// Gets the id of the current user ShoppingList
         /// </summary>
         /// <param name="currentUser">parameter of type string that contains the id of the current user</param>
-        /// <returns>returns an integer that contains the id of the current user ShoppingList</returns>
-        public int? GetCurrentUserShoppingListId(string currentUser)
+        /// <returns>returns a</returns>
+        public int? GetCurrentUserShoppingListId(string currentUser, int currentRecipeId)
         {
             return this.repo
                 .AllReadonly<ShoppingList>()
-                .Where(sl => sl.UserId == currentUser)
+                .Where(sl => sl.UserId == currentUser && sl.Ingredients.All(i => i.RecipeId == currentRecipeId))
                 .FirstOrDefault()
                 ?.Id ?? null;
         }
