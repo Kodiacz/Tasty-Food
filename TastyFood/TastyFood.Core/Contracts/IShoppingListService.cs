@@ -36,7 +36,7 @@ namespace TastyFood.Core.Contracts
         /// Gets the id of the current user ShoppingList
         /// </summary>
         /// <param name="currentUser">parameter of type string that contains the id of the current user</param>
-        /// <returns>returns an integer that contains the id of the current user ShoppingList</returns>
-        public int? GetCurrentUserShoppingListId(string currentUser);
+        /// <returns>returns a</returns>
+        public int? GetCurrentUserShoppingListId(string currentUser, int currentRecipeId);
     }
 }
