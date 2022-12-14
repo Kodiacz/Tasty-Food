@@ -108,8 +108,16 @@
                                 }
                             </ul>
                             <partial name="_InputFieldsForDetailRecipeViewModel">
-                            <button type="submit" class="btn btn-outline-primary my-2" id="download-btn" asp-controller="ShoppingList" asp-action="Download" asp-route-id="@Model.Id">Download Ingredients <i class="bi bi-download"></i></button>
-                            <button type="submit" class="btn btn-outline-primary my-2" id="save-btn" asp-controller="ShoppingList" asp-action="Save" asp-route-id="@Model.Id">Save Ingredients to a Shopping List</button>
+                                <button type="submit" class="btn btn-outline-primary my-2" id="download-btn" asp-controller="ShoppingList" asp-action="Download" asp-route-id="@Model.Id">Download Ingredients <i class="bi bi-download"></i></button>
+                                @if (User.Id() != null && Model.ShoppingListId == null)
+                                {
+                                    <button type="submit" class="btn btn-outline-primary my-2" id="save-btn" asp-controller="ShoppingList" asp-action="Save" asp-route-id="@Model.Id">Add Shopping List with ingredients</button>
+                                }
+
+                                @if (User.Id() != null && Model.ShoppingListId != null)
+                                {
+                                    <button type="submit" class="btn btn-outline-danger my-2" id="remove-btn" asp-controller="ShoppingList" asp-action="Remove" asp-route-id="@Model.Id">Remove Shopping List</button>
+                                }
                         </form>
                     </div>
                 </div>
