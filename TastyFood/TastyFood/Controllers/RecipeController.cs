@@ -7,15 +7,19 @@
 
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Authorization;
+    using TastyFood.Exceptions;
 
     [Authorize]
     public class RecipeController : Controller
     {
         private readonly IRecipeService recipeService;
 
-        public RecipeController(IRecipeService recipeService)
+        private readonly IShoppingListService shoppingListService;
+
+        public RecipeController(IRecipeService recipeService, IShoppingListService shoppingListService)
         {
             this.recipeService = recipeService;
+            this.shoppingListService = shoppingListService;
         }
 
         [HttpGet]
@@ -88,15 +92,27 @@
         [AllowAnonymous]
         public async Task<IActionResult> Detail(int id)
         {
-            var currentUserName = User?.Identity?.Name;
+            string currentUserName = User?.Identity?.Name;
+            string currentUserId = User.Id();
+
             try
             {
                 var model = await this.recipeService.GetRecipeWithIdAsync(id, currentUserName);
+                model.ShoppingListId = this.shoppingListService.GetCurrentUserShoppingListId(currentUserId, id);
+
                 return View(model);
             }
-            catch (Exception)
+            catch (AlreadyDeletedException ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
+            }
+            catch (ArgumentNullException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
             }
         }
 
@@ -123,6 +139,7 @@
             return RedirectToAction(nameof(MyRecipes));
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> AllRecipes()
         {
             IEnumerable<AllRecipeViewModel> model = await this.recipeService.GetAllRecipesAsync();
