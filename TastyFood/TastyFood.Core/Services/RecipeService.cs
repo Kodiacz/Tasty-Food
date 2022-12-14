@@ -113,11 +113,14 @@
         public async Task<DetailRecipeViewModel> GetRecipeWithIdAsync(int recipeId, string currentUserName)
         {
             Recipe recipeEntity = await repo.GetByIdAsync<Recipe>(recipeId);
+
+            guard.GuardAgainstNull(recipeEntity, $"The Recipe entity with ID {recipeId} is null");
+
             ApplicationUser recipeOwner = this.repo.AllReadonly<ApplicationUser>()
                 .Where(au => au.Id == recipeEntity.UserOwnerId)
                 .FirstOrDefault()!;
 
-            guard.GuardAgainstNull(recipeEntity, $"The Recipe entity with ID {recipeId} is null");
+            guard.GuardAgainstNull(recipeOwner, $"The {nameof(ApplicationUser)} with ID {recipeEntity.UserOwnerId} does not exist");
 
             if (!recipeEntity.IsActive)
             {
@@ -268,6 +271,9 @@
                 .Where(r => r.IsActive && r.Id == recipeId)
                 .FirstOrDefaultAsync();
 
+            guard.GuardAgainstNull(entity, $"The {nameof(Recipe)} with ID {recipeId} does not exist");
+            guard.GuardAgainstDeletedEntity(entity!.IsActive, $"The {nameof(Recipe)} with ID {recipeId} is already deleted");
+
             entity!.IsActive = false;
 
            await this.repo.SaveChangesAsync();
@@ -307,14 +313,14 @@
                 .Where(r => r.IsActive && r.Id == recipeId)
                 .FirstOrDefault()!;
 
-            guard.GuardAgainstNull(entity, $"The entity is null");
+            guard.GuardAgainstNull(entity, $"The {nameof(Recipe)} with ID {recipeId} does not exist");
 
             ApplicationUser user = this.repo.All<ApplicationUser>()
                 .Where(au => au.Id == currentUserId)
                 .Include(au => au.FavoriteRecipes)
                 .FirstOrDefault()!;
 
-            guard.GuardAgainstNull(user, $"The entity is null");
+            guard.GuardAgainstNull(user, $"The {nameof(ApplicationUser)} with ID {currentUserId} does not exist");
 
             user.FavoriteRecipes.Add(entity);
 
