@@ -4,18 +4,27 @@
 
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Net.Http.Headers;
-
+    using TastyFood.Core.Contracts;
     using TastyFood.Core.Models.RecipeModels;
+    using TastyFood.Core.Models.ShoppingListModels;
+    using TastyFood.Extensions;
 
     public class ShoppingListController : Controller
     {
+        private readonly IShoppingListService shoppingListService;
+
+        public ShoppingListController(IShoppingListService shoppingListService)
+        {
+            this.shoppingListService = shoppingListService;
+        }
+
         // TODO: Look for optimisation
         [HttpPost]
-        public IActionResult Download(DetailRecipeViewModel model, int recipeId)
+        public IActionResult Download(DetailRecipeViewModel model, int id)
         {
             if (model == null || model.IngredientsOutput.Count == 0)
             {
-                return RedirectToAction("Detail", "Recipe", new { id = recipeId });
+                return RedirectToAction("Detail", "Recipe", new { id = id });
             }
 
             StringBuilder sb = new StringBuilder();
@@ -31,9 +40,15 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> Save(DetailRecipeViewModel model, int recipeId)
+        public async Task<IActionResult> Save(DetailRecipeViewModel receipeModel, int id)
         {
-            return View();
+            string currentUserId = User.Id();
+            string currentUsername = User?.Identity?.Name!;
+
+            CreateShoppingListViewModel shoppingListModel = this.shoppingListService.CreateShoppingListViewModel(receipeModel, currentUserId, currentUsername);
+            await this.shoppingListService.CreateShoppintListAsync(shoppingListModel, id);
+
+            return View("Detail", receipeModel);
         }
     }
 }
