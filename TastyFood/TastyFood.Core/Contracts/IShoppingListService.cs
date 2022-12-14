@@ -10,6 +10,6 @@ namespace TastyFood.Core.Contracts
 
         public Task CreateShoppintListAsync(CreateShoppingListViewModel model, int recipeId);
 
-        public Task<ApplicationUser> GetOwnerOfRecipe();
+        public ApplicationUser GetOwnerOfRecipe(int recipeId);
     }
 }
