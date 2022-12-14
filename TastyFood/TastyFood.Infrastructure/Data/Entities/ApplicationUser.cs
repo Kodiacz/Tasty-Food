@@ -13,7 +13,7 @@
         {
             this.ShoppingLists = new HashSet<ShoppingList>();
             this.OwnRecipes = new HashSet<Recipe>();
-            this.FavoriteRecipes = new HashSet<Recipe>();
+            this.FavoriteRecipes = new HashSet<Recipe?>();
         }
 
         [Required]
