@@ -59,5 +59,14 @@
 
             return recipeOwner;
         }
+
+        public int? GetCurrentUserShoppingListId(string currentUser)
+        {
+            return this.repo
+                .AllReadonly<ShoppingList>()
+                .Where(sl => sl.UserId == currentUser)
+                .FirstOrDefault()
+                ?.Id ?? null;
+        }
     }
 }
