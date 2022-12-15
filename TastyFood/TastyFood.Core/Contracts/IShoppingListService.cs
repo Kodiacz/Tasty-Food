@@ -38,5 +38,12 @@ namespace TastyFood.Core.Contracts
         /// <param name="currentUser">parameter of type string that contains the id of the current user</param>
         /// <returns>returns a</returns>
         public int? GetCurrentUserShoppingListId(string currentUser, int currentRecipeId);
+
+        /// <summary>
+        /// Deleting by marking the entity as deleted, which means that the property 
+        /// IsActive equals false
+        /// </summary>
+        /// <param name="shoppingListId">parameter of type in which contains the ID of the current recipe</param>
+        public void DeleteSoftShoppingList(int? shoppingListId);
     }
 }
