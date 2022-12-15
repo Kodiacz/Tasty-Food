@@ -19,7 +19,12 @@
             this.shoppingListService = shoppingListService;
         }
 
-        // TODO: Look for optimisation
+        [HttpGet]
+        public async Task<IActionResult> Create()
+        {
+
+        }
+
         [HttpPost]
         public IActionResult Download(DetailRecipeViewModel model, int id)
         {
@@ -46,7 +51,7 @@
             string currentUserId = User.Id();
             string currentUsername = User?.Identity?.Name!;
 
-            CreateShoppingListViewModel shoppingListModel = this.shoppingListService.CreateShoppingListViewModel(recipeModel, currentUserId, currentUsername);
+            CreateShoppingListViewModel shoppingListModel = this.shoppingListService.BindShoppingListViewModel(recipeModel, currentUserId, currentUsername);
             await this.shoppingListService.CreateShoppintListAsync(shoppingListModel, id);
 
             recipeModel.Creator = this.shoppingListService.GetOwnerOfRecipe(id);

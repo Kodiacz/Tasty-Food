@@ -4,7 +4,8 @@
 
     using TastyFood.Core.Models.DirectionModels;
     using TastyFood.Core.Models.IngredientModels;
-    using static TastyFood.Infrastructure.Data.DataConstants.RecipeConstants
+    using static TastyFood.Infrastructure.Data.DataConstants.RecipeConstants;
+
     public class EditRecipeViewModel
     {
         public EditRecipeViewModel()

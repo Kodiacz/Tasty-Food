@@ -31,7 +31,7 @@
         /// <param name="currentUserId">parameter of type string which contains the current user id</param>
         /// <param name="currentUserName">parameter of type string which contains the current user username</param>
         /// <returns>returns object of type CreateShoppingListViewModel</returns>
-        public CreateShoppingListViewModel CreateShoppingListViewModel(DetailRecipeViewModel model, string currentUserId, string currentUserName)
+        public CreateShoppingListViewModel BindShoppingListViewModel(DetailRecipeViewModel model, string currentUserId, string currentUserName)
         {
             return new CreateShoppingListViewModel
             {
