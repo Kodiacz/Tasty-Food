@@ -7,14 +7,14 @@ namespace TastyFood.Core.Contracts
     public interface IShoppingListService
     {
         /// <summary>
-        /// Creates a ShoppingListViewModel and asigns its properties with the DetailRecipeViewModel 
+        /// Binds a ShoppingListViewModel with the properties from DetailRecipeViewModel
         /// that is passed as a parametar
         /// </summary>
         /// <param name="model">parameter object of type DetailRecipeViewModel</param>
         /// <param name="currentUserId">parameter of type string which contains the current user id</param>
         /// <param name="currentUserName">parameter of type string which contains the current user username</param>
         /// <returns>returns object of type CreateShoppingListViewModel</returns>
-        public CreateShoppingListViewModel CreateShoppingListViewModel(DetailRecipeViewModel model, string currentUserId, string currentUserName);
+        public CreateShoppingListViewModel BindShoppingListViewModel(DetailRecipeViewModel model, string currentUserId, string currentUserName);
 
         /// <summary>
         /// Creates a ShoppingList entity and assigns its properties from the 
