@@ -6,6 +6,7 @@
     using TastyFood.Core.Models.IngredientModels;
     using TastyFood.Core.Models.RecipeModels;
     using TastyFood.Core.Models.ShoppingListModels;
+    using TastyFood.Exceptions;
     using TastyFood.Infrastructure.Data.Common;
     using TastyFood.Infrastructure.Data.Entities;
 
@@ -13,9 +14,13 @@
     {
         private readonly IRepository repo;
 
-        public ShoppingListService(IRepository repo)
+        private readonly IGuard guard;
+
+        public ShoppingListService(IRepository repo,
+                                   IGuard guard)
         {
             this.repo = repo;
+            this.guard = guard;
         }
 
         /// <summary>
@@ -50,20 +55,35 @@
         /// <returns></returns>
         public async Task CreateShoppintListAsync(CreateShoppingListViewModel model, int recipeId)
         {
-            ShoppingList shoppingEntity = new ShoppingList()
-            {
-                Name = model.Name,
-                UserId = model.UserId,
-            };
+            var ingredientsEntities = this.repo.All<Ingredient>()
+                .Where(i => i.RecipeId == recipeId).ToHashSet();
 
-            var ingredientsEntities = this.repo.All<Ingredient>().Where(i => i.RecipeId == recipeId).ToHashSet();
+            ShoppingList shoppingEntity;
 
-            foreach (var recipe in ingredientsEntities)
+            if (ingredientsEntities.All(i => i.ShoppingListId != null))
             {
-                shoppingEntity.Ingredients.Add(recipe);
+                shoppingEntity = this.repo.All<ShoppingList>()
+                    .Where(sl => sl.Ingredients.All(i => i.ShoppingListId == sl.Id))
+                    .First();
+
+                shoppingEntity.IsActive = true;
+            }
+            else
+            {
+                shoppingEntity = new ShoppingList()
+                {
+                    Name = model.Name,
+                    UserId = model.UserId,
+                };
+
+                foreach (var recipe in ingredientsEntities)
+                {
+                    shoppingEntity.Ingredients.Add(recipe);
+                }
+
+                await this.repo.AddAsync(shoppingEntity);
             }
 
-            await this.repo.AddAsync(shoppingEntity);
             await this.repo.SaveChangesAsync();
         }
 
@@ -93,6 +113,23 @@
                 .Where(sl => sl.UserId == currentUser && sl.Ingredients.All(i => i.RecipeId == currentRecipeId))
                 .FirstOrDefault()
                 ?.Id ?? null;
+        }
+
+        /// <summary>
+        /// Deleting by marking the entity as deleted, which means that the property 
+        /// IsActive equals false
+        /// </summary>
+        /// <param name="shoppingListId">parameter of type in which contains the ID of the current recipe</param>
+        public void DeleteSoftShoppingList(int? shoppingListId)
+        {
+            ShoppingList? shoppingListEntity = this.repo.All<ShoppingList>()
+                .Where(sl => sl.Id == shoppingListId)
+                ?.FirstOrDefault() ?? null;
+
+            guard.GuardAgainstNull(shoppingListEntity, $"The {nameof(ShoppingList)} with ID {shoppingListId} does not exist");
+            guard.GuardAgainstDeletedEntity(shoppingListEntity!.IsActive, $"The {nameof(ShoppingList)} with ID {shoppingListId} is already deleted");
+
+            shoppingListEntity.IsActive = false;
         }
     }
 }
