@@ -54,5 +54,16 @@
 
             return View("~/Views/Recipe/Detail.cshtml", recipeModel);
         }
+
+        [HttpPost]
+        public IActionResult Remove(DetailRecipeViewModel recipeModel, int id)
+        {
+            this.shoppingListService.DeleteSoftShoppingList(recipeModel.ShoppingListId);
+
+            recipeModel.ShoppingListId = null;
+            recipeModel.Creator = this.shoppingListService.GetOwnerOfRecipe(id);
+
+            return View("~/Views/Recipe/Detail.cshtml", recipeModel);
+        }
     }
 }
