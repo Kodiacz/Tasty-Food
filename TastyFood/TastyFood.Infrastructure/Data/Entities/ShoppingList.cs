@@ -18,6 +18,8 @@
         [StringLength(NameMaxLength)]
         public string Name { get; set; } = null!;
 
+        public bool IsActive { get; set; } = true;
+
         [Required]
         [ForeignKey(nameof(User))]
         public string UserId { get; set; } = null!;
