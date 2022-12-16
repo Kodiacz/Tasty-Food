@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using TastyFood.Infrastructure.Data;
 using TastyFood.Infrastructure.Data.Entities;
+using static TastyFood.HelperMethods.AddDefaultIdentityOptions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,19 +11,13 @@ builder.Services.AddDbContext<TastyFoodDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
-{
-    options.SignIn.RequireConfirmedAccount = false;
-    options.Password.RequireDigit = false;
-    options.Password.RequireNonAlphanumeric = false;
-    options.Password.RequireLowercase = false;
-    options.Password.RequireUppercase = false;
-})
+builder.Services.AddDefaultIdentity<ApplicationUser>(options => AddOptions(options))
     .AddEntityFrameworkStores<TastyFoodDbContext>();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.LoginPath = "/ApplicationUser/Login";
+    options.LogoutPath = "/ApplicationUser/Logout";
 });
 
 builder.Services.AddControllersWithViews();

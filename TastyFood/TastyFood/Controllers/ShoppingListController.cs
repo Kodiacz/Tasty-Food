@@ -22,7 +22,9 @@
         [HttpGet]
         public async Task<IActionResult> Create()
         {
+            ShoppingList model = new ShoppingList();
 
+            return View(model.);
         }
 
         [HttpPost]
