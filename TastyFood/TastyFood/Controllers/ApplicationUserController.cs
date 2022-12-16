@@ -75,6 +75,7 @@
             return View(loginViewModel);
         }
 
+        [Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> Logout()
         {
             await this.userService.SignOutApplicationUserAsync();

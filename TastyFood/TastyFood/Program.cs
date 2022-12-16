@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TastyFood.Infrastructure.Data;
 using TastyFood.Infrastructure.Data.Entities;
@@ -12,7 +13,8 @@ builder.Services.AddDbContext<TastyFoodDbContext>(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => AddOptions(options))
-    .AddEntityFrameworkStores<TastyFoodDbContext>();
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<TastyFoodDbContext>();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {

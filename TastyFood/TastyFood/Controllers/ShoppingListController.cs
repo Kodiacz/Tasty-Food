@@ -24,7 +24,7 @@
         {
             ShoppingList model = new ShoppingList();
 
-            return View(model.);
+            return View(model);
         }
 
         [HttpPost]

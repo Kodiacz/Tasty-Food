@@ -23,6 +23,7 @@
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin, User")]
         public IActionResult Create()
         {
             var model = this.recipeService.CreateRecipeViewModel();
@@ -31,6 +32,7 @@
         }
 
         [HttpPost]
+        [Authorize(Roles ="Admin, User")]
         public async Task<IActionResult> Create(CreateRecipeViewModel model)
         {
             int[] indexes = new[] { 0, 0, 0 };
@@ -80,6 +82,7 @@
             return RedirectToAction(nameof(MyRecipes));
         }
 
+        [Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> MyRecipes()
         {
             var currentUserId = User.Id();
@@ -90,6 +93,7 @@
         }
 
         [AllowAnonymous]
+        [Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> Detail(int id)
         {
             string currentUserName = User?.Identity?.Name;
@@ -117,6 +121,7 @@
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> Edit(int id)
         {
             var model = await this.recipeService.CreateEditRecipeViewModelAsync(id);
@@ -125,6 +130,7 @@
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> Edit(EditRecipeViewModel model, int id)
         {
             await this.recipeService.UpdateRecipeAsync(model, id);
@@ -132,6 +138,7 @@
             return RedirectToAction(nameof(Detail), new { id = id });
         }
 
+        [Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> Delete(int id)
         {
             await this.recipeService.DeleteSoft(id);
@@ -139,7 +146,7 @@
             return RedirectToAction(nameof(MyRecipes));
         }
 
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AllRecipes()
         {
             IEnumerable<AllRecipeViewModel> model = await this.recipeService.GetAllRecipesAsync();
@@ -147,6 +154,7 @@
             return View(model);
         }
 
+        [Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> AddToFavorites(int id)
         {
             string currentUserId = this.User.Id();
