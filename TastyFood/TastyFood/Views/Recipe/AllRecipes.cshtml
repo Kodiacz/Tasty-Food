@@ -15,6 +15,24 @@ else
 {
     int i = Model.Count();
 
+    @*<form class="d-flex">*@
+    <div class="row">
+        <label for="searchType" class="form-label mt-4">Search by</label>
+        <div class="col form-group">
+            <select class="form-select" id="searchType" fdprocessedid="eyv0duk">
+                <option>Title</option>
+                <option>Ingredient</option>
+            </select>
+        </div>
+        <div class="col-6 form-group">
+            <input class="form-control me-sm-2" id="searchValue" type="text" placeholder="Search">
+        </div>
+        <div class="col form-group">
+            <button class="btn btn-info my-2 my-sm-0" type="submit" onclick="sendParameters()">Search</button>
+        </div>
+    </div>
+    @*</form>*@
+
     <div class="row">
         @foreach (var recipe in Model)
         {
@@ -76,4 +94,27 @@ else
             </div>
         }
     </div>
+}
+
+@section Scripts{
+    <script>
+        function sendParameters() {
+            debugger
+            let title = document.querySelector('#searchType').value;
+            let input = document.querySelector('#searchValue').value;
+
+            $.ajax({
+                type: "POST",
+                url: "/Recipe/SearchForRecipe",
+                dataType: "json",
+                data: { title: title, input: input },
+                success: function(result) {
+                    console.log(result)
+                },
+                error: function(req, status, error) {
+                    console.log(status);
+                }
+            });
+        }
+    </script>
 }
