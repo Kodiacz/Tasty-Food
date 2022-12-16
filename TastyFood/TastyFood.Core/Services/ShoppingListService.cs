@@ -41,8 +41,7 @@
                     Product = i.Split(" - ")[0],
                     Quantity = i.Split(" - ")[1],
                 }).ToList(),
-                Username = currentUserName,
-                UserId = currentUserId
+                OwnerUserId = currentUserId
             };
         }
 
@@ -73,7 +72,7 @@
                 shoppingEntity = new ShoppingList()
                 {
                     Name = model.Name,
-                    UserId = model.UserId,
+                    UserId = model.OwnerUserId,
                 };
 
                 foreach (var recipe in ingredientsEntities)

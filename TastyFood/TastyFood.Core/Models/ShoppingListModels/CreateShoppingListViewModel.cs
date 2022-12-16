@@ -1,5 +1,7 @@
 ﻿namespace TastyFood.Core.Models.ShoppingListModels
 {
+    using System.ComponentModel.DataAnnotations;
+
     using TastyFood.Core.Models.IngredientModels;
 
     public class CreateShoppingListViewModel
@@ -9,11 +11,10 @@
             this.Ingredients = new List<IngredientViewModel>();
         }
 
+        [Required]
         public string Name { get; set; } = null!;
 
-        public string UserId { get; set; } = null!;
-
-        public string Username { get; set; } = null!;
+        public string OwnerUserId { get; set; } = null!;
 
         public List<IngredientViewModel> Ingredients { get; set; } = null!;
     }
