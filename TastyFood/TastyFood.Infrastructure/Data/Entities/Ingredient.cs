@@ -20,8 +20,8 @@
         public string Quantity { get; set; } = null!;
 
         [ForeignKey(nameof(Recipe))]
-        public int RecipeId { get; set; }
-        public Recipe Recipe { get; set; } = null!;
+        public int? RecipeId { get; set; }
+        public Recipe? Recipe { get; set; }
 
         [ForeignKey(nameof(ShoppingList))]
         public int? ShoppingListId { get; set; }
