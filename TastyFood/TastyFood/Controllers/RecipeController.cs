@@ -163,5 +163,10 @@
 
             return RedirectToAction(nameof(AllRecipes));
         }
+
+        public async Task<IActionResult> SearchForRecipe(string title, string input)
+        {
+            return View();
+        }
     }
 }
