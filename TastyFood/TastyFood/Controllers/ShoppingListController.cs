@@ -21,12 +21,36 @@
 
         [HttpGet]
         [Authorize(Roles = "Admin, User")]
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
-            ShoppingList model = new ShoppingList();
+            CreateShoppingListViewModel model = new CreateShoppingListViewModel();
+            
 
             return View(model);
         }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin, User")]
+        public async Task<IActionResult> Create(CreateShoppingListViewModel model)
+        {
+            string currentUserId = this.User.Id();
+
+            await this.shoppingListService.CreateShoppingListAsync(model, currentUserId);
+
+            return View(model);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Admin, User")]
+        public async Task<IActionResult> MyShoppingLists()
+        {
+            string currentUserId = this.User.Id();
+
+            List<ShoppingListViewModel> models = this.shoppingListService.GetAllUserShoppingLists(currentUserId);
+
+            return View(models);
+        }
+
         [HttpPost]
         public IActionResult Download(DetailRecipeViewModel model, int id)
         {
@@ -55,7 +79,7 @@
             string currentUsername = User?.Identity?.Name!;
 
             CreateShoppingListViewModel shoppingListModel = this.shoppingListService.BindShoppingListViewModel(recipeModel, currentUserId, currentUsername);
-            await this.shoppingListService.CreateShoppintListAsync(shoppingListModel, id);
+            await this.shoppingListService.SaveShoppintListAsync(shoppingListModel, id);
 
             recipeModel.Creator = this.shoppingListService.GetOwnerOfRecipe(id);
             recipeModel.ShoppingListId = this.shoppingListService.GetCurrentUserShoppingListId(currentUserId, id);

@@ -52,7 +52,7 @@
         /// <param name="model">parameter object of type CreateShoppingListViewModel</param>
         /// <param name="recipeId">parameter of type int that contains the id of a Recipe entity</param>
         /// <returns></returns>
-        public async Task CreateShoppintListAsync(CreateShoppingListViewModel model, int recipeId)
+        public async Task SaveShoppintListAsync(CreateShoppingListViewModel model, int recipeId)
         {
             var ingredientsEntities = this.repo.All<Ingredient>()
                 .Where(i => i.RecipeId == recipeId).ToHashSet();
@@ -129,6 +129,41 @@
             guard.GuardAgainstDeletedEntity(shoppingListEntity!.IsActive, $"The {nameof(ShoppingList)} with ID {shoppingListId} is already deleted");
 
             shoppingListEntity.IsActive = false;
+        }
+
+        public async Task CreateShoppingListAsync(CreateShoppingListViewModel model, string currentUserId)
+        {
+            ShoppingList shoptingListNewEntity = new()
+            {
+                Name = model.Name,
+                UserId = currentUserId,
+                Ingredients = model.Ingredients.Select(i => new Ingredient
+                {
+                    Product = i.Product,
+                    Quantity = i.Quantity,
+                }).ToHashSet(),
+            };
+
+            await this.repo.AddAsync<ShoppingList>(shoptingListNewEntity);
+            await this.repo.SaveChangesAsync();
+        }
+
+        public List<ShoppingListViewModel> GetAllUserShoppingLists(string currentUserId)
+        {
+            return this.repo.AllReadonly<ShoppingList>()
+                .Include(sl => sl.Ingredients)
+                .Where(sl => sl.IsActive && sl.UserId == currentUserId)
+                .Select(sl => new ShoppingListViewModel()
+                {
+                    Id = sl.Id,
+                    Name = sl.Name,
+                    Ingredients = sl.Ingredients.Select(i => new IngredientViewModel
+                    {
+                        Product = i.Product,
+                        Quantity = i.Quantity,
+                    }).ToList(),
+                })
+                .ToList();
         }
     }
 }

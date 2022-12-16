@@ -1,0 +1,67 @@
+﻿@model List<ShoppingListViewModel>
+
+@{
+    string empty = "My Shopping List is empty";
+    ViewData["Title"] = Model.Count() == 0 ? empty : "My Shopping Lists";
+
+    if ((string)ViewData["Title"]! == empty)
+    {
+    <a asp-controller="ShoppingList" action="Create">Go to create your first Shopping List</a>
+    }
+
+    <h1 class="text-center">@ViewData["Title"]</h1>
+    <hr />
+}
+
+<div class="list-group">
+    <div class="accordion" id="accordionPanelsStayOpenExample">
+        @{
+            int acordionIndex = 1;
+            int checkboxIndex = 1;
+        }
+
+        @foreach (var sl in Model)
+        {
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="panelsStayOpen-heading-@acordionIndex">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse-@acordionIndex" aria-expanded="true" aria-controls="panelsStayOpen-collapse-@acordionIndex">
+                        <h3 class="text-dark">@sl.Name</h3>
+                    </button>
+                </h2>
+            </div>
+            <div id="panelsStayOpen-collapse-@acordionIndex" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-heading-@acordionIndex">
+                <div class="accordion-body">
+                    @foreach (var ingredient in sl.Ingredients)
+                    {
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <input class="form-check-input me-1" onchange='getAllCheckedIngredients("@checkboxIndex-Checkbox")' type="checkbox" value="@ingredient.Product - @ingredient.Quantity" id="@checkboxIndex-Checkbox">
+                                <label class="form-check-label stretched-link" for="@checkboxIndex-Checkbox">@ingredient.Product - @ingredient.Quantity</label>
+                            </li>
+                        </ul>
+
+                        checkboxIndex++;
+                    }
+                    <hr />
+                    <div class="list-group" id="checked-ingredients">
+                    </div>
+                </div>
+            </div>
+            acordionIndex++;
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function getAllCheckedIngredients(inputId) {
+            debugger;
+            console.log(inputId)
+            let selected = [] // New array
+            $(`input[type=checkbox]:checked`).each(function() {
+                selected.push(this.value)
+            })
+            console.log(selected.join(' '))
+        }
+    </script>
+}

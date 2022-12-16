@@ -23,7 +23,7 @@ namespace TastyFood.Core.Contracts
         /// <param name="model">parameter object of type CreateShoppingListViewModel</param>
         /// <param name="recipeId">parameter of type int that contains the id of a Recipe entity</param>
         /// <returns></returns>
-        public Task CreateShoppintListAsync(CreateShoppingListViewModel model, int recipeId);
+        public Task SaveShoppintListAsync(CreateShoppingListViewModel model, int recipeId);
 
         /// <summary>
         /// Gets the owner of the recipe 
@@ -45,5 +45,9 @@ namespace TastyFood.Core.Contracts
         /// </summary>
         /// <param name="shoppingListId">parameter of type in which contains the ID of the current recipe</param>
         public void DeleteSoftShoppingList(int? shoppingListId);
+
+        public Task CreateShoppingListAsync(CreateShoppingListViewModel model, string currentUserId);
+
+        public List<ShoppingListViewModel> GetAllUserShoppingLists(string currentUserId);
     }
 }
