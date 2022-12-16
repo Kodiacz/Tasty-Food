@@ -115,22 +115,6 @@ function removeStep(id) {
     stepsIndex = document.querySelectorAll('.input-steps').length
 }
 
-function validate(e, id, type) {
-    let inputValue = e.target.value
-    let validationPTag = document.querySelector(`#${id}`)
-    let statementCase = type == 'step' ? 450 : 70
-
-    if (inputValue.length > statementCase) {
-        e.target.classList.add("is-invalid")
-        validationPTag.textContent = `The ${type} must be less then ${statementCase} symbols`
-    } else {
-        e.target.classList.remove("is-invalid")
-        e.target.classList.add("is-valid")
-        validationPTag.textContent = ""
-    }
-
-}
-
 function getAllProductInputFields() {
     return document.querySelectorAll('.input-products')
 }
