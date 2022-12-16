@@ -1,0 +1,74 @@
+﻿@model CreateShoppingListViewModel
+
+@{
+    ViewData["Title"] = "Create Shopping List";
+}
+
+<h1 class="text-center">@ViewData["Title"]</h1>
+
+<form asp-controller="ShoppingList" asp-action="Create" class="needs-validation" method="post">
+    <div class="row">
+        <div class="col-md-7 offset-md-3">
+            <form id="registerForm" method="post">
+                <hr />
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="text-center mb-3">
+                    <label asp-for="@Model.Name">Name</label>
+                    <input class="form-control text-center" aria-required="true" asp-for="@Model.Name" />
+                    <span asp-validation-for="@Model.Name" class="text-danger"></span>
+                </div>
+                <div class="my-3 form-group" id="IngridientsDiv">
+                    <hr />
+
+                    @{
+                        int ingredientsIndex = 0;
+                    }
+
+                    @foreach (var ingredient in Model.Ingredients)
+                    {
+                        int ingredientsIndexLastDigit = (ingredientsIndex + 1) % 10;
+                        string prefix;
+
+                        string productIsInvalid = ViewData[$"ProductMessage{ingredientsIndex}"] != null ? "is-invalid" : string.Empty;
+
+                        string quantityIsInvalid = ViewData[$"QuantityMessage{ingredientsIndex}"] != null ? "is-invalid" : string.Empty;
+
+                        switch (ingredientsIndexLastDigit)
+                        {
+                            case 1: prefix = "st"; break;
+                            case 2: prefix = "nd"; break;
+                            case 3: prefix = "rd"; break;
+                            default: prefix = "th"; break;
+                        }
+                        <div>
+                            <span class="text-danger" asp-validation-for="Ingredients[ingredientsIndex].Product"></span>
+                            <span class="text-danger" asp-validation-for="Ingredients[ingredientsIndex].Quantity"></span>
+                        </div>
+                        <p id="ingredient-paragraph-@ingredientsIndex" class="ingredients-paragraphs">@(ingredientsIndex + 1)@prefix Ingredient:</p>
+                        <div class='input-group ingredients-divs' id="ingredient-div-@ingredientsIndex">
+                            <span class="input-group-text">Product and Quantity</span>
+                            <input asp-for="@ingredient.Product" name="Ingredients[@ingredientsIndex].Product" type="text" placeholder='e.g. potato' class="form-control @productIsInvalid input-products" />
+                            <input asp-for="@ingredient.Quantity" name='Ingredients[@ingredientsIndex].Quantity' type="text" placeholder='e.g. 1.3' class="form-control @quantityIsInvalid input-quantities" />
+                            <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Delete this product">
+                                <button type="button" onclick="removeIngredient('@ingredientsIndex')" class="btn btn-outline-danger form-control delete-ingredients-btns"><i class="bi bi-trash3"></i></button>
+                            </span>
+                        </div>
+
+                        ingredientsIndex++;
+                    }
+                </div>
+                <a class="btn btn-info my-3" onclick="addMoreIngredientFields()">Add Ingedients &nbsp; <i class="bi bi-plus-circle"></i></a>
+                <div class="text-left">
+                    <button id="registerSubmit" type="submit" class="btn btn-primary">Create Shopping List</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <script src="~/js/create-shopping-list-javascript.js"></script>
+    <script src="~/js/validate-additional-fields.js"> </script>
+    <partial name="_ValidationScriptsPartial" />
+}
+
