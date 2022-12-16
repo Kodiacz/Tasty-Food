@@ -1,7 +1,7 @@
 ﻿namespace TastyFood.Controllers
 {
     using System.Text;
-
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Net.Http.Headers;
     using TastyFood.Core.Contracts;
@@ -20,13 +20,13 @@
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> Create()
         {
             ShoppingList model = new ShoppingList();
 
             return View(model);
         }
-
         [HttpPost]
         public IActionResult Download(DetailRecipeViewModel model, int id)
         {
@@ -48,6 +48,7 @@
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> Save(DetailRecipeViewModel recipeModel, int id)
         {
             string currentUserId = User.Id();
@@ -63,6 +64,7 @@
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin, User")]
         public IActionResult Remove(DetailRecipeViewModel recipeModel, int id)
         {
             this.shoppingListService.DeleteSoftShoppingList(recipeModel.ShoppingListId);

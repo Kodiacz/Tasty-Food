@@ -146,7 +146,7 @@
             return RedirectToAction(nameof(MyRecipes));
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> AllRecipes()
         {
             IEnumerable<AllRecipeViewModel> model = await this.recipeService.GetAllRecipesAsync();
