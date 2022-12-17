@@ -72,7 +72,14 @@ else
                             }
                             else
                             {
-                                <a asp-controller="Recipe" asp-action="AddToFavorites" asp-route-id="@recipe.Id" class="btn btn-success text-dark">Favorite</a>
+                                if (recipe.UserFavoritesId.Any(favoriteUserId => favoriteUserId == User.Id()))
+                                {
+                                   <a class="btn btn-danger" asp-controller="Recipe" asp-action="RemoveFromFavorites" asp-route-id="@recipe.Id">Remove From Favorites</a>
+                                }
+                                else
+                                {
+                                    <a asp-controller="Recipe" asp-action="AddToFavorites" asp-route-id="@recipe.Id" class="btn btn-success text-dark">Favorite</a>
+                                }
                             }
                         </div>
                     </div>

@@ -42,13 +42,14 @@ else
                         <p class="card-text">@recipe.Description</p>
                         <div class="btn-group">
                             <a asp-controller="Recipe" asp-action="Detail" asp-route-id="@recipe.Id" class="btn @readMoreBtnBackground text-dark">Read more</a>
-                            <button type="button" class="btn btn-dark text-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>
+                            @*<button type="button" class="btn btn-dark text-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">Remove from favorites</button>*@
+                            <a class="btn btn-danger" asp-controller="Recipe" asp-action="RemoveFromFavorites" asp-route-id="@recipe.Id">Remove from favorites</a>
 
                             <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="deleteModalLabel">Delete Recipe</h1>
+                                            <h1 class="modal-title fs-5" id="deleteModalLabel">Remove from favorites</h1>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
@@ -57,7 +58,6 @@ else
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                                            <a class="btn btn-danger" asp-controller="Recipe" asp-action="RemoveFromFavorites" asp-route-id="@recipe.Id">Yes</a>
                                         </div>
                                     </div>
                                 </div>
