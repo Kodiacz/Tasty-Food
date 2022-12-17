@@ -11,5 +11,7 @@
         public string ImageUrl { get; set; }
 
         public string OwnerId { get; set; }
+
+        public List<string> UserFavoritesId { get; set; }
     }
 }
