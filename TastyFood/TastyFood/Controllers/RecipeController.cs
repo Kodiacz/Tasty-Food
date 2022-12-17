@@ -32,7 +32,7 @@
         }
 
         [HttpPost]
-        [Authorize(Roles ="Admin, User")]
+        [Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> Create(CreateRecipeViewModel model)
         {
             int[] indexes = new[] { 0, 0, 0 };
@@ -146,6 +146,7 @@
             return RedirectToAction(nameof(MyRecipes));
         }
 
+        [AllowAnonymous]
         [Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> AllRecipes()
         {
@@ -154,19 +155,40 @@
             return View(model);
         }
 
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> AllRecipesByFilter(string searchBy, string input)
+        {
+            ModelState.Clear();
+            var model = await this.recipeService.GetSearchedRecipes(searchBy, input);
+
+            return View("AllRecipes", model);
+        }
+
         [Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> AddToFavorites(int id)
         {
             string currentUserId = this.User.Id();
+
+            if (!this.User?.Identity?.IsAuthenticated ?? false)
+            {
+                return RedirectToAction("Register", "ApplicationUser");
+            }
 
             await this.recipeService.AddRecipeToUserFavoritesListAsync(id, currentUserId);
 
             return RedirectToAction(nameof(AllRecipes));
         }
 
-        public async Task<IActionResult> SearchForRecipe(string title, string input)
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> SearchForRecipe(string searchBy, string input)
         {
-            return View();
+            ModelState.Clear();
+            var model = await this.recipeService.GetSearchedRecipes(searchBy, input);
+
+            return View("AllRecipes", model);
+            //return RedirectToAction(nameof(AllRecipes), new { model = model });
         }
     }
 }

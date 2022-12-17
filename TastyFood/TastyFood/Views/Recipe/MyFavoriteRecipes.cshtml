@@ -1,0 +1,71 @@
+﻿@model IEnumerable<AllRecipeViewModel>
+
+@{
+    ViewBag.Title = "Your favorite recipes";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+@if (@Model.Count() == 0)
+{
+    <h1 class="text-center">You don't have recipes yet <i class="bi bi-emoji-frown"></i></h1>
+}
+else
+{
+    int i = Model.Count();
+
+    <div class="row">
+        @foreach (var recipe in Model)
+        {
+            string cardBackground;
+            string readMoreBtnBackground;
+
+            if (i % 2 == 0)
+            {
+                cardBackground = "bg-info";
+                readMoreBtnBackground = "btn-secondary";
+            }
+            else
+            {
+                cardBackground = "bg-secondary";
+                readMoreBtnBackground = "btn-info";
+            }
+
+            i++;
+
+            <div class="col-sm-4">
+                <div class="card text-white @cardBackground my-3" style="width: 18rem;">
+                    <img src="@recipe.ImageUrl" class="card-img-top" alt="...">
+                    <div class="card-body shadow-lg rounded">
+                        <h5 class="card-title">@recipe.Title</h5>
+                        <p class="card-text">@recipe.Description</p>
+                        <div class="btn-group">
+                            <a asp-controller="Recipe" asp-action="Detail" asp-route-id="@recipe.Id" class="btn @readMoreBtnBackground text-dark">Read more</a>
+                            <button type="button" class="btn btn-dark text-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>
+
+                            <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="deleteModalLabel">Delete Recipe</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Are you sure you want to delete this recipe
+                                            <p>test</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                                            <a class="btn btn-danger" asp-controller="Recipe" asp-action="RemoveFromFavorites" asp-route-id="@recipe.Id">Yes</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
