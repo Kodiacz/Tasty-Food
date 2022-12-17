@@ -73,5 +73,14 @@
         /// <param name="recipeId"></param>
         /// <returns></returns>
         Task AddRecipeToUserFavoritesListAsync(int recipeId, string currentUserId);
+
+        /// <summary>
+        /// Gets all the recipe that contains the content of the parameter input
+        /// </summary>
+        /// <param name="searchBy">parameter of type string that contains the type that the recipe is going to be searched by</param>
+        /// <param name="input">parameter of type string that contains the content that the recipe is going to be searched by</param>
+        /// <returns>returns an IEnumerable collection of type AllRecipeViewModel</returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public Task<IEnumerable<AllRecipeViewModel>> GetSearchedRecipes(string title, string input);
     }
 }

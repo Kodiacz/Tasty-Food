@@ -217,7 +217,7 @@
                 }
                 else
                 {
-                    if (model.DeletedIngredients.Count > i  && entity.Ingredients.Any(ing => ing.Product == model.DeletedIngredients[i].Product))
+                    if (model.DeletedIngredients.Count > i && entity.Ingredients.Any(ing => ing.Product == model.DeletedIngredients[i].Product))
                     {
                         Ingredient ingredientToDelete = entity.Ingredients.Where(ing => ing.Product == model.DeletedIngredients[i].Product).First();
                         model.Ingredients.Remove(model.DeletedIngredients[i]);
@@ -270,7 +270,7 @@
 
             entity!.IsActive = false;
 
-           await this.repo.SaveChangesAsync();
+            await this.repo.SaveChangesAsync();
         }
 
         /// <summary>
@@ -279,7 +279,7 @@
         /// <returns>returns an IEnumerable collection of type AllRecipeViewModel</returns>
         public async Task<IEnumerable<AllRecipeViewModel>> GetAllRecipesAsync()
         {
-            var model = await repo.All<Recipe>()
+            var model = await repo.AllReadonly<Recipe>()
                 .Include(r => r.Ingredients)
                 .Include(r => r.Directions)
                 .Where(r => r.IsActive)
@@ -319,6 +319,65 @@
             user.FavoriteRecipes.Add(entity);
 
             await this.repo.SaveChangesAsync();
+        }
+
+        /// <summary>
+        /// Gets all the recipe that contains the content of the parameter input
+        /// </summary>
+        /// <param name="searchBy">parameter of type string that contains the type that the recipe is going to be searched by</param>
+        /// <param name="input">parameter of type string that contains the content that the recipe is going to be searched by</param>
+        /// <returns>returns an IEnumerable collection of type AllRecipeViewModel</returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public async Task<IEnumerable<AllRecipeViewModel>> GetSearchedRecipes(string searchBy, string input)
+        {
+            switch (searchBy)
+            {
+                case "Title":
+                    return await this.repo.AllReadonly<Recipe>()
+                        .Include(r => r.Ingredients)
+                        .Include(r => r.Directions)
+                        .Where(r => r.Title.ToLower().Contains(input.ToLower()))
+                        .Select(r => new AllRecipeViewModel
+                        {
+                            Id = r.Id,
+                            OwnerId = r.UserOwnerId,
+                            Title = r.Title,
+                            Description = r.Description,
+                            ImageUrl = r.ImageUrl,
+                        })
+                        .ToListAsync();
+                    break;
+                case "Ingredient":
+                    return await this.repo.AllReadonly<Recipe>()
+                        .Include(r => r.Ingredients)
+                        .Include(r => r.Directions)
+                        .Where(r => r.Ingredients.Any(i => i.Product.ToLower().Contains(input.ToLower())))
+                        .Select(r => new AllRecipeViewModel
+                        {
+                            Id = r.Id,
+                            OwnerId = r.UserOwnerId,
+                            Title = r.Title,
+                            Description = r.Description,
+                            ImageUrl = r.ImageUrl,
+                        })
+                        .ToListAsync();
+                    break;
+                default:
+                    return await this.repo.AllReadonly<Recipe>()
+                        .Include(r => r.Ingredients)
+                        .Include(r => r.Directions)
+                        .Where(r => r.IsActive)
+                        .Select(r => new AllRecipeViewModel
+                        {
+                            Id = r.Id,
+                            OwnerId = r.UserOwnerId,
+                            Title = r.Title,
+                            Description = r.Description,
+                            ImageUrl = r.ImageUrl,
+                        })
+                        .ToListAsync();
+                    break;
+            }
         }
     }
 }
