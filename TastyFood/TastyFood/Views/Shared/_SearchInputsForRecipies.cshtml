@@ -1,0 +1,20 @@
+﻿@model AllRecipesViewModelContainer
+
+<form asp-controller="Recipe" asp-action="AllRecipesFiltered" method="get">
+    <div class="row">
+        <label for="searchType" class="form-label mt-4">Search by</label>
+        <div class="col form-group">
+            <select class="form-select" id="searchType" asp-for="@Model.FilterForRecipes.SearchBy" fdprocessedid="eyv0duk">
+                <option>All</option>
+                <option>Title</option>
+                <option>Ingredient</option>
+            </select>
+        </div>
+        <div class="col-6 form-group">
+            <input class="form-control me-sm-2" id="searchValue" onchange="disableSearchButton()" asp-for="@Model.FilterForRecipes.Filter" type="text" placeholder="Search">
+        </div>
+        <div class="col form-group">
+            <button class="btn btn-info my-2 my-sm-0" id="search-btn" type="submit">Search</button>
+        </div>
+    </div>
+</form>
