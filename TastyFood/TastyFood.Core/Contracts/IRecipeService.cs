@@ -82,5 +82,19 @@
         /// <returns>returns an IEnumerable collection of type AllRecipeViewModel</returns>
         /// <exception cref="NotImplementedException"></exception>
         public Task<IEnumerable<AllRecipeViewModel>> GetSearchedRecipesAsync(string title, string input);
+
+        /// <summary>
+        /// Gets a recipes collection that is favorites recipes of the user
+        /// </summary>
+        /// <param name="currentUserId">parameter of type string that contains the curren user id</param>
+        /// <returns>IEnumerable collection of type Recipe</returns>
+        public Task<IEnumerable<AllRecipeViewModel>> GetUserFavoriteRecipes(string currentUserId);
+
+        /// <summary>
+        /// Remove a recipe from user favorite recipes
+        /// </summary>
+        /// <param name="recipeId"></param>
+        /// <returns></returns>
+        public Task RemoveFromFavorites(int recipeId, string currentUserId);
     }
 }

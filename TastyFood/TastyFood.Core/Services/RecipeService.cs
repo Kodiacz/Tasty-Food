@@ -98,6 +98,7 @@
                     Title = r.Title,
                     Description = r.Description,
                     ImageUrl = r.ImageUrl,
+                    UserFavoritesId = r.UsersFavoriteRecipes.Select(uf => uf!.Id).ToList()
                 })
                 .ToListAsync();
 
@@ -290,6 +291,7 @@
                     Title = r.Title,
                     Description = r.Description,
                     ImageUrl = r.ImageUrl,
+                    UserFavoritesId = r.UsersFavoriteRecipes.Select(uf => uf!.Id).ToList()
                 })
                 .ToListAsync();
 
@@ -343,6 +345,7 @@
                             Title = r.Title,
                             Description = r.Description,
                             ImageUrl = r.ImageUrl,
+                            UserFavoritesId = r.UsersFavoriteRecipes.Select(uf => uf!.Id).ToList()
                         })
                         .ToListAsync();
             }
@@ -359,6 +362,7 @@
                            Title = r.Title,
                            Description = r.Description,
                            ImageUrl = r.ImageUrl,
+                           UserFavoritesId = r.UsersFavoriteRecipes.Select(uf => uf!.Id).ToList()
                        })
                        .ToListAsync();
             }
@@ -375,9 +379,48 @@
                             Title = r.Title,
                             Description = r.Description,
                             ImageUrl = r.ImageUrl,
+                            UserFavoritesId = r.UsersFavoriteRecipes.Select(uf => uf!.Id).ToList()
                         })
                         .ToListAsync();
             }
+        }
+
+        /// <summary>
+        /// Gets a recipes collection that is favorites recipes of the user
+        /// </summary>
+        /// <param name="currentUserId">parameter of type string that contains the curren user id</param>
+        /// <returns>IEnumerable collection of type Recipe</returns>
+        public async Task<IEnumerable<AllRecipeViewModel>> GetUserFavoriteRecipes(string currentUserId)
+        {
+            var user = await this.repo.AllReadonly<ApplicationUser>()
+                .Include(au => au.FavoriteRecipes)
+                .Where(au => au.Id == currentUserId)
+                .FirstAsync();
+
+            return user.FavoriteRecipes.Select(fr => new AllRecipeViewModel
+            {
+                Id = fr!.Id,
+                Title = fr.Title,
+                Description = fr.Description,
+                ImageUrl = fr.ImageUrl,
+                OwnerId = fr.UserOwnerId,
+                UserFavoritesId = fr.UsersFavoriteRecipes.Select(uf => uf!.Id).ToList()
+            }).ToList();
+        }
+
+        public async Task RemoveFromFavorites(int recipeId, string currentUserId)
+        {
+            var recipe = await this.repo.All<Recipe>()
+                .Where(r => r.Id == recipeId)
+                .FirstOrDefaultAsync()!;
+
+            var user = await this.repo.All<ApplicationUser>()
+                .Include(au => au.FavoriteRecipes)
+                .Where(au => au.Id == currentUserId)
+                .FirstOrDefaultAsync()!;
+
+            user!.FavoriteRecipes.Remove(recipe);
+            await this.repo.SaveChangesAsync();
         }
     }
 }

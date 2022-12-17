@@ -186,10 +186,24 @@
             return RedirectToAction(nameof(AllRecipes));
         }
 
-        //public async Task<IActionResult> GetUserFavoriteRecipes()
-        //{
+        [HttpGet]
+        public async Task<IActionResult> Favorites()
+        {
+            string curretnUserId = this.User.Id();
 
-        //}
+            var model = await this.recipeService.GetUserFavoriteRecipes(curretnUserId);
+
+            return View(model);
+        }
+
+        public async Task<IActionResult> RemoveFromFavorites(int id)
+        {
+            string currentUserId = this.User.Id();
+
+            await this.recipeService.RemoveFromFavorites(id, currentUserId);
+
+            return RedirectToAction(nameof(Favorites));
+        }
 
         //[HttpPost]
         //[AllowAnonymous]
