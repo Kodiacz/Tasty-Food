@@ -100,7 +100,7 @@ namespace TastyFood.Test
 
             await repo.SaveChangesAsync();
 
-            await recipeService.DeleteSoft(255);
+            await recipeService.DeleteSoftAsync(255);
 
             Recipe deletedEntity = await repo.GetByIdAsync<Recipe>(255);
             Assert.That(deletedEntity.IsActive, Is.EqualTo(false));
