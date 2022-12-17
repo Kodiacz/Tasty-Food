@@ -93,7 +93,6 @@
         }
 
         [AllowAnonymous]
-        [Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> Detail(int id)
         {
             string currentUserName = User?.Identity?.Name;
@@ -141,28 +140,31 @@
         [Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> Delete(int id)
         {
-            await this.recipeService.DeleteSoft(id);
+            await this.recipeService.DeleteSoftAsync(id);
 
             return RedirectToAction(nameof(MyRecipes));
         }
 
         [AllowAnonymous]
-        [Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> AllRecipes()
         {
             IEnumerable<AllRecipeViewModel> model = await this.recipeService.GetAllRecipesAsync();
 
-            return View(model);
+            AllRecipesViewModelContainer modelContainer = new()
+            {
+                RecipeModels = model,
+            };
+
+            return View(modelContainer);
         }
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> AllRecipesByFilter(string searchBy, string input)
+        public async Task<IActionResult> AllRecipesFiltered(AllRecipesViewModelContainer modelContainer)
         {
-            ModelState.Clear();
-            var model = await this.recipeService.GetSearchedRecipes(searchBy, input);
+            modelContainer.RecipeModels = await this.recipeService.GetSearchedRecipesAsync(modelContainer.FilterForRecipes.SearchBy, modelContainer.FilterForRecipes.Filter); 
 
-            return View("AllRecipes", model);
+            return View("AllRecipes", modelContainer);
         }
 
         [Authorize(Roles = "Admin, User")]
@@ -180,15 +182,20 @@
             return RedirectToAction(nameof(AllRecipes));
         }
 
-        [HttpPost]
-        [AllowAnonymous]
-        public async Task<IActionResult> SearchForRecipe(string searchBy, string input)
-        {
-            ModelState.Clear();
-            var model = await this.recipeService.GetSearchedRecipes(searchBy, input);
+        //public async Task<IActionResult> GetUserFavoriteRecipes()
+        //{
 
-            return View("AllRecipes", model);
-            //return RedirectToAction(nameof(AllRecipes), new { model = model });
-        }
+        //}
+
+        //[HttpPost]
+        //[AllowAnonymous]
+        //public async Task<IActionResult> SearchForRecipe(string searchBy, string input)
+        //{
+        //    var model = await this.recipeService.GetSearchedRecipesAsync(searchBy, input);
+
+        //    TempData["FilteredRecipes"] = model;
+        //    return Json(new { redirectToUrl = Url.Action("AllRecipesFiltered", "Recipe") });
+        //    //return RedirectToAction(nameof(AllRecipesFiltered));
+        //}
     }
 }
