@@ -259,7 +259,7 @@
         /// </summary>
         /// <param name="recipeId">integer type that represents the id of the Recipe entity</param>
         /// <returns></returns>
-        public async Task DeleteSoft(int recipeId)
+        public async Task DeleteSoftAsync(int recipeId)
         {
             var entity = await this.repo.All<Recipe>()
                 .Where(r => r.IsActive && r.Id == recipeId)
@@ -328,12 +328,11 @@
         /// <param name="input">parameter of type string that contains the content that the recipe is going to be searched by</param>
         /// <returns>returns an IEnumerable collection of type AllRecipeViewModel</returns>
         /// <exception cref="NotImplementedException"></exception>
-        public async Task<IEnumerable<AllRecipeViewModel>> GetSearchedRecipes(string searchBy, string input)
+        public async Task<IEnumerable<AllRecipeViewModel>> GetSearchedRecipesAsync(string? searchBy, string? input)
         {
-            switch (searchBy)
+            if (searchBy == "Title" && input != null)
             {
-                case "Title":
-                    return await this.repo.AllReadonly<Recipe>()
+                return await this.repo.AllReadonly<Recipe>()
                         .Include(r => r.Ingredients)
                         .Include(r => r.Directions)
                         .Where(r => r.Title.ToLower().Contains(input.ToLower()))
@@ -346,24 +345,26 @@
                             ImageUrl = r.ImageUrl,
                         })
                         .ToListAsync();
-                    break;
-                case "Ingredient":
-                    return await this.repo.AllReadonly<Recipe>()
-                        .Include(r => r.Ingredients)
-                        .Include(r => r.Directions)
-                        .Where(r => r.Ingredients.Any(i => i.Product.ToLower().Contains(input.ToLower())))
-                        .Select(r => new AllRecipeViewModel
-                        {
-                            Id = r.Id,
-                            OwnerId = r.UserOwnerId,
-                            Title = r.Title,
-                            Description = r.Description,
-                            ImageUrl = r.ImageUrl,
-                        })
-                        .ToListAsync();
-                    break;
-                default:
-                    return await this.repo.AllReadonly<Recipe>()
+            }
+            else if (searchBy == "Ingredient" && input != null)
+            {
+                return await this.repo.AllReadonly<Recipe>()
+                       .Include(r => r.Ingredients)
+                       .Include(r => r.Directions)
+                       .Where(r => r.Ingredients.Any(i => i.Product.ToLower().Contains(input.ToLower())))
+                       .Select(r => new AllRecipeViewModel
+                       {
+                           Id = r.Id,
+                           OwnerId = r.UserOwnerId,
+                           Title = r.Title,
+                           Description = r.Description,
+                           ImageUrl = r.ImageUrl,
+                       })
+                       .ToListAsync();
+            }
+            else
+            {
+                return await this.repo.AllReadonly<Recipe>()
                         .Include(r => r.Ingredients)
                         .Include(r => r.Directions)
                         .Where(r => r.IsActive)
@@ -376,7 +377,6 @@
                             ImageUrl = r.ImageUrl,
                         })
                         .ToListAsync();
-                    break;
             }
         }
     }
