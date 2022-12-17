@@ -1,38 +1,41 @@
-﻿@model IEnumerable<AllRecipeViewModel>
+﻿@model AllRecipesViewModelContainer
 
 @{
-    ViewBag.Title = "Your favorite recipes";
+    ViewBag.Title = "All recipes";
 }
 
 <h2 class="text-center">@ViewBag.Title</h2>
 <hr />
 
-@if (@Model.Count() == 0)
+@if (@Model.RecipeModels.Count() == 0)
 {
-    <h1 class="text-center">They are not recipes to show yet <i class="bi bi-emoji-frown"></i></h1>
+    <h1 class="text-center">Their is no created recepie to show yet <i class="bi bi-emoji-frown"></i></h1>
 }
 else
 {
-    int i = Model.Count();
+    int i = Model.RecipeModels.Count();
+
+    <form asp-controller="Recipe" asp-action="AllRecipesFiltered" method="get">
+        <div class="row">
+            <label for="searchType" class="form-label mt-4">Search by</label>
+            <div class="col form-group">
+                <select class="form-select" id="searchType" asp-for="@Model.FilterForRecipes.SearchBy" fdprocessedid="eyv0duk">
+                    <option>All</option>
+                    <option>Title</option>
+                    <option>Ingredient</option>
+                </select>
+            </div>
+            <div class="col-6 form-group">
+                <input class="form-control me-sm-2" id="searchValue" onchange="disableSearchButton()" asp-for="@Model.FilterForRecipes.Filter" type="text" placeholder="Search">
+            </div>
+            <div class="col form-group">
+                <button class="btn btn-info my-2 my-sm-0" id="search-btn" type="submit">Search</button>
+            </div>
+        </div>
+    </form>
 
     <div class="row">
-        <label for="searchType" class="form-label mt-4">Search by</label>
-        <div class="col form-group">
-            <select class="form-select" id="searchType" fdprocessedid="eyv0duk">
-                <option>Title</option>
-                <option>Ingredient</option>
-            </select>
-        </div>
-        <div class="col-6 form-group">
-            <input class="form-control me-sm-2" id="searchValue" onchange="disableSearchButton()" type="text" placeholder="Search" required>
-        </div>
-        <div class="col form-group">
-            <button class="btn btn-info my-2 my-sm-0" id="search-btn" type="submit" onclick="sendParameters()">Search</button>
-        </div>
-    </div>
-
-    <div class="row">
-        @foreach (var recipe in Model)
+        @foreach (var recipe in Model.RecipeModels)
         {
             string cardBackground;
             string readMoreBtnBackground;
@@ -96,34 +99,46 @@ else
 
 @section Scripts{
     <script>
-        function sendParameters() {
-            let searchBy = document.querySelector('#searchType').value;
-            let input = document.querySelector('#searchValue').value;
-            //debugger
-            disableSearchButton()
+        //function sendParameters() {
+        //    let searchBy = document.querySelector('#searchType').value;
+        //    let input = document.querySelector('#searchValue').value;
+        //    //debugger
+        //    disableSearchButton()
 
-            $.ajax({
-                type: "POST",
-                url: "/Recipe/SearchForRecipe/",
-                dataType: "json",
-                data: { searchBy: searchBy, input: input },
-                success: function(result) {
-                    console.log(result)
-                },
-                error: function(req, status, error) {
-                    console.log(status);
-                }
-            });
-        }
+        //    $.ajax({
+        //        type: "POST",
+        //        url: "/Recipe/SearchForRecipe/",
+        //        dataType: "json",
+        //        data: { searchBy: searchBy, input: input },
+        //        success: function(result) {
+        //            debugger
+        //            console.log(result)
+        //            window.location.href = result.redirectToUrl;
+        //        },
+        //        error: function(req, status, error) {
+        //            debugger
+        //            console.log(status);
+        //            console.log(error);
+        //        }
+        //    });
+        //}
 
         function disableSearchButton() {
+            debugger
             let searchedValue = document.querySelector('#searchValue').value;
             let searchBtn = document.querySelector('#search-btn')
-            
-            if (searchedValue == ""){
+            let searchType = document.querySelector('#searchType').value;
+
+            if (searchedValue == "") {
                 searchBtn.disabled = true;
+
+                if ((searchType == "All")) {
+                    searchBtn.disabled = false;
+                    searchedValue.required = false;
+                }
             } else {
                 searchBtn.disabled = false;
+                searchedValue.required = true;
             }
         }
 
