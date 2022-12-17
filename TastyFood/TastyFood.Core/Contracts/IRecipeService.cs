@@ -65,7 +65,7 @@
         /// </summary>
         /// <param name="recipeId">integer type that represents the id of the Recipe entity</param>
         /// <returns></returns>
-        Task DeleteSoft(int recipeId);
+        Task DeleteSoftAsync(int recipeId);
 
         /// <summary>
         /// Adding the recipe into the user's favorite list
@@ -81,6 +81,6 @@
         /// <param name="input">parameter of type string that contains the content that the recipe is going to be searched by</param>
         /// <returns>returns an IEnumerable collection of type AllRecipeViewModel</returns>
         /// <exception cref="NotImplementedException"></exception>
-        public Task<IEnumerable<AllRecipeViewModel>> GetSearchedRecipes(string title, string input);
+        public Task<IEnumerable<AllRecipeViewModel>> GetSearchedRecipesAsync(string title, string input);
     }
 }
