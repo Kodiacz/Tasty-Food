@@ -148,6 +148,8 @@
         [AllowAnonymous]
         public async Task<IActionResult> AllRecipes()
         {
+            ViewBag.NoRecipesMessage = "There are no created recepie to show yet";
+
             IEnumerable<AllRecipeViewModel> model = await this.recipeService.GetAllRecipesAsync();
 
             AllRecipesViewModelContainer modelContainer = new()
@@ -162,7 +164,9 @@
         [AllowAnonymous]
         public async Task<IActionResult> AllRecipesFiltered(AllRecipesViewModelContainer modelContainer)
         {
-            modelContainer.RecipeModels = await this.recipeService.GetSearchedRecipesAsync(modelContainer.FilterForRecipes.SearchBy, modelContainer.FilterForRecipes.Filter); 
+            ViewBag.NoRecipesMessage = "There are no recepies matching your search";
+
+            modelContainer.RecipeModels = await this.recipeService.GetSearchedRecipesAsync(modelContainer.FilterForRecipes.SearchBy!, modelContainer.FilterForRecipes.Filter!); 
 
             return View("AllRecipes", modelContainer);
         }
